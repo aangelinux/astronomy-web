@@ -1,0 +1,20 @@
+{
+  "name": "assignment-wt",
+  "version": "1.0.0",
+  "description": "",
+	"type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+		"dev": "start http://localhost:3000 && node src/app.js",
+		"lint": "npx eslint ."
+  },
+  "author": "Angelina Larsson",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  },
+	"devDependencies": {
+    "eslint": "^10.0.3"
+	}
+}

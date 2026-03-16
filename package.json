@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "client/src/index.jsx",
   "scripts": {
-    "start": "node client/src/index.js",
-    "dev": "start http://localhost:3000 && node client/src/index.js",
+    "client": "start http://localhost:3002 && vite",
+    "server": "nodemon server/app.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "lint": "npx eslint ."
   },
   "author": "Angelina Larsson",
@@ -17,11 +18,16 @@
     "express": "^5.2.1",
     "graphql-request": "^7.4.0",
     "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-router": "^7.13.1",
     "simple-oauth2": "^5.1.0",
     "three": "^0.183.2"
   },
   "devDependencies": {
-    "eslint": "^10.0.3"
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "eslint": "^10.0.3",
+    "nodemon": "^3.1.14",
+    "vite": "^8.0.0"
   }
 }

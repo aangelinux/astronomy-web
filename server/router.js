@@ -3,8 +3,7 @@
  */
 
 import express from 'express'
-import { redirectToGithub, fetchAccessToken, fetchUserData } from './githubController.js'
-import { register } from './astronomyController.js'
+import { redirectToGithub, fetchAccessToken, fetchUserData, register } from './controller.js'
 
 export const router = express.Router()
 
@@ -14,5 +13,5 @@ router.get('/auth/callback', async (req, res) => {
 	const user = await fetchUserData(token)
 	const jwt = await register(user)
 
-	res.redirect(jwt)  // Dashboard URL with JWT token
+	res.redirect('http://localhost:3002')  // Change to dashboard URL with JWT later
 })

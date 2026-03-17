@@ -1,5 +1,5 @@
 /**
- * Controllers for external APIs.
+ * Controller for external APIs.
  */
 
 import dotenv from 'dotenv'
@@ -30,10 +30,10 @@ export async function redirectToGithub(req, res, next) {
 	res.redirect(authorizationURI)
 }
 
-export async function fetchAccessToken(code) {
+export async function fetchAccessToken(authCode) {
 	const tokenParams = {
-		code,
-		redirect_uri: 'http://localhost:3001/auth/callback'
+		redirect_uri: 'http://localhost:3001/auth/callback',
+		code: authCode
 	}
 
 	try {
@@ -58,9 +58,38 @@ export async function fetchUserData(token) {
 		throw new Error('Error fetching user data ', error.message)
 	}
 
-	return result.email
+	return {
+		username: result.email || result.id,
+		provider: 'GitHub',
+		providerID: result.id
+	}
 }
 
-export async function register(email) {
-	console.log(email)
+export async function register({ username, provider, providerID }) {
+	const response = await fetch('https://astronomy-api-production.up.railway.app/', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: '*/*'
+		},
+		body: JSON.stringify({ query: 
+			`mutation LoginOAuth {
+				loginOAuth(input: { 
+					username: "${username}", 
+					provider: "${provider}", 
+					providerID: ${providerID} 
+				}) 
+				{
+					token
+				}
+			}`
+		})
+	})
+
+	const result = await response.json()
+	if (!response.ok) {
+		throw new Error('Error fetching user data ', error.message)
+	}	
+
+	return result.data.loginOAuth.token
 }

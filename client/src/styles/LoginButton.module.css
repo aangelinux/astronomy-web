@@ -1,0 +1,28 @@
+.githubBtn {
+	font-family: GoogleSans;
+	font-weight: bold;
+  border: 1px solid #e1e5f0;
+	border-radius: 4px;
+  background-color: #fff;
+  width: 245px;
+  margin: 0 auto 16px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.githubBtn > div {
+  margin-left: 10px;
+}
+
+.githubLogo {
+	width: 40px;
+	height: auto;
+}
+
+.githubBtn:hover {
+	cursor: pointer;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.6);
+	transform: scale(1.1) perspective(1px);
+}

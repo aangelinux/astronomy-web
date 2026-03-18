@@ -8,7 +8,8 @@
     "client": "start http://localhost:3002 && vite",
     "server": "nodemon server/app.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "prettier": "npx prettier --write **/*.js"
   },
   "author": "Angelina Larsson",
   "license": "MIT",
@@ -28,6 +29,7 @@
     "concurrently": "^9.2.1",
     "eslint": "^10.0.3",
     "nodemon": "^3.1.14",
+    "prettier": "^3.8.1",
     "vite": "^8.0.0"
   }
 }

@@ -8,69 +8,69 @@ import { AuthorizationCode } from 'simple-oauth2'
 dotenv.config()
 
 const config = {
-	client: {
-		id: process.env.CLIENT_ID,
-		secret: process.env.CLIENT_SECRET
-	},
-	auth: {
+  client: {
+    id: process.env.CLIENT_ID,
+    secret: process.env.CLIENT_SECRET,
+  },
+  auth: {
     tokenHost: 'https://github.com',
     authorizePath: '/login/oauth/authorize',
-    tokenPath: '/login/oauth/access_token'
-	}
+    tokenPath: '/login/oauth/access_token',
+  },
 }
 
 export async function redirectToGithub(req, res, next) {
-	const client = new AuthorizationCode(config)
+  const client = new AuthorizationCode(config)
 
-	const authorizationURI = client.authorizeURL({
-		redirect_uri: 'http://localhost:3001/auth/callback',
-		scope: 'user:email'
-	})
+  const authorizationURI = client.authorizeURL({
+    redirect_uri: 'http://localhost:3001/auth/callback',
+    scope: 'user:email',
+  })
 
-	res.redirect(authorizationURI)
+  res.redirect(authorizationURI)
 }
 
 export async function fetchAccessToken(authCode) {
-	const tokenParams = {
-		redirect_uri: 'http://localhost:3001/auth/callback',
-		code: authCode
-	}
+  const tokenParams = {
+    redirect_uri: 'http://localhost:3001/auth/callback',
+    code: authCode,
+  }
 
-	try {
-		const client = new AuthorizationCode(config)
-		return await client.getToken(tokenParams)
-	} catch (error) {
-		console.log('Access token error: ', error.message)
-	}
+  try {
+    const client = new AuthorizationCode(config)
+    return await client.getToken(tokenParams)
+  } catch (error) {
+    console.log('Access token error: ', error.message)
+  }
 }
 
 export async function fetchUserData(token) {
-	const response = await fetch(`https://api.github.com/user`, {
-		method: 'GET',
-		headers: {
-			Accept: 'application/vnd.github+json',
-			Authorization: `Bearer ${token.token.access_token}`
-		}
-	})
-	
-	const result = await response.json()
-	if (!response.ok) {
-		throw new Error('Error fetching user data ', error.message)
-	}
+  const response = await fetch(`https://api.github.com/user`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${token.token.access_token}`,
+    },
+  })
 
-	return {
-		username: result.email || result.id,
-		provider: 'GitHub',
-		providerID: result.id
-	}
+  const result = await response.json()
+  if (!response.ok) {
+    throw new Error('Error fetching user data ', error.message)
+  }
+
+  return {
+    username: result.email || result.id,
+    provider: 'GitHub',
+    providerID: result.id,
+  }
 }
 
 export async function register({ username, provider, providerID }) {
-	const response = await fetch('https://astronomy-api-production.up.railway.app/', {
+  const response = await fetch('https://astronomy-api-production.up.railway.app/', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Accept: '*/*'
+			Accept: '*/*',
 		},
 		body: JSON.stringify({ query: 
 			`mutation LoginOAuth {
@@ -82,14 +82,14 @@ export async function register({ username, provider, providerID }) {
 				{
 					token
 				}
-			}`
-		})
-	})
+			}`,
+		}),
+  })
 
-	const result = await response.json()
-	if (!response.ok) {
-		throw new Error('Error fetching user data ', error.message)
-	}	
+  const result = await response.json()
+  if (!response.ok) {
+    throw new Error('Error fetching user data ', error.message)
+  }
 
-	return result.data.loginOAuth.token
+  return result.data.loginOAuth.token
 }

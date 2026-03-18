@@ -13,7 +13,5 @@ router.get('/auth/callback', async (req, res) => {
 	const user = await fetchUserData(token)
 	const jwt = await register(user)
 
-	console.log(jwt)
-
-	res.redirect('http://localhost:3002')  // Change to dashboard URL with JWT later
+	res.redirect('http://localhost:3002/dashboard')  // TODO Add JWT to URL
 })

@@ -2,7 +2,7 @@
  * Authorization page.
  */
 
-function SignInGithub() {
+function SignIn() {
 	function handleClick() {
 		window.location.href = 'http://localhost:3001/auth/github'
 	}
@@ -14,4 +14,4 @@ function SignInGithub() {
 	)
 }
 
-export default SignInGithub
+export default SignIn

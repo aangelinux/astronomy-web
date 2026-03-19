@@ -4,6 +4,7 @@
 
 import express from 'express'
 import cors from 'cors'
+import { xss } from 'express-xss-sanitizer'
 import dotenv from 'dotenv'
 import { router } from './router.js'
 
@@ -13,6 +14,7 @@ const app = express()
 const PORT = process.env.PORT || 3001
 
 app.use(express.json())
+app.use(xss())
 app.use(cors())
 app.use('/', router)
 app.use((err, req, res, next) => {

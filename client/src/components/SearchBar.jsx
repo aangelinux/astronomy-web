@@ -2,38 +2,48 @@
  * Search bar component.
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { filterNeosBy } from '../api/NEOs.js'
 import styles from '../styles/SearchBar.module.css'
 
 function SearchBar() {
-	const [input, setInput] = useState("")
+	const [neo, setNeo] = useState("")
 	const [suggestions, setSuggestions] = useState([])
+	const [isFocused, setIsFocused] = useState(false)
 
-	function handleChange(value) {
-		setInput(value)
+	useEffect(() => {
+		if (!neo) {
+			setSuggestions([])
+			return
+		}
 
 		// Delay query to DB for better performance
-		setTimeout(async () => { 
-			const results = await filterNeosBy(value)
+		const timeOut = setTimeout(async () => { 
+			const results = await filterNeosBy(neo)
 			setSuggestions(results.neos)
 		}, 500)
-	}
+
+		return () => clearTimeout(timeOut)
+	}, [neo])
 	
 	return (
 		<div>
 			<input type="text" 
 				placeholder="NEO name ..." 
-				value={input}
+				value={neo}
 				className={styles.searchBar}
-				onChange={e => handleChange(e.target.value)}>
+				onChange={(e) => setNeo(e.target.value)}
+				onFocus={() => setIsFocused(true)}
+				onBlur={() => setIsFocused(false)}>
 			</input>
 
-			<div className={styles.suggestionList}>
-				{suggestions.map((suggestion, index) => (
-					<li key={index}>{suggestion.name}</li>
-				))}
-			</div>
+			{isFocused && suggestions.length > 0 && (
+				<div className={styles.suggestionList}>
+					{suggestions.map((suggestion, index) => (
+						<li key={index}>{suggestion.name}</li>
+					))}
+				</div>
+			)}
 		</div>
 	)
 }

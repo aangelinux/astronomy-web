@@ -13,22 +13,23 @@ export async function filterNeosBy(input) {
 		},
 		body: JSON.stringify({ query: 
 			`query Neos {
-				neos(input: { 
-					limit: 5, 
+				neos(input: {
+					limit: 5,
 					page: 1,
 					name: "${input}"
-				}) 
-				{
-					name
+				}) {
+					neos {
+						name
+					}
 				}
-			}`,
+			}`
 		})
 	})
 
-	const result = res.json()
+	const result = await res.json()
 	if (!res.ok) {
 		throw new Error ('Error fetching NEO data: ', error.message)
 	}
 
-	console.log(result)
+	return result.data.neos
 }

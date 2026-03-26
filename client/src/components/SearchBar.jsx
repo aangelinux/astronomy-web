@@ -3,11 +3,12 @@
  */
 
 import { useEffect, useState } from 'react'
-import { filterNeosBy } from '../api/NEOs.js'
+import { filterNeosBy } from '../api/neos.js'
+import { useAppContext } from '../hooks/context.jsx'
 import styles from '../styles/SearchBar.module.css'
 
 function SearchBar() {
-	const [neo, setNeo] = useState("")
+	const { neo, setNeo } = useAppContext()
 	const [suggestions, setSuggestions] = useState([])
 	const [isFocused, setIsFocused] = useState(false)
 

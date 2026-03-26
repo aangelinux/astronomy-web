@@ -5,15 +5,16 @@
 import NavBar from '../components/NavBar.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import InfoPanel from '../components/InfoPanel.jsx'
+import { AppProvider } from '../hooks/context.jsx'
 
 function Dashboard() {
   return (
-    <div>
+    <AppProvider>
 			<NavBar />
       <h1>Astronomy Dashboard</h1>
 			<SearchBar />
 			<InfoPanel />
-    </div>
+    </AppProvider>
   )
 }
 

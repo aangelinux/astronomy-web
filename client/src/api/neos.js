@@ -9,13 +9,12 @@ export async function filterNeosBy(input) {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Accept: '*/*',
+			Accept: '*/*'
 		},
 		body: JSON.stringify({ query: 
 			`query Neos {
 				neos(input: {
 					limit: 5,
-					page: 1,
 					name: "${input}"
 				}) {
 					neos {

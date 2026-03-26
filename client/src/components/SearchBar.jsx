@@ -23,7 +23,7 @@ function SearchBar() {
 			setSuggestions(results.neos)
 		}, 500)
 
-		return () => clearTimeout(timeOut)
+		return () => clearTimeout(timeOut) // Clean up
 	}, [neo])
 	
 	return (

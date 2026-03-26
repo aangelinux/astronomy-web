@@ -13,9 +13,12 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 3001
 
+app.use(cors({
+  origin: 'http://localhost:3002'
+}))
 app.use(express.json())
 app.use(xss())
-app.use(cors())
+
 app.use('/', router)
 app.use((err, req, res, next) => {
   console.error(err)

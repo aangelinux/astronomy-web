@@ -3,7 +3,13 @@
  */
 
 import express from 'express'
-import { redirectToGithub, fetchAccessToken, fetchUserData, register } from './controller.js'
+import { 
+	redirectToGithub, 
+	fetchAccessToken, 
+	fetchUserData, 
+	register, 
+	getResponse 
+} from './controller.js'
 
 export const router = express.Router()
 
@@ -15,3 +21,5 @@ router.get('/auth/callback', async (req, res) => {
 
   res.redirect('http://localhost:3002/dashboard') // TODO change URL to auth page and add JWT
 })
+
+router.post('/genai', getResponse)

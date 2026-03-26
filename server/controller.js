@@ -3,6 +3,7 @@
  */
 
 import dotenv from 'dotenv'
+import { GoogleGenAI } from '@google/genai'
 import { AuthorizationCode } from 'simple-oauth2'
 
 dotenv.config()
@@ -92,4 +93,18 @@ export async function register({ username, provider, providerID }) {
   }
 
   return result.data.loginOAuth.token
+}
+
+export async function getResponse(req, res, next) {
+	const attributes = JSON.stringify(req.body)
+	const ai = new GoogleGenAI({
+		apiKey: process.env.GEMINI_API_KEY
+	})
+
+	const response = await ai.models.generateContent({
+		model: 'gemini-2.5-flash',
+		contents: `Generate a description of this Near-Earth Object based on its attributes: ${attributes}.`,
+	})
+
+	console.log(response.text)
 }

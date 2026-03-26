@@ -18,6 +18,7 @@ export async function filterNeosBy(input) {
 					name: "${input}"
 				}) {
 					neos {
+						spkid
 						name
 					}
 				}
@@ -31,4 +32,34 @@ export async function filterNeosBy(input) {
 	}
 
 	return result.data.neos
+}
+
+export async function getNeo(name) {
+	const res = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: '*/*'
+		},
+		body: JSON.stringify({ query: 
+			`query Neos {
+				neos(input: { name: "${name}" }) {
+					neos {
+						name
+						earth_moid_ld
+						magnitude
+						rotation_hours
+						pot_hazardous_asteroid
+					}
+				}
+			}`
+		})
+	})
+
+	const result = await res.json()
+	if (!res.ok) {
+		throw new Error ('Error fetching NEO data: ', error.message)
+	}
+
+	return result.data.neos.neos[0]
 }

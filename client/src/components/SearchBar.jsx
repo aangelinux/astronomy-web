@@ -3,7 +3,7 @@
  */
 
 import { useEffect, useState } from 'react'
-import { filterNeosBy } from '../api/neos.js'
+import { filterNeosBy, getNeo } from '../api/neos.js'
 import { useAppContext } from '../hooks/context.jsx'
 import styles from '../styles/SearchBar.module.css'
 
@@ -27,9 +27,15 @@ function SearchBar() {
 		return () => clearTimeout(timeOut) // Clean up
 	}, [input])
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault()
-		setNeo(input)
+		const selectedNeo = await getNeo(input)
+		
+		if (selectedNeo) {
+			setNeo(input)
+		} else {
+			alert("No NEO matching input")
+		}
 	}
 	
 	return (
@@ -43,15 +49,15 @@ function SearchBar() {
 					onFocus={() => setIsFocused(true)}
 					onBlur={() => setIsFocused(false)}>
 				</input>
-				</form>
+			</form>
 
-				{isFocused && suggestions.length > 0 && (
-					<div className={styles.suggestionList}>
-						{suggestions.map((suggestion, index) => (
-							<li key={index}>{suggestion.name}</li>
-						))}
-					</div>
-				)}
+			{isFocused && suggestions.length > 0 && (
+				<div className={styles.suggestionList}>
+					{suggestions.map((suggestion, index) => (
+						<li key={index}>{suggestion.name}</li>
+					))}
+				</div>
+			)}
 		</div>
 	)
 }

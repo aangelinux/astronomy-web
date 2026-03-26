@@ -9,17 +9,19 @@ import { useAppContext } from '../hooks/context.jsx'
 function InfoPanel() {
 	const { neo } = useAppContext()
 	const [description, setDescription] = useState("")
-		
-	async function fetchData(neo) {
-		return await fetchGenAI({ neo })
-	}
 
 	useEffect(() => {
 		if (!neo) return
 
-		setDescription(fetchData(neo))
+		const fetchData = async (neo) => {
+			let response = await fetchGenAI({ neo })
+			data = await response.json()
+			setDescription(data)
+		}
+
+		fetchData(neo)
 		console.log(description)
-	}, [neo])
+	}, [neo, description])
 
 	return (
 		<div>

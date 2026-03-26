@@ -8,43 +8,50 @@ import { useAppContext } from '../hooks/context.jsx'
 import styles from '../styles/SearchBar.module.css'
 
 function SearchBar() {
-	const { neo, setNeo } = useAppContext()
+	const { setNeo } = useAppContext()
+	const [input, setInput] = useState("")
 	const [suggestions, setSuggestions] = useState([])
 	const [isFocused, setIsFocused] = useState(false)
 
 	useEffect(() => {
-		if (!neo) {
+		if (!input) {
 			setSuggestions([])
 			return
 		}
-
 		// Delay query to DB for better performance
 		const timeOut = setTimeout(async () => { 
-			const results = await filterNeosBy(neo)
+			const results = await filterNeosBy(input)
 			setSuggestions(results.neos)
 		}, 500)
 
 		return () => clearTimeout(timeOut) // Clean up
-	}, [neo])
+	}, [input])
+
+	const handleSubmit = (e) => {
+		e.preventDefault()
+		setNeo(input)
+	}
 	
 	return (
 		<div>
-			<input type="text" 
-				placeholder="NEO name ..." 
-				value={neo}
-				className={styles.searchBar}
-				onChange={(e) => setNeo(e.target.value)}
-				onFocus={() => setIsFocused(true)}
-				onBlur={() => setIsFocused(false)}>
-			</input>
+			<form onSubmit={(e) => handleSubmit(e)}>
+				<input type="text" 
+					placeholder="NEO name ..." 
+					value={input}
+					className={styles.searchBar}
+					onChange={(e) => setInput(e.target.value)}
+					onFocus={() => setIsFocused(true)}
+					onBlur={() => setIsFocused(false)}>
+				</input>
+				</form>
 
-			{isFocused && suggestions.length > 0 && (
-				<div className={styles.suggestionList}>
-					{suggestions.map((suggestion, index) => (
-						<li key={index}>{suggestion.name}</li>
-					))}
-				</div>
-			)}
+				{isFocused && suggestions.length > 0 && (
+					<div className={styles.suggestionList}>
+						{suggestions.map((suggestion, index) => (
+							<li key={index}>{suggestion.name}</li>
+						))}
+					</div>
+				)}
 		</div>
 	)
 }

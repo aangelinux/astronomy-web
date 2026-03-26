@@ -4,24 +4,26 @@
 
 import { useState, useEffect } from 'react'
 import { fetchGenAI } from '../api/genai.js'
+import { useAppContext } from '../hooks/context.jsx'
 
 function InfoPanel() {
-	useEffect(() => {
-		async function fetchData() {
-			const testData = {
-				name: '460P/PANSTARRS',
-				earth_moid_ld: 6.33,
-				rotation_hours: 36.6
-			}
-			return await fetchGenAI(testData)
-		}
+	const { neo } = useAppContext()
+	const [description, setDescription] = useState("")
+		
+	async function fetchData(neo) {
+		return await fetchGenAI({ neo })
+	}
 
-		console.log(fetchData())
-	}, [])
+	useEffect(() => {
+		if (!neo) return
+
+		setDescription(fetchData(neo))
+		console.log(description)
+	}, [neo])
 
 	return (
 		<div>
-			<p>{}</p>
+			<p>{description}</p>
 		</div>
 	)
 }

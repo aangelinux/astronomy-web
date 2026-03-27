@@ -4,17 +4,18 @@
 
 import NavBar from '../components/NavBar.jsx'
 import SearchBar from '../components/SearchBar.jsx'
-import InfoPanel from '../components/InfoPanel.jsx'
 import { AppProvider } from '../hooks/context.jsx'
+import styles from './styles/Dashboard.module.css'
 
 function Dashboard() {
   return (
-    <AppProvider>
-			<NavBar />
-      <h1>Astronomy Dashboard</h1>
-			<SearchBar />
-			<InfoPanel />
-    </AppProvider>
+		<div className={styles.page}>
+			<AppProvider>
+				<NavBar />
+				<h1 className={styles.header}>Astronomy Dashboard</h1>
+				<SearchBar />
+			</AppProvider>
+		</div>
   )
 }
 

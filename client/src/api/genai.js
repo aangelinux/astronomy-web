@@ -14,8 +14,10 @@ export async function fetchGenAI(input) {
 
 	const result = await res.json()
 	if (!res.ok) {
-		throw new Error (`Error fetching GenAI response: ${res.message}`)
+		throw new Error (`Error fetching GenAI response: ${result.message}`)
 	}
+
+	console.log(result)
 
 	return result
 }

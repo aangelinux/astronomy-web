@@ -1,5 +1,5 @@
 /**
- * Panel displaying NEO attributes and description.
+ * Panel displaying an AI-generated description of a NEO.
  */
 
 import { useState, useEffect } from 'react'
@@ -12,16 +12,17 @@ function InfoPanel() {
 
 	useEffect(() => {
 		if (!neo) return
-
-		const fetchData = async (neo) => {
-			let response = await fetchGenAI({ neo })
-			data = await response.json()
-			setDescription(data)
+		const fetchData = async () => {
+			try {
+				const response = await fetchGenAI({ neo })
+				setDescription(response)
+			} catch (error) {
+				console.error(error.message)
+			}
 		}
-
-		fetchData(neo)
 		console.log(description)
-	}, [neo, description])
+		fetchData()
+	}, [neo])
 
 	return (
 		<div>

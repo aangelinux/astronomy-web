@@ -1,0 +1,15 @@
+.page {
+	font-family: GoogleSans;
+}
+
+.header {
+	font-size: 2.5rem;
+	font-weight: 200;
+	margin: 50px;
+	justify-self: center;
+}
+
+@font-face {
+	font-family: GoogleSans;
+	src: url(../../assets/GoogleSans-VariableFont_GRAD\,opsz\,wght.ttf);
+}

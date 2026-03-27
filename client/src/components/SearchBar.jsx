@@ -1,64 +1,37 @@
 /**
- * Search bar component.
+ * Search bar component with autocomplete.
  */
 
-import { useEffect, useState } from 'react'
-import { filterNeosBy, getNeo } from '../api/neos.js'
 import { useAppContext } from '../hooks/context.jsx'
-import styles from '../styles/SearchBar.module.css'
+import { filterNeosBy } from '../api/neos.js'
+import { Autocomplete, TextField } from '@mui/material'
+import { useState } from 'react'
 
 function SearchBar() {
 	const { setNeo } = useAppContext()
-	const [input, setInput] = useState("")
-	const [suggestions, setSuggestions] = useState([])
-	const [isFocused, setIsFocused] = useState(false)
+	const [options, setOptions] = useState([])
 
-	useEffect(() => {
-		if (!input) {
-			setSuggestions([])
-			return
-		}
-		// Delay query to DB for better performance
-		const timeOut = setTimeout(async () => { 
-			const results = await filterNeosBy(input)
-			setSuggestions(results.neos)
+	const fetchOptions = (query) => {
+		if (!query) return
+		const timer = setTimeout(async () => {
+			const data = await filterNeosBy(query)
+			const neos = data.neos.map((neo) => neo.name)
+			setOptions(neos)
 		}, 500)
 
-		return () => clearTimeout(timeOut) // Clean up
-	}, [input])
-
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const selectedNeo = await getNeo(input)
-		
-		if (selectedNeo) {
-			setNeo(input)
-		} else {
-			alert("No NEO matching input")
-		}
+		return () => { clearTimeout(timer) }
 	}
-	
-	return (
-		<div>
-			<form onSubmit={(e) => handleSubmit(e)}>
-				<input type="text" 
-					placeholder="NEO name ..." 
-					value={input}
-					className={styles.searchBar}
-					onChange={(e) => setInput(e.target.value)}
-					onFocus={() => setIsFocused(true)}
-					onBlur={() => setIsFocused(false)}>
-				</input>
-			</form>
 
-			{isFocused && suggestions.length > 0 && (
-				<div className={styles.suggestionList}>
-					{suggestions.map((suggestion, index) => (
-						<li key={index}>{suggestion.name}</li>
-					))}
-				</div>
-			)}
-		</div>
+	return (
+		<Autocomplete
+			disablePortal
+			onSelect={(e) => { setNeo(e.target.value) }}
+			onInputChange={(e) => fetchOptions(e.target.value)}
+			filterOptions={(x) => x}
+			options={options}
+			sx={{ width: 300 }}
+			renderInput={(params) => <TextField {...params} label="Search NEOs ..." />}
+		/>
 	)
 }
 

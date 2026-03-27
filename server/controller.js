@@ -106,5 +106,5 @@ export async function getResponse(req, res, next) {
 		contents: `Generate a description of this Near-Earth Object based on its attributes: ${attributes}.`,
 	})
 
-	console.log(response.text)
+	return response.text
 }

@@ -1,14 +1,12 @@
-body {
+.page {
 	font-family: GoogleSans;
-	background-color: rgb(31, 31, 31);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
-h1 {
-	font-size: 2.5rem;
-	font-weight: 200;
-	margin: 50px;
-	color: white;
-	justify-self: center;
+.header {
+	color: black;
 }
 
 @font-face {

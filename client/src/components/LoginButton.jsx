@@ -2,7 +2,7 @@
  * Login with GitHub button.
  */
 
-import styles from '../styles/LoginButton.module.css'
+import styles from './styles/LoginButton.module.css'
 
 function LoginButton() {
 	function handleClick() {

@@ -18,7 +18,6 @@ export async function filterNeosBy(input) {
 					name: "${input}"
 				}) {
 					neos {
-						spkid
 						name
 					}
 				}
@@ -46,6 +45,7 @@ export async function getNeo(name) {
 				neos(input: { name: "${name}" }) {
 					neos {
 						name
+						spkid
 						earth_moid_ld
 						magnitude
 						rotation_hours

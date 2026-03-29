@@ -13,11 +13,27 @@ function Dashboard() {
   return (
 		<div className={styles.page}>
 			<AppProvider>
-				<NavBar />
-				<h1 className={styles.header}>Astronomy Dashboard</h1>
-				<SearchBar />
-				<AttributePanel />
-				<AIPanel />
+
+				<div className={styles.nav}>
+					<NavBar />
+				</div>
+				
+				<div className={styles.header}>
+					<h1 className={styles.header}>Astronomy Dashboard</h1>
+				</div>
+
+				<div className={styles.search}>
+					<SearchBar />
+				</div>
+
+				<div className={styles.attributes}>
+					<AttributePanel />
+				</div>
+
+				<div className={styles.ai}>
+					<AIPanel />
+				</div>
+				
 			</AppProvider>
 		</div>
   )

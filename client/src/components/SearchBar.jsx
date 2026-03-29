@@ -4,7 +4,7 @@
 
 import { useAppContext } from '../hooks/context.jsx'
 import { filterNeosBy } from '../api/neos.js'
-import { Autocomplete, TextField } from '@mui/material'
+import { Autocomplete, TextField, Box } from '@mui/material'
 import { useState } from 'react'
 
 function SearchBar() {
@@ -22,6 +22,19 @@ function SearchBar() {
 		return () => { clearTimeout(timer) }
 	}
 
+	const textFieldStyle = {
+		input: { color: 'white' },
+		label: { color: 'white'},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'whitesmoke',
+			},
+			'&:hover fieldset': {
+				borderColor: 'white',
+			},
+		},
+	}
+
 	return (
 		<Autocomplete
 			disablePortal
@@ -30,7 +43,11 @@ function SearchBar() {
 			filterOptions={(x) => x}
 			options={options}
 			sx={{ width: 300 }}
-			renderInput={(params) => <TextField {...params} label="Search NEOs ..." />}
+			renderInput={(params) => 
+				<TextField {...params} 
+					color="secondary" sx={textFieldStyle} label="Search NEOs ..." 
+				/>
+			}
 		/>
 	)
 }

@@ -5,19 +5,14 @@
 import { Box, Card, CardContent, List, ListItem, Typography } from '@mui/material'
 import { useAppContext } from '../hooks/context.jsx'
 import { useState, useEffect } from 'react'
-import { getNeo } from '../api/neos.js'
 
 function AttributePanel() {
-	const { neo } = useAppContext()
+	const { neoData } = useAppContext()
 	const [attributes, setAttributes] = useState([])
 
 	useEffect(() => {
-		async function fetchNeo() {
-			const data = await getNeo(neo)
-			setAttributes(data)
-		}
-		fetchNeo()
-	}, [neo])
+		setAttributes(neoData)
+	}, [neoData])
 
 	const mapAttributes = () => {
 		const map = [
@@ -65,7 +60,7 @@ function AttributePanel() {
 			lineHeight: .8,
 			listStyleType: 'none',
 		}}>      
-		<Card variant="outlined">{card}</Card>
+			<Card variant="outlined">{card}</Card>
     </Box>
 	)
 }

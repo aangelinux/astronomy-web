@@ -24,16 +24,16 @@ export async function filterNeosBy(input) {
 			}`
 		})
 	})
-
+	
 	const result = await res.json()
 	if (!res.ok) {
 		throw new Error ('Error fetching NEO data: ', error.message)
 	}
 
-	return result.data.neos
+	return result.data.neos.neos
 }
 
-export async function getNeo(name) {
+export async function getNeoSpkid(name) {
 	const res = await fetch(url, {
 		method: 'POST',
 		headers: {
@@ -44,13 +44,37 @@ export async function getNeo(name) {
 			`query Neos {
 				neos(input: { name: "${name}" }) {
 					neos {
-						name
 						spkid
-						earth_moid_ld
-						magnitude
-						rotation_hours
-						pot_hazardous_asteroid
 					}
+				}
+			}`
+		})
+	})
+
+	const result = await res.json()
+	if (!res.ok) {
+		throw new Error ('Error fetching NEO spkid: ', error.message)
+	}
+
+	return result.data.neos.neos[0].spkid
+}
+
+export async function getNeoData(spkid) {
+	const res = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: '*/*'
+		},
+		body: JSON.stringify({ query: 
+			`query Neo {
+				neo(spkid: "${spkid}") {
+					spkid
+					name
+					earth_moid_ld
+					magnitude
+					rotation_hours
+					pot_hazardous_asteroid
 				}
 			}`
 		})
@@ -61,5 +85,5 @@ export async function getNeo(name) {
 		throw new Error ('Error fetching NEO data: ', error.message)
 	}
 
-	return result.data.neos.neos[0]
+	return result.data.neo
 }

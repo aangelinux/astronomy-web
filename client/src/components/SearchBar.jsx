@@ -3,23 +3,31 @@
  */
 
 import { useAppContext } from '../hooks/context.jsx'
-import { filterNeosBy } from '../api/neos.js'
-import { Autocomplete, TextField, Box } from '@mui/material'
+import { filterNeosBy, getNeoData, getNeoSpkid } from '../api/neos.js'
+import { Autocomplete, Button, TextField } from '@mui/material'
 import { useState } from 'react'
 
 function SearchBar() {
-	const { setNeo } = useAppContext()
+	const { setNeoData } = useAppContext()
+	const [neo, setNeo] = useState("")
 	const [options, setOptions] = useState([])
 
 	const fetchOptions = (query) => {
 		if (!query) return
 		const timer = setTimeout(async () => {
 			const data = await filterNeosBy(query)
-			const neos = data.neos.map((neo) => neo.name)
+			const neos = data.map((neo) => neo.name)
 			setOptions(neos)
 		}, 500)
 
-		return () => { clearTimeout(timer) }
+		return () => clearTimeout(timer)
+	}
+
+	const handleClick = async () => {
+		const spkid = await getNeoSpkid(neo)
+		const data = await getNeoData(spkid)
+		
+		setNeoData(data)
 	}
 
 	const textFieldStyle = {
@@ -36,19 +44,27 @@ function SearchBar() {
 	}
 
 	return (
-		<Autocomplete
-			disablePortal
-			onSelect={(e) => { setNeo(e.target.value) }}
-			onInputChange={(e) => fetchOptions(e.target.value)}
-			filterOptions={(x) => x}
-			options={options}
-			sx={{ width: 300 }}
-			renderInput={(params) => 
-				<TextField {...params} 
-					color="secondary" sx={textFieldStyle} label="Search NEOs ..." 
-				/>
-			}
-		/>
+		<div style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+			<Autocomplete
+				disablePortal
+				onChange={(event, value) => setNeo(value)} 
+				onInputChange={(e) => fetchOptions(e.target.value)}
+				filterOptions={(x) => x}
+				options={options}
+				sx={{ width: 300 }}
+				renderInput={(params) => 
+					<TextField {...params} 
+						color="secondary" sx={textFieldStyle} label="Search NEOs ..." 
+					/>
+				}
+			/>
+			<Button variant="outlined" onClick={handleClick} sx={{ 
+				maxHeight: 40, 
+				alignSelf: 'center' 
+			}}>
+				Select NEO
+			</Button>
+		</div>
 	)
 }
 

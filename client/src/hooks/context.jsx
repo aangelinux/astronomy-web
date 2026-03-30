@@ -7,10 +7,10 @@ import { createContext, useContext, useState } from 'react'
 const AppContext = createContext()
 
 export function AppProvider({ children }) {
-	const [neo, setNeo] = useState('')
+	const [neoData, setNeoData] = useState({})
 
 	return (
-		<AppContext.Provider value={{ neo, setNeo }}>
+		<AppContext.Provider value={{ neoData, setNeoData }}>
 			{children}
 		</AppContext.Provider>
 	)

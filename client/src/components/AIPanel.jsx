@@ -5,21 +5,19 @@
 import { Box, Card, CardContent } from '@mui/material'
 import { useAppContext } from '../hooks/context.jsx'
 import { useState, useEffect } from 'react'
-import { getNeo } from '../api/neos.js'
 import { fetchGenAI } from '../api/genai.js'
 
 function AIPanel() {
-	const { neo } = useAppContext()
+	const { neoData } = useAppContext()
 	const [description, setDescription] = useState("")
 
 	useEffect(() => {
 		// const fetchDescription = async () => {
-		// 	const input = await getNeo(neo)
-		// 	const text = await fetchGenAI(input)
+		// 	const text = await fetchGenAI(neoData)
 		// 	setDescription(text)
 		// }
 		// fetchDescription()
-	}, [neo])
+	}, [neoData])
 
 	const card = (
 		<CardContent>

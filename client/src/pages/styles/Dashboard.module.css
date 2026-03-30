@@ -11,12 +11,13 @@ body {
 	font-family: GoogleSans;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto auto auto auto 1fr;
   grid-template-areas:
     "nav nav"
     "header header"
     "search search"
-    "attributes ai";
+    "attributes ai"
+		"orbit orbit";
   gap: 20px;
   min-height: 100vh;
   padding: 20px;
@@ -46,6 +47,10 @@ body {
 
 .ai {
 	grid-area: ai;
+}
+
+.orbit {
+	grid-area: orbit;
 }
 
 @media (max-width: 768px) {

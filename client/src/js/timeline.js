@@ -69,12 +69,37 @@ export const chart = (svgElement, data, setHoverData) => {
 			const yPos = y(d.signedDistance)
 			return `translate(${xPos}, ${yPos})`
 		})
-		.on("mouseover", (event, d) => { setHoverData({
-			data: event.target.__data__,
-			x: event.clientX,
-			y: event.clientY
-		})})
-		.on("mouseleave", () => setHoverData(null))
+		.on("mouseover", function (event, d) {
+			d3.select(this).raise()
+			d3.select(this)
+				.select("image")
+				.transition()
+				.duration(150)
+				.attr("width", 28)
+				.attr("height", 28)
+				.attr("x", -14) // re-center
+				.attr("y", -14)
+      	.style("filter", "brightness(1.5)")
+
+			setHoverData({
+				data: event.target.__data__,
+				x: event.clientX,
+				y: event.clientY
+			})
+		})
+		.on("mouseleave", function (event, d) {
+			d3.select(this)
+				.select("image")
+				.transition()
+				.duration(150)
+				.attr("width", 18)
+				.attr("height", 18)
+				.attr("x", -9)
+				.attr("y", -9)
+				.style("filter", "brightness(1)")
+				
+			setHoverData(null)
+		})
 
 	// Add asteroid image to each datapoint
 	datapoints.append("image")

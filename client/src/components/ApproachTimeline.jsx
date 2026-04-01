@@ -10,14 +10,10 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 import { chart } from '../js/timeline.js'
 
 function ApproachTimeline() {
-	// Axis for timeline/earth representation
-	// Graph for NEO placement
-	// X-axis -> Time, placement: (365 / CA-date)
-	// Y-axis -> Earth distance, placement: (Minimum distance)
-
 	const { neoData } = useAppContext()
 	const [decade, setDecade] = useState(1900)
 	const [approaches, setApproaches] = useState([])
+	const [hoverData, setHoverData] = useState(null)
 	const svgRef = useRef()
 
 	useEffect(() => {
@@ -30,8 +26,11 @@ function ApproachTimeline() {
 
 	useEffect(() => {
 		if (!approaches.length) return
-		chart(svgRef.current, approaches)
+		chart(svgRef.current, approaches, setHoverData)
 	}, [approaches])
+
+	useEffect(() => {
+	}, [hoverData])
 
 	const handleClick = () => {
 		setDecade(prevDecade => prevDecade + 10)
@@ -44,7 +43,28 @@ function ApproachTimeline() {
 				<ArrowRightAltIcon />
 				<Typography>Next</Typography>
 			</Button>
+
 			<svg ref={svgRef}></svg>
+			{hoverData && (
+				<div
+					style={{
+						position: "fixed",
+						top: hoverData.y + 10,
+						left: hoverData.x + 10,
+						background: "rgba(0,0,0,0.8)",
+						color: "white",
+						padding: "10px",
+						borderRadius: "8px",
+						pointerEvents: "none",
+						fontSize: "0.8rem"
+					}}>
+						<p>SPK-ID: {hoverData.data.spkid}</p>
+						<p>Date: {new Date(hoverData.data.date).toLocaleString('sv-SE')}</p>
+						<p>Distance: {hoverData.data.minimum_distance_km} km</p>
+						<p>Velocity: {hoverData.data.relative_velocity_km_s} km/s</p>
+						<p>Rarity: {hoverData.data.rarity}</p>
+				</div>
+			)}
 		</div>
 	)
 }

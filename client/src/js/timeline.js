@@ -4,7 +4,7 @@
 
 import * as d3 from 'd3'
 
-export const chart = (svgElement, data) => {
+export const chart = (svgElement, data, setHoverData) => {
 	const width = innerWidth - 100
   const height = 400
 
@@ -69,6 +69,12 @@ export const chart = (svgElement, data) => {
 			const yPos = y(d.signedDistance)
 			return `translate(${xPos}, ${yPos})`
 		})
+		.on("mouseover", (event, d) => { setHoverData({
+			data: event.target.__data__,
+			x: event.clientX,
+			y: event.clientY
+		})})
+		.on("mouseleave", () => setHoverData(null))
 
 	// Add asteroid image to each datapoint
 	datapoints.append("image")

@@ -6,7 +6,7 @@ import * as d3 from 'd3'
 
 export const chart = (svgElement, data) => {
 	const width = innerWidth - 100
-  const height = 500
+  const height = 400
 
 	// Create SVG-container element
   const svg = d3.select(svgElement)
@@ -16,6 +16,9 @@ export const chart = (svgElement, data) => {
 	// Clear previous renders
   svg.selectAll("*").remove()
 
+	// Save largest distance value
+	const maxDistance = d3.max(data, d => d.minimum_distance_km)
+
 	// Create horizontal scale
   const x = d3.scaleUtc()
     .domain(d3.extent(data, d => new Date(d.date)))
@@ -23,8 +26,8 @@ export const chart = (svgElement, data) => {
 
 	// Create vertical scale
   const y = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.minimum_distance_km))
-    .range([height / 2, 20])
+    .domain([-maxDistance, maxDistance])
+    .range([height - 20, 20])
 
 	// Render x-axis
   svg.append("g")
@@ -47,14 +50,23 @@ export const chart = (svgElement, data) => {
 			.attr("font-family", "GoogleSans")
 			.attr("font-size", ".75rem"))
 
+	// Alternate distance values for each datapoint; 
+	// half above x-axis, other half below
+	const mirroredData = data.map((d, i) => ({
+		...d,
+		signedDistance: i % 2 === 0
+			? d.minimum_distance_km
+			: -d.minimum_distance_km
+	}))
+
 	// Render all datapoints
 	const datapoints = svg.append("g")
 		.selectAll("g")
-		.data(data)
+		.data(mirroredData)
 		.join("g")
 		.attr("transform", d => {
 			const xPos = x(new Date(d.date))
-			const yPos = y(d.minimum_distance_km)
+			const yPos = y(d.signedDistance)
 			return `translate(${xPos}, ${yPos})`
 		})
 

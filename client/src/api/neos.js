@@ -87,3 +87,34 @@ export async function getNeoData(spkid) {
 
 	return result.data.neo
 }
+
+export async function filterApproachesBy() {
+	// Add decade filtering later
+	const res = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: '*/*'
+		},
+		body: JSON.stringify({ query: 
+			`query Close_approaches {
+				close_approaches(input: { limit: 100 }) {
+					approaches {
+						spkid
+						date
+						minimum_distance_km
+						relative_velocity_km_s
+						rarity
+					}
+				}
+			}`
+		})
+	})
+
+	const result = await res.json()
+	if (!res.ok) {
+		throw new Error ('Error fetching Close Approach data: ', error.message)
+	}
+
+	return result.data.close_approaches.approaches
+}

@@ -4,6 +4,7 @@
 
 import styles from './styles/Dashboard.module.css'
 import AIPanel from '../components/AIPanel.jsx'
+import ApproachTimeline from '../components/ApproachTimeline.jsx'
 import AttributePanel from '../components/AttributePanel.jsx'
 import NavBar from '../components/NavBar.jsx'
 import OrbitView from '../components/OrbitView.jsx'
@@ -20,6 +21,7 @@ function Dashboard() {
 				<div className={styles.attributes}><AttributePanel /></div>
 				<div className={styles.ai}><AIPanel /></div>
 				<div className={styles.orbit}><OrbitView /></div>
+				<div className={styles.timeline}><ApproachTimeline /></div>
 			</AppProvider>
 		</div>
   )

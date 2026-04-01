@@ -17,7 +17,8 @@ body {
     "header header"
     "search search"
     "attributes ai"
-		"orbit orbit";
+		"orbit orbit"
+		"timeline timeline";
   gap: 20px;
   min-height: 100vh;
   padding: 20px;
@@ -51,6 +52,10 @@ body {
 
 .orbit {
 	grid-area: orbit;
+}
+
+.timeline {
+	grid-area: timeline;
 }
 
 @media (max-width: 768px) {

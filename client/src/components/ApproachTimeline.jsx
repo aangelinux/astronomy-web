@@ -39,14 +39,12 @@ function ApproachTimeline() {
 	
 	return (
 		<div>
+			<h2 style={{ textAlign: 'center' }}>Close Approaches: Timeline</h2>
 			<Button variant="contained" onClick={handleClick}>
-				<ArrowRightAltIcon></ArrowRightAltIcon>
+				<ArrowRightAltIcon />
 				<Typography>Next</Typography>
 			</Button>
-
-			<div>
-				<svg ref={svgRef}></svg>
-			</div>
+			<svg ref={svgRef}></svg>
 		</div>
 	)
 }

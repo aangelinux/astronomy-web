@@ -26,12 +26,26 @@ export const chart = (svgElement, data) => {
     .domain(d3.extent(data, d => d.minimum_distance_km))
     .range([height / 2, 20])
 
-	// Render x-axis based on horizontal scale
+	// Render x-axis
   svg.append("g")
     .attr("transform", `translate(0, ${height / 2})`)
     .call(d3.axisBottom(x)
 			.ticks(d3.utcMonth.every(3))
 			.tickFormat(d => d <= d3.utcYear(d) ? d.getUTCFullYear() : null))
+		.call(g => g.selectAll(".tick line")
+			.remove())
+		.call(g => g.selectAll(".tick")
+			.append("circle")
+			.attr("r", 4)
+			.attr("fill", "white"))
+		.call(g => g.selectAll(".tick")
+			.append("circle")
+			.attr("r", 7)
+			.attr("fill", "white")
+			.attr("opacity", .4))
+		.call(g => g.selectAll(".tick text")
+			.attr("font-family", "GoogleSans")
+			.attr("font-size", ".75rem"))
 
 	// Render all datapoints
 	const datapoints = svg.append("g")

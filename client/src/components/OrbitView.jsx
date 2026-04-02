@@ -14,7 +14,16 @@ function OrbitView() {
 	useEffect(() => {
 		if (!orbitRef.current) return
 
-		const cleanup = orbit(orbitRef.current, neoData)
+		const orbitData = {
+			eccentricity: 0.7202,
+			axis_au: 3.49,
+			inclination_deg: 6.8,
+			node_deg: 13.75,
+			peri_deg: 347.63,
+			mean_anomaly_deg: 46.69
+		}
+		const cleanup = orbit(orbitRef.current, orbitData)
+
 		return () => cleanup && cleanup()
 	}, [neoData])
 	
@@ -32,7 +41,7 @@ function OrbitView() {
 			ref={orbitRef}
 			sx={{
 				border: '2px solid white',
-				height: 500,
+				height: 400,
 				width: 900,
 				margin: 4,
 				justifySelf: 'center'

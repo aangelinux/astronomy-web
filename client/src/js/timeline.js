@@ -29,27 +29,6 @@ export const chart = (svgElement, data, setHoverData) => {
     .domain([-maxDistance, maxDistance])
     .range([height - 20, 20])
 
-	// Render x-axis
-  svg.append("g")
-    .attr("transform", `translate(0, ${height / 2})`)
-    .call(d3.axisBottom(x)
-			.ticks(d3.utcMonth.every(3))
-			.tickFormat(d => d <= d3.utcYear(d) ? d.getUTCFullYear() : null))
-		.call(g => g.selectAll(".tick line")
-			.remove())
-		.call(g => g.selectAll(".tick")
-			.append("circle")
-			.attr("r", 4)
-			.attr("fill", "white"))
-		.call(g => g.selectAll(".tick")
-			.append("circle")
-			.attr("r", 7)
-			.attr("fill", "white")
-			.attr("opacity", .4))
-		.call(g => g.selectAll(".tick text")
-			.attr("font-family", "GoogleSans")
-			.attr("font-size", ".75rem"))
-
 	// Alternate distance values for each datapoint; 
 	// half above x-axis, other half below
 	const mirroredData = data.map((d, i) => ({
@@ -75,10 +54,11 @@ export const chart = (svgElement, data, setHoverData) => {
 				.select("image")
 				.transition()
 				.duration(150)
-				.attr("width", 28)
-				.attr("height", 28)
-				.attr("x", -14) // re-center
-				.attr("y", -14)
+				.attr("cursor", "pointer")
+				.attr("width", 30)
+				.attr("height", 30)
+				.attr("x", -15)
+				.attr("y", -15)
       	.style("filter", "brightness(1.5)")
 
 			setHoverData({
@@ -108,4 +88,27 @@ export const chart = (svgElement, data, setHoverData) => {
 		.attr("width", 18)
 		.attr("x", -9) // Center image
 		.attr("y", -9)
+
+	// Render x-axis
+	// Must be rendered last so datapoints don't obscure it
+  svg.append("g")
+    .attr("transform", `translate(0, ${height / 2})`)
+    .call(d3.axisBottom(x)
+			.ticks(d3.utcMonth.every(3))
+			.tickFormat(d => d <= d3.utcYear(d) ? d.getUTCFullYear() : null))
+		.call(g => g.selectAll(".tick line")
+			.remove())
+		.call(g => g.selectAll(".tick text")
+			.attr("font-family", "GoogleSans")
+			.attr("font-size", ".8rem")
+			.attr("font-weight", "bold"))
+		.call(g => g.selectAll(".tick")
+			.append("circle")
+			.attr("r", 4)
+			.attr("fill", "white"))
+		.call(g => g.selectAll(".tick")
+			.append("circle")
+			.attr("r", 7)
+			.attr("fill", "white")
+			.attr("opacity", .4))
 }

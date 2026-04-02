@@ -6,19 +6,20 @@ import { useState, useEffect, useRef } from 'react'
 import { useAppContext } from '../hooks/context.jsx'
 import { filterApproachesBy } from '../api/neos.js'
 import { Button, Typography } from '@mui/material'
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
+import ArrowRight from '@mui/icons-material/ArrowRight'
+import ArrowLeft from '@mui/icons-material/ArrowLeft'
 import { chart } from '../js/timeline.js'
 
 function ApproachTimeline() {
 	const { neoData } = useAppContext()
-	const [decade, setDecade] = useState(1900)
+	const [decade, setDecade] = useState(0) // Change to 1900 later
 	const [approaches, setApproaches] = useState([])
 	const [hoverData, setHoverData] = useState(null)
 	const svgRef = useRef()
 
 	useEffect(() => {
 		async function fetchApproaches() {
-			const data = await filterApproachesBy()
+			const data = await filterApproachesBy(decade)
 			setApproaches(data)
 		}
 		fetchApproaches()
@@ -30,18 +31,36 @@ function ApproachTimeline() {
 	}, [approaches])
 
 	useEffect(() => {
-	}, [hoverData])
+		if (!neoData?.close_approaches?.length) return
+		
+		const date = new Date(neoData.close_approaches[0].date)
+		const year = date.getFullYear()
+		const decade = Math.floor(year / 10) * 10
+		setDecade(decade)
+	}, [neoData])
 
-	const handleClick = () => {
-		setDecade(prevDecade => prevDecade + 10)
+	const handleClick = (direction) => {
+		// Change to real decades later
+		if (direction === 'next' && decade < 1500) {
+			setDecade(prevDecade => prevDecade + 100) 
+		}
+		if (direction === 'prev' && decade > 0) {
+			setDecade(prevDecade => prevDecade - 100) 
+		}
 	}
 	
 	return (
 		<div>
 			<h2 style={{ textAlign: 'center' }}>Close Approaches: Timeline</h2>
-			<Button variant="contained" onClick={handleClick}>
-				<ArrowRightAltIcon />
-				<Typography>Next</Typography>
+
+			<Button variant="outlined" onClick={() => handleClick('prev')} sx={{ margin: 2 }}>
+				<ArrowLeft />
+				<Typography sx={{ textAlign: 'center' }}>Prev</Typography>
+			</Button>
+
+			<Button variant="outlined" onClick={() => handleClick('next')}>
+				<Typography sx={{ textAlign: 'center' }}>Next</Typography>
+				<ArrowRight />
 			</Button>
 
 			<svg ref={svgRef}></svg>

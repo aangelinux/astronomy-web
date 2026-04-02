@@ -75,6 +75,12 @@ export async function getNeoData(spkid) {
 					magnitude
 					rotation_hours
 					pot_hazardous_asteroid
+					close_approaches {
+						date
+						minimum_distance_km
+						relative_velocity_km_s
+						rarity
+					}
 				}
 			}`
 		})
@@ -88,8 +94,8 @@ export async function getNeoData(spkid) {
 	return result.data.neo
 }
 
-export async function filterApproachesBy() {
-	// Add decade filtering later
+export async function filterApproachesBy(decade) {
+	// Fix decade filtering later
 	const res = await fetch(url, {
 		method: 'POST',
 		headers: {
@@ -98,7 +104,7 @@ export async function filterApproachesBy() {
 		},
 		body: JSON.stringify({ query: 
 			`query Close_approaches {
-				close_approaches(input: { limit: 100 }) {
+				close_approaches(input: { limit: 100, offset: ${decade} }) {
 					approaches {
 						spkid
 						date

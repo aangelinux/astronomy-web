@@ -9,40 +9,77 @@ export const orbit = (container, orbitData) => {
   const width = container.clientWidth
   const height = container.clientHeight
 
-	// Texture loader
-	const texture = new three.TextureLoader()
-
-  // Scene
-  const scene = new three.Scene()
-	const starsTexture = texture.load('../../assets/stars.jpg')
-	scene.background = starsTexture
-	scene.backgroundIntensity = .55
-
-  // Camera
-  const camera = new three.PerspectiveCamera(75, width / height, 0.1, 1000)
-	camera.position.y = 2
-	camera.position.x = 2
-  camera.position.z = 2
-
   // Renderer
   const renderer = new three.WebGLRenderer({ antialias: true })
   renderer.setSize(width, height)
   container.appendChild(renderer.domElement)
 
-	// Textures (images)
+  // Scene
+	const scene = createScene()
+
+  // Camera
+	const camera = addCamera(scene, renderer, width, height)
+
+	// Earth
+	addEarth(scene)
+
+  // Orbit path
+	addOrbit(scene, orbitData)
+
+	// NEO
+	addNeo(scene, camera, renderer, orbitData)
+	
+  // Cleanup
+  return () => {
+    renderer.dispose()
+    container.removeChild(renderer.domElement)
+  }
+}
+
+function createScene() {
+  const scene = new three.Scene()
+	const texture = new three.TextureLoader()
+	const starsTexture = texture.load('../../assets/stars.jpg')
+
+	scene.background = starsTexture
+	scene.backgroundIntensity = .55
+
+	return scene
+}
+
+function addCamera(scene, renderer, width, height) {
+  const camera = new three.PerspectiveCamera(75, width / height, 0.1, 1000)
+	camera.position.y = 2
+	camera.position.x = 2
+  camera.position.z = 2
+	
+	const controls = new OrbitControls(camera, renderer.domElement)
+	controls.update()
+	const animateCamera = () => {
+		controls.update()
+		renderer.render(scene, camera)
+	}
+	animateCamera()
+
+	return camera
+}
+
+function addEarth(scene) {
+	const texture = new three.TextureLoader()
 	const earthTexture = texture.load('../../assets/earth.jpg')
 	const earthSpecular = texture.load('../../assets/earth_specular.jpg')
 
-  // Earth (center)
   const earthGeometry = new three.SphereGeometry(.4, 32, 32)
   const earthMaterial = new three.MeshBasicMaterial({ 
 		map: earthTexture, 
 		specularMap: earthSpecular  
 	})
   const earth = new three.Mesh(earthGeometry, earthMaterial)
-  scene.add(earth)
 
-  // Orbit path
+  scene.add(earth)
+}
+
+function addOrbit(scene, orbitData) {
 	const majorAxis = orbitData.axis_au
 	const eccentricity = orbitData.eccentricity
 	const minorAxis = majorAxis * Math.sqrt(1 - eccentricity * eccentricity)
@@ -68,20 +105,27 @@ export const orbit = (container, orbitData) => {
 	orbitLine.rotation.z = node
 	orbitLine.rotation.x = inclination
 	orbitLine.rotation.z += perihelon
-  scene.add(orbitLine)
 
-  // NEO
-	function solveKepler(mean_anomaly, eccentricity, iterations = 5) {
+  scene.add(orbitLine)
+}
+
+function addNeo(scene, camera, renderer, orbitData) {
+	const texture = new three.TextureLoader()
+
+	const majorAxis = orbitData.axis_au
+	const eccentricity = orbitData.eccentricity
+	const minorAxis = majorAxis * Math.sqrt(1 - eccentricity * eccentricity)
+
+	const solveKepler = (mean_anomaly, e, iterations = 5) => {
 		let kepler = mean_anomaly
 		for (let i = 0; i < iterations; i++) {
-			kepler = mean_anomaly + eccentricity * Math.sin(kepler)
+			kepler = mean_anomaly + e * Math.sin(kepler)
 		}
-
 		return kepler
 	}
 
-	const mean_anomaly = three.MathUtils.degToRad(orbitData.mean_anomaly_deg)
-	const kepler = solveKepler(mean_anomaly, eccentricity)
+	const mean_anomaly_rad = three.MathUtils.degToRad(orbitData.mean_anomaly_deg)
+	const kepler = solveKepler(mean_anomaly_rad, eccentricity)
 
 	const x = majorAxis * Math.cos(kepler) - majorAxis * eccentricity
 	const z = minorAxis * Math.sin(kepler)
@@ -92,13 +136,17 @@ export const orbit = (container, orbitData) => {
   const neo = new three.Mesh(neoGeometry, neoMaterial)
 	neo.position.set(x, 0, z)
 
+	const inclination = three.MathUtils.degToRad(orbitData.inclination_deg)
+	const node = three.MathUtils.degToRad(orbitData.node_deg)
+	const perihelon = three.MathUtils.degToRad(orbitData.peri_deg)
+
 	neo.position.applyAxisAngle(new three.Vector3(0, 0, 1), node)
 	neo.position.applyAxisAngle(new three.Vector3(1, 0, 0), inclination)
 	neo.position.applyAxisAngle(new three.Vector3(0, 0, 1), perihelon)
 
   scene.add(neo)
 
-	let animated_ma = mean_anomaly
+	let animated_ma = mean_anomaly_rad
 	const animate = () => {
 		requestAnimationFrame(animate)
 
@@ -115,19 +163,4 @@ export const orbit = (container, orbitData) => {
 		renderer.render(scene, camera)
 	}
 	animate()
-
-	const controls = new OrbitControls(camera, renderer.domElement)
-	controls.update()
-
-	const animateCamera = () => {
-		controls.update()
-		renderer.render(scene, camera)
-	}
-	animateCamera()
-	
-  // Cleanup
-  return () => {
-    renderer.dispose()
-    container.removeChild(renderer.domElement)
-  }
 }

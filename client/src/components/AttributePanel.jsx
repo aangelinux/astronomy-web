@@ -3,7 +3,7 @@
  */
 
 import { Box, Card, CardContent, List, ListItem, Typography } from '@mui/material'
-import { useAppContext } from '../hooks/context.jsx'
+import { useAppContext } from '../context.jsx'
 import { useState, useEffect } from 'react'
 
 function AttributePanel() {

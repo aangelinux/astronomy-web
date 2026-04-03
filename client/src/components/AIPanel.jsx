@@ -3,7 +3,7 @@
  */
 
 import { Box, Card, CardContent } from '@mui/material'
-import { useAppContext } from '../hooks/context.jsx'
+import { useAppContext } from '../context.jsx'
 import { useState, useEffect } from 'react'
 import { fetchGenAI } from '../api/genai.js'
 

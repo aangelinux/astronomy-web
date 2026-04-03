@@ -9,7 +9,7 @@ import AttributePanel from '../components/AttributePanel.jsx'
 import NavBar from '../components/NavBar.jsx'
 import OrbitView from '../components/OrbitView.jsx'
 import SearchBar from '../components/SearchBar.jsx'
-import { AppProvider } from '../hooks/context.jsx'
+import { AppProvider } from '../context.jsx'
 
 function Dashboard() {
   return (

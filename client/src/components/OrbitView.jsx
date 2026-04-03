@@ -3,9 +3,9 @@
  */
 
 import { useEffect, useRef } from 'react'
-import { useAppContext } from '../hooks/context.jsx'
+import { useAppContext } from '../context.jsx'
 import { Box } from '@mui/material'
-import { orbit } from '../js/orbit.js'
+import { orbit } from './js/orbit.js'
 
 function OrbitView() {
 	const { neoData } = useAppContext()

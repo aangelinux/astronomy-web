@@ -9,12 +9,20 @@ export const orbit = (container, orbitData) => {
   const width = container.clientWidth
   const height = container.clientHeight
 
+	// Texture loader
+	const texture = new three.TextureLoader()
+
   // Scene
   const scene = new three.Scene()
+	const starsTexture = texture.load('../../assets/stars.jpg')
+	scene.background = starsTexture
+	scene.backgroundIntensity = .55
 
   // Camera
   const camera = new three.PerspectiveCamera(75, width / height, 0.1, 1000)
-  camera.position.z = 5
+	camera.position.y = 2
+	camera.position.x = 2
+  camera.position.z = 2
 
   // Renderer
   const renderer = new three.WebGLRenderer({ antialias: true })
@@ -22,27 +30,27 @@ export const orbit = (container, orbitData) => {
   container.appendChild(renderer.domElement)
 
 	// Textures (images)
-	const texture = new three.TextureLoader() 
+	const earthTexture = texture.load('../../assets/earth.jpg')
+	const earthSpecular = texture.load('../../assets/earth_specular.jpg')
 
   // Earth (center)
-  const earthGeometry = new three.SphereGeometry(0.4, 32, 32)
-	const earthTexture = texture.load('../../assets/earth.png')
-  const earthMaterial = new three.MeshBasicMaterial({ map: earthTexture })
+  const earthGeometry = new three.SphereGeometry(.4, 32, 32)
+  const earthMaterial = new three.MeshBasicMaterial({ 
+		map: earthTexture, 
+		specularMap: earthSpecular  
+	})
   const earth = new three.Mesh(earthGeometry, earthMaterial)
   scene.add(earth)
 
   // Orbit path
 	const majorAxis = orbitData.axis_au
 	const eccentricity = orbitData.eccentricity
-
 	const minorAxis = majorAxis * Math.sqrt(1 - eccentricity * eccentricity)
 
   const points = []
   const segments = 200
-
   for (let i = 0; i <= segments; i++) {
 		const E = (i / segments) * Math.PI * 2
-
 		const x = majorAxis * Math.cos(E) - majorAxis * eccentricity
 		const z = minorAxis * Math.sin(E)
 
@@ -60,7 +68,6 @@ export const orbit = (container, orbitData) => {
 	orbitLine.rotation.z = node
 	orbitLine.rotation.x = inclination
 	orbitLine.rotation.z += perihelon
-
   scene.add(orbitLine)
 
   // NEO
@@ -80,7 +87,7 @@ export const orbit = (container, orbitData) => {
 	const z = minorAxis * Math.sin(kepler)
 
   const neoGeometry = new three.SphereGeometry(0.1, 16, 16)
-	const neoTexture = texture.load('../../assets/asteroid.png')
+	const neoTexture = texture.load('../../assets/haumea.jpg')
   const neoMaterial = new three.MeshBasicMaterial({ map: neoTexture })
   const neo = new three.Mesh(neoGeometry, neoMaterial)
 	neo.position.set(x, 0, z)

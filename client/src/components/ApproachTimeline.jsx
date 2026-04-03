@@ -3,12 +3,12 @@
  */
 
 import { useState, useEffect, useRef } from 'react'
-import { useAppContext } from '../hooks/context.jsx'
+import { useAppContext } from '../context.jsx'
 import { filterApproachesBy } from '../api/neos.js'
 import { Button, Typography } from '@mui/material'
 import ArrowRight from '@mui/icons-material/ArrowRight'
 import ArrowLeft from '@mui/icons-material/ArrowLeft'
-import { chart } from '../js/timeline.js'
+import { chart } from './js/timeline.js'
 
 function ApproachTimeline() {
 	const { neoData } = useAppContext()

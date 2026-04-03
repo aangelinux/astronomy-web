@@ -4,7 +4,8 @@
 }
 
 body {
-	background-color: #0b0f1a; /* space vibes */
+	background-color: #0b0f1a;
+	background-image: url('../../assets/stars.jpg');
 }
 
 .page {
@@ -23,7 +24,6 @@ body {
   min-height: 100vh;
   padding: 20px;
   color: white;
-	background-color: #0b0f1a; /* space vibes */
 }
 
 .nav {

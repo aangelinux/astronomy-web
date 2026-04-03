@@ -2,7 +2,7 @@
  * Search bar component with autocomplete.
  */
 
-import { useAppContext } from '../hooks/context.jsx'
+import { useAppContext } from '../context.jsx'
 import { filterNeosBy, getNeoData, getNeoSpkid } from '../api/neos.js'
 import { Autocomplete, Button, TextField } from '@mui/material'
 import { useState } from 'react'

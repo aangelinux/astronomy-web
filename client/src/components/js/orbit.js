@@ -94,6 +94,7 @@ function renderNeo({ orbitData, neo, renderer, scene, camera }) {
 		const kepler = solveKepler(animatedMeanAnomaly, eccentricity)
 		const x = majorAxis * Math.cos(kepler) - majorAxis * eccentricity
 		const z = minorAxis * Math.sin(kepler)
+		
 		neo.position.set(x, 0, z)
 		neo.position.applyAxisAngle(new three.Vector3(0, 0, 1), node)
 		neo.position.applyAxisAngle(new three.Vector3(1, 0, 0), inclination)

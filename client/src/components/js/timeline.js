@@ -1,36 +1,45 @@
 /**
- * Creates an SVG element with D3, representing a timeline.
+ * Renders a chart with a timeline of close approaches, using D3.js.
  */
 
 import * as d3 from 'd3'
 
-export const chart = (svgElement, data, setHoverData) => {
+export const chart = (svgElement, data, hoverData) => {
 	const width = innerWidth - 100
   const height = 400
-
-	// Create SVG-container element
   const svg = d3.select(svgElement)
     .attr("width", width)
     .attr("height", height)
 
-	// Clear previous renders
-  svg.selectAll("*").remove()
+  svg.selectAll("*").remove() // Clear previous data
 
-	// Save largest distance value
-	const maxDistance = d3.max(data, d => d.minimum_distance_km)
+  const x = createHorizontalScale(width, data)
+  const y = createVerticalScale(height, data)
 
-	// Create horizontal scale
+	renderDatapoints({ svg, data, x, y, hoverData })
+	renderXAxis(svg, height, x) // Rendered last so nothing obscures it
+}
+
+function createHorizontalScale(width, data) {
   const x = d3.scaleUtc()
     .domain(d3.extent(data, d => new Date(d.date)))
     .range([40, width - 30])
 
-	// Create vertical scale
+	return x
+}
+
+function createVerticalScale(height, data) {
+	const maxDistance = d3.max(data, d => d.minimum_distance_km)
   const y = d3.scaleLinear()
     .domain([-maxDistance, maxDistance])
     .range([height - 20, 20])
 
-	// Alternate distance values for each datapoint; 
-	// half above x-axis, other half below
+	return y
+}
+
+function renderDatapoints({ svg, data, x, y, hoverData }) {
+	// Add a negative sign to half of the datapoints; 
+	// renders half above x-axis, other half below
 	const mirroredData = data.map((d, i) => ({
 		...d,
 		signedDistance: i % 2 === 0
@@ -38,8 +47,7 @@ export const chart = (svgElement, data, setHoverData) => {
 			: -d.minimum_distance_km
 	}))
 
-	// Render all datapoints
-	const datapoints = svg.append("g")
+	svg.append("g")
 		.selectAll("g")
 		.data(mirroredData)
 		.join("g")
@@ -48,49 +56,49 @@ export const chart = (svgElement, data, setHoverData) => {
 			const yPos = y(d.signedDistance)
 			return `translate(${xPos}, ${yPos})`
 		})
-		.on("mouseover", function (event, d) {
-			d3.select(this).raise()
-			d3.select(this)
-				.select("image")
-				.transition()
-				.duration(150)
-				.attr("cursor", "pointer")
-				.attr("width", 30)
-				.attr("height", 30)
-				.attr("x", -15)
-				.attr("y", -15)
-      	.style("filter", "brightness(1.5)")
+		.on("mouseover", (event) => onHover(event, hoverData))
+		.on("mouseleave", (event) => onLeave(event, hoverData))
+		.append("image")
+			.attr("href", "../../assets/asteroid.png")
+			.attr("height", 18)
+			.attr("width", 18)
+			.attr("x", -9) // Center image
+			.attr("y", -9)
+}
 
-			setHoverData({
-				data: event.target.__data__,
-				x: event.clientX,
-				y: event.clientY
-			})
-		})
-		.on("mouseleave", function (event, d) {
-			d3.select(this)
-				.select("image")
-				.transition()
-				.duration(150)
-				.attr("width", 18)
-				.attr("height", 18)
-				.attr("x", -9)
-				.attr("y", -9)
-				.style("filter", "brightness(1)")
-				
-			setHoverData(null)
-		})
+function onHover(event, hoverData) {
+	d3.select(event.target)
+		.transition()
+		.duration(150)
+		.attr("cursor", "pointer")
+		.attr("width", 30)
+		.attr("height", 30)
+		.attr("x", -15)
+		.attr("y", -15)
+		.style("filter", "brightness(1.5)")
 
-	// Add asteroid image to each datapoint
-	datapoints.append("image")
-		.attr("href", "../../assets/asteroid.png")
-		.attr("height", 18)
+	hoverData({
+		data: event.target.__data__,
+		x: event.clientX,
+		y: event.clientY
+	})
+}
+
+function onLeave(event, hoverData) {
+	d3.select(event.target)
+		.select("image")
+		.transition()
+		.duration(150)
 		.attr("width", 18)
-		.attr("x", -9) // Center image
+		.attr("height", 18)
+		.attr("x", -9)
 		.attr("y", -9)
+		.style("filter", "brightness(1)")
+		
+	hoverData(null)
+}
 
-	// Render x-axis
-	// Must be rendered last so datapoints don't obscure it
+function renderXAxis(svg, height, x) {
   svg.append("g")
     .attr("transform", `translate(0, ${height / 2})`)
     .call(d3.axisBottom(x)
@@ -110,5 +118,5 @@ export const chart = (svgElement, data, setHoverData) => {
 			.append("circle")
 			.attr("r", 7)
 			.attr("fill", "white")
-			.attr("opacity", .4))
+			.attr("opacity", .4))	
 }

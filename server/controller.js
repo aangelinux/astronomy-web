@@ -68,13 +68,14 @@ export async function fetchUserData(token) {
 
 export async function register({ username, provider, providerID }) {
   const response = await fetch('https://astronomy-api-production.up.railway.app/', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: '*/*',
-		},
-		body: JSON.stringify({ query: 
-			`mutation LoginOAuth {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: '*/*',
+    },
+    body: JSON.stringify({
+      query:
+      `mutation LoginOAuth {
 				loginOAuth(input: { 
 					username: "${username}", 
 					provider: "${provider}", 
@@ -84,7 +85,7 @@ export async function register({ username, provider, providerID }) {
 					token
 				}
 			}`,
-		}),
+    }),
   })
 
   const result = await response.json()
@@ -96,15 +97,15 @@ export async function register({ username, provider, providerID }) {
 }
 
 export async function getResponse(req, res, next) {
-	const attributes = JSON.stringify(req.body)
-	const ai = new GoogleGenAI({
-		apiKey: process.env.GEMINI_API_KEY
-	})
+  const attributes = JSON.stringify(req.body)
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY
+  })
 
-	const response = await ai.models.generateContent({
-		model: 'gemini-2.5-flash',
-		contents: `Generate a description of this Near-Earth Object based on its attributes: ${attributes}.`,
-	})
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: `Generate a description of this Near-Earth Object based on its attributes: ${attributes}.`,
+  })
 
-	return response.text
+  return response.text
 }

@@ -5,14 +5,15 @@
 const url = 'https://astronomy-api-production.up.railway.app/'
 
 export async function filterNeosBy(input) {
-	const res = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: '*/*'
-		},
-		body: JSON.stringify({ query: 
-			`query Neos {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    },
+    body: JSON.stringify({
+      query:
+      `query Neos {
 				neos(input: {
 					limit: 5,
 					name: "${input}"
@@ -22,52 +23,54 @@ export async function filterNeosBy(input) {
 					}
 				}
 			}`
-		})
-	})
-	
-	const result = await res.json()
-	if (!res.ok) {
-		throw new Error ('Error fetching NEO data: ', error.message)
-	}
+    })
+  })
 
-	return result.data.neos.neos
+  const result = await res.json()
+  if (!res.ok) {
+    throw new Error('Error fetching NEO data: ', error.message)
+  }
+
+  return result.data.neos.neos
 }
 
 export async function getNeoSpkid(name) {
-	const res = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: '*/*'
-		},
-		body: JSON.stringify({ query: 
-			`query Neos {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    },
+    body: JSON.stringify({
+      query:
+      `query Neos {
 				neos(input: { name: "${name}" }) {
 					neos {
 						spkid
 					}
 				}
 			}`
-		})
-	})
+    })
+  })
 
-	const result = await res.json()
-	if (!res.ok) {
-		throw new Error ('Error fetching NEO spkid: ', error.message)
-	}
+  const result = await res.json()
+  if (!res.ok) {
+    throw new Error('Error fetching NEO spkid: ', error.message)
+  }
 
-	return result.data.neos.neos[0].spkid
+  return result.data.neos.neos[0].spkid
 }
 
 export async function getNeoData(spkid) {
-	const res = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: '*/*'
-		},
-		body: JSON.stringify({ query: 
-			`query Neo {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    },
+    body: JSON.stringify({
+      query:
+      `query Neo {
 				neo(spkid: "${spkid}") {
 					spkid
 					name
@@ -83,27 +86,28 @@ export async function getNeoData(spkid) {
 					}
 				}
 			}`
-		})
-	})
+    })
+  })
 
-	const result = await res.json()
-	if (!res.ok) {
-		throw new Error ('Error fetching NEO data: ', error.message)
-	}
+  const result = await res.json()
+  if (!res.ok) {
+    throw new Error('Error fetching NEO data: ', error.message)
+  }
 
-	return result.data.neo
+  return result.data.neo
 }
 
 export async function filterApproachesBy(decade) {
-	// Fix decade filtering later
-	const res = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: '*/*'
-		},
-		body: JSON.stringify({ query: 
-			`query Close_approaches {
+  // Fix decade filtering later
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    },
+    body: JSON.stringify({
+      query:
+      `query Close_approaches {
 				close_approaches(input: { limit: 100, offset: ${decade} }) {
 					approaches {
 						spkid
@@ -114,13 +118,13 @@ export async function filterApproachesBy(decade) {
 					}
 				}
 			}`
-		})
-	})
+    })
+  })
 
-	const result = await res.json()
-	if (!res.ok) {
-		throw new Error ('Error fetching Close Approach data: ', error.message)
-	}
+  const result = await res.json()
+  if (!res.ok) {
+    throw new Error('Error fetching Close Approach data: ', error.message)
+  }
 
-	return result.data.close_approaches.approaches
+  return result.data.close_approaches.approaches
 }

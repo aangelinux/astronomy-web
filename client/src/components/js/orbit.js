@@ -66,7 +66,8 @@ function calculate(orbitData) {
 	const perihelon = three.MathUtils.degToRad(peri_deg)
 	const meanAnomaly = three.MathUtils.degToRad(mean_anomaly_deg)
 
-	return { majorAxis, minorAxis, eccentricity, inclination, node, perihelon, meanAnomaly }
+	return { majorAxis, minorAxis, eccentricity, 
+		inclination, node, perihelon, meanAnomaly }
 }
 
 function createNeo(scene) {

@@ -38,14 +38,14 @@ function OrbitView() {
 			</h2>
 			
 			<Box 
-			ref={orbitRef}
-			sx={{
-				border: '2px solid white',
-				height: 400,
-				width: 900,
-				margin: 4,
-				justifySelf: 'center'
-			}} />
+				ref={orbitRef}
+				sx={{
+					border: '2px solid white',
+					height: 400,
+					width: 900,
+					margin: 4,
+					justifySelf: 'center'
+				}} />
 		</div>
 	)
 }

@@ -6,6 +6,8 @@ import * as three from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 
 export const orbit = (container, rawOrbitData) => {
+  if (!rawOrbitData) return
+
   const renderer = new three.WebGLRenderer({ antialias: true })
   const width = container.clientWidth
   const height = container.clientHeight
@@ -15,16 +17,20 @@ export const orbit = (container, rawOrbitData) => {
 
   const camera = createCamera(width, height, renderer)
   const scene = createScene()
-  const orbitData = calculate(rawOrbitData)
   const neo = createNeo(scene)
+  const earth = createEarth(scene)
+  const orbitData = calculate(rawOrbitData)
 
-  renderNeo({ orbitData, neo, renderer, scene, camera })
-  renderOrbit(scene, orbitData)
-  renderEarth(scene)
+  createOrbit(scene, orbitData)
+  animateNeo({ orbitData, neo, renderer, scene, camera })
 
   // Cleanup
   return () => {
+    neo.dispose()
+    earth.dispose()
     renderer.dispose()
+    scene.removeFromParent()
+    camera.removeFromParent()
     container.removeChild(renderer.domElement)
   }
 }
@@ -52,6 +58,32 @@ function createScene() {
   return scene
 }
 
+function createNeo(scene) {
+  const texture = new three.TextureLoader()
+  const neoTexture = texture.load('../../assets/haumea.jpg')
+
+  const neoGeometry = new three.SphereGeometry(0.1, 16, 16)
+  const neoMaterial = new three.MeshBasicMaterial({ map: neoTexture })
+  const neo = new three.Mesh(neoGeometry, neoMaterial)
+
+  scene.add(neo)
+
+  return neo
+}
+
+function createEarth(scene) {
+  const texture = new three.TextureLoader()
+  const earthTexture = texture.load('../../assets/earth.jpg')
+
+  const earthGeometry = new three.SphereGeometry(.4, 32, 32)
+  const earthMaterial = new three.MeshBasicMaterial({ map: earthTexture })
+  const earth = new three.Mesh(earthGeometry, earthMaterial)
+
+  scene.add(earth)
+
+  return earth
+}
+
 function calculate(orbitData) {
   const { axis_au, eccentricity, inclination_deg,
     node_deg, peri_deg, mean_anomaly_deg } = orbitData
@@ -72,20 +104,33 @@ function calculate(orbitData) {
   }
 }
 
-function createNeo(scene) {
-  const texture = new three.TextureLoader()
-  const neoTexture = texture.load('../../assets/haumea.jpg')
+function createOrbit(scene, orbitData) {
+  const { majorAxis, minorAxis, eccentricity, 
+    inclination, node, perihelon } = orbitData
 
-  const neoGeometry = new three.SphereGeometry(0.1, 16, 16)
-  const neoMaterial = new three.MeshBasicMaterial({ map: neoTexture })
-  const neo = new three.Mesh(neoGeometry, neoMaterial)
+  const points = []
+  const segments = 200
+  for (let i = 0; i <= segments; i++) {
+    const E = (i / segments) * Math.PI * 2
+    const x = majorAxis * Math.cos(E) - majorAxis * eccentricity
+    const z = minorAxis * Math.sin(E)
 
-  scene.add(neo)
+    points.push(new three.Vector3(x, 0, z))
+  }
 
-  return neo
+  const orbitGeometry = new three.BufferGeometry().setFromPoints(points)
+  const orbitMaterial = new three.LineBasicMaterial({ color: 0xffffff })
+  const orbit = new three.Line(orbitGeometry, orbitMaterial)
+  orbit.rotation.z = node
+  orbit.rotation.x = inclination
+  orbit.rotation.z += perihelon
+
+  scene.add(orbit)
+
+  return orbit
 }
 
-function renderNeo({ orbitData, neo, renderer, scene, camera }) {
+function animateNeo({ orbitData, neo, renderer, scene, camera }) {
   const { majorAxis, minorAxis, eccentricity,
     inclination, node, perihelon, meanAnomaly } = orbitData
 
@@ -116,43 +161,4 @@ function solveKepler(meanAnomaly, eccentricity, iterations = 5) {
   }
 
   return kepler
-}
-
-function renderOrbit(scene, orbitData) {
-  const { majorAxis, minorAxis, eccentricity, inclination, node, perihelon } = orbitData
-
-  const points = []
-  const segments = 200
-  for (let i = 0; i <= segments; i++) {
-    const E = (i / segments) * Math.PI * 2
-    const x = majorAxis * Math.cos(E) - majorAxis * eccentricity
-    const z = minorAxis * Math.sin(E)
-
-    points.push(new three.Vector3(x, 0, z))
-  }
-
-  const orbitGeometry = new three.BufferGeometry().setFromPoints(points)
-  const orbitMaterial = new three.LineBasicMaterial({ color: 0xffffff })
-  const orbit = new three.Line(orbitGeometry, orbitMaterial)
-
-  orbit.rotation.z = node
-  orbit.rotation.x = inclination
-  orbit.rotation.z += perihelon
-
-  scene.add(orbit)
-}
-
-function renderEarth(scene) {
-  const texture = new three.TextureLoader()
-  const earthTexture = texture.load('../../assets/earth.jpg')
-  const earthSpecular = texture.load('../../assets/earth_specular.jpg')
-
-  const earthGeometry = new three.SphereGeometry(.4, 32, 32)
-  const earthMaterial = new three.MeshBasicMaterial({
-    map: earthTexture,
-    specularMap: earthSpecular
-  })
-  const earth = new three.Mesh(earthGeometry, earthMaterial)
-
-  scene.add(earth)
 }

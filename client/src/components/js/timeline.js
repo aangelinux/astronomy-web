@@ -5,6 +5,8 @@
 import * as d3 from 'd3'
 
 export const chart = (svgElement, data, hoverData) => {
+  if (!data.length) return
+  
   const width = innerWidth - 100
   const height = 400
   const svg = d3.select(svgElement)

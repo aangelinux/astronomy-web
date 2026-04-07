@@ -3,21 +3,21 @@
  */
 
 export async function fetchGenAI(input) {
-	const url = 'http://localhost:3001/genai'
-	const res = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(input)
-	})
+  const url = 'http://localhost:3001/genai'
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(input)
+  })
 
-	const result = await res.json()
-	if (!res.ok) {
-		throw new Error (`Error fetching GenAI response: ${result.message}`)
-	}
+  const result = await res.json()
+  if (!res.ok) {
+    throw new Error(`Error fetching GenAI response: ${result.message}`)
+  }
 
-	console.log(result)
+  console.log(result)
 
-	return result
+  return result
 }

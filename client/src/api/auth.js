@@ -1,5 +1,5 @@
 /**
- * Authenticates users.
+ * Functions for handling authentication.
  */
 
 export async function authenticate() {
@@ -11,6 +11,23 @@ export async function authenticate() {
     throw new Error('Unauthorized')
   }
 
-  console.log(result)
+  return result
+}
+
+export async function logout() {
+  const url = 'http://localhost:3001/logout'
+  const res = await fetch(url, {
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  const result = await res.json()
+  
+  if (!res.ok) {
+    throw new Error('Error logging out')
+  }
+
   return result
 }

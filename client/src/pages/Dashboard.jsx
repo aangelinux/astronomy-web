@@ -20,7 +20,7 @@ function Dashboard() {
         await authenticate()
       } catch (error) {
         console.log(error)
-        window.location.href = 'http://localhost:3002/'
+        window.location.href = 'http://localhost:3002'
       }
     }
     auth()

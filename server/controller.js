@@ -127,11 +127,11 @@ export function authenticate(req, res, next) {
   try {
     return jwt.verify(token, process.env.JWT_SECRET)
   } catch (error) {
-    console.log(error)
     res.sendStatus(401)
   }
 }
 
 export function logout(req, res, next) {
-
+  res.clearCookie('jwt')
+  res.redirect('http://localhost:3002')
 }

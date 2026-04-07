@@ -2,7 +2,9 @@
  * Navigation bar for authorized users.
  */
 
-import { AppBar, Toolbar, Link, Avatar } from '@mui/material'
+import { AppBar, Toolbar, Link, Avatar, Button } from '@mui/material'
+import LogoutIcon from '@mui/icons-material/Logout';
+import { logout } from '../api/auth.js'
 
 function NavBar() {
   const linkStyle = {
@@ -12,6 +14,10 @@ function NavBar() {
     fontSize: '1.1rem',
     textAlign: 'center',
     margin: 1.7
+  }
+
+  const handleClick = async () => {
+    await logout()
   }
 
   return (
@@ -25,6 +31,9 @@ function NavBar() {
         <Link href="/" sx={linkStyle}>Auth</Link>
         <Link href="/dashboard" sx={linkStyle}>Dashboard</Link>
         <Link href="/neos" sx={linkStyle}>NEOs</Link>
+        <Button onClick={handleClick}>
+          <LogoutIcon />
+        </Button>
       </Toolbar>
     </AppBar>
   )

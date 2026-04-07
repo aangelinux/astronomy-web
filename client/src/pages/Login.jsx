@@ -11,8 +11,8 @@ function Login() {
   useEffect(() => {
     async function auth() {
       try {
-        const res = await authenticate()
-        if (res.ok) window.location.href = 'http://localhost:3002/dashboard'
+        await authenticate()
+        window.location.href = 'http://localhost:3002/dashboard'
       } catch (error) {
         console.log(error)
       }

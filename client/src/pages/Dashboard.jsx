@@ -10,8 +10,22 @@ import NavBar from '../components/NavBar.jsx'
 import OrbitView from '../components/OrbitView.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import { AppProvider } from '../context.jsx'
+import { authenticate } from '../api/auth.js'
+import { useEffect } from 'react'
 
 function Dashboard() {
+  useEffect(() => {
+    async function auth() {
+      try {
+        await authenticate()
+      } catch (error) {
+        console.log(error)
+        window.location.href = 'http://localhost:3002/'
+      }
+    }
+    auth()
+  }, [])
+
   return (
     <div className={styles.page}>
       <AppProvider>

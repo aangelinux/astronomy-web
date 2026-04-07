@@ -4,8 +4,22 @@
 
 import LoginButton from '../components/LoginButton.jsx'
 import styles from './styles/Login.module.css'
+import { authenticate } from '../api/auth.js'
+import { useEffect } from 'react'
 
 function Login() {
+  useEffect(() => {
+    async function auth() {
+      try {
+        const res = await authenticate()
+        if (res.ok) window.location.href = 'http://localhost:3002/dashboard'
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    auth()
+  }, [])
+
   return (
     <div className={styles.page}>
       <h1 className={styles.header}>Sign In</h1>

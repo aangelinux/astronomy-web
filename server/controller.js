@@ -5,6 +5,7 @@
 import dotenv from 'dotenv'
 import { GoogleGenAI } from '@google/genai'
 import { AuthorizationCode } from 'simple-oauth2'
+import jwt from 'jsonwebtoken'
 
 dotenv.config()
 
@@ -108,4 +109,29 @@ export async function getResponse(req, res, next) {
   })
 
   return response.text
+}
+
+export function setCookie(req, res, jwt) {
+  res.cookie('jwt', jwt, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 15 * 60 * 1000
+  })
+}
+
+export function authenticate(req, res, next) {
+  const token = req.cookies.jwt
+  if (!token) res.sendStatus(401)
+
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(401)
+  }
+}
+
+export function logout(req, res, next) {
+
 }

@@ -6,8 +6,8 @@ import * as d3 from 'd3'
 
 export const chart = (svgElement, data, hoverData) => {
   if (!data.length) return
-  
-  const width = innerWidth - 100
+
+  const width = svgElement.parentElement.clientWidth
   const height = 400
   const svg = d3.select(svgElement)
     .attr("width", width)
@@ -18,8 +18,10 @@ export const chart = (svgElement, data, hoverData) => {
   const x = createHorizontalScale(width, data)
   const y = createVerticalScale(height, data)
 
-  renderDatapoints({ svg, data, x, y, hoverData })
-  renderXAxis(svg, height, x) // Rendered last so nothing obscures it
+  renderDataPoints({ svg, data, x, y, hoverData })
+  renderXAxis(svg, height, x) // Rendered last so it's not obscured
+
+  return () => {}
 }
 
 function createHorizontalScale(width, data) {
@@ -39,7 +41,7 @@ function createVerticalScale(height, data) {
   return y
 }
 
-function renderDatapoints({ svg, data, x, y, hoverData }) {
+function renderDataPoints({ svg, data, x, y, hoverData }) {
   // Add a negative sign to half of the datapoints; 
   // renders half above x-axis, other half below
   const mirroredData = data.map((d, i) => ({

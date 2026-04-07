@@ -50,7 +50,7 @@ function createCamera(width, height, renderer) {
 function createScene() {
   const scene = new three.Scene()
   const texture = new three.TextureLoader()
-  const starsTexture = texture.load('../../assets/stars.jpg')
+  const starsTexture = texture.load('/assets/stars.jpg')
 
   scene.background = starsTexture
   scene.backgroundIntensity = .55
@@ -60,7 +60,7 @@ function createScene() {
 
 function createNeo(scene) {
   const texture = new three.TextureLoader()
-  const neoTexture = texture.load('../../assets/haumea.jpg')
+  const neoTexture = texture.load('/assets/haumea.jpg')
 
   const neoGeometry = new three.SphereGeometry(0.1, 16, 16)
   const neoMaterial = new three.MeshBasicMaterial({ map: neoTexture })
@@ -73,7 +73,7 @@ function createNeo(scene) {
 
 function createEarth(scene) {
   const texture = new three.TextureLoader()
-  const earthTexture = texture.load('../../assets/earth.jpg')
+  const earthTexture = texture.load('/assets/earth.jpg')
 
   const earthGeometry = new three.SphereGeometry(.4, 32, 32)
   const earthMaterial = new three.MeshBasicMaterial({ map: earthTexture })
@@ -126,8 +126,6 @@ function createOrbit(scene, orbitData) {
   orbit.rotation.z += perihelon
 
   scene.add(orbit)
-
-  return orbit
 }
 
 function animateNeo({ orbitData, neo, renderer, scene, camera }) {

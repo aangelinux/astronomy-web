@@ -3,21 +3,20 @@
  */
 
 import express from 'express'
-import * as controller from './controller.js'
+import * as authController from './authController.js'
+import * as aiController from './aiController.js'
 
 export const router = express.Router()
 
-router.get('/auth/me', controller.authenticate)
-router.get('/auth/github', controller.redirectToGithub)
+router.get('/auth/me', authController.authenticate)
+router.get('/auth/github', authController.redirectToGithub)
 router.get('/auth/callback', async (req, res) => {
-  const token = await controller.fetchAccessToken(req.query.code)
-  const user = await controller.fetchUserData(token)
-  const jwt = await controller.register(user)
+  const token = await authController.fetchAccessToken(req, res)
+  const user = await authController.fetchUserData(token)
+  const jwt = await authController.fetchJWT(user)
 
-  controller.setCookie(req, res, jwt)
-  res.redirect('http://localhost:3002/dashboard')
+  authController.setCookie(req, res, jwt)
 })
 
-router.post('/logout', controller.logout)
-
-router.post('/genai', controller.getResponse)
+router.post('/logout', authController.logout)
+router.post('/genai', aiController.getResponse)

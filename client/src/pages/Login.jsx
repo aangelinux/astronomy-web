@@ -9,15 +9,15 @@ import { useEffect } from 'react'
 
 function Login() {
   useEffect(() => {
-    async function auth() {
+    async function checkAuth() {
       try {
         await authenticate()
-        window.location.href = 'http://localhost:3002/dashboard'
+        window.location.href = '/dashboard'
       } catch (error) {
         console.log(error)
       }
     }
-    auth()
+    checkAuth()
   }, [])
 
   return (

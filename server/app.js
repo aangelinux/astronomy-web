@@ -14,13 +14,14 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 3001
 
+app.use(express.json())
+app.use(cookieParser())
+app.use(xss())
+
 app.use(cors({
   origin: 'http://localhost:3002',
   credentials: true
 }))
-app.use(express.json())
-app.use(xss())
-app.use(cookieParser())
 
 app.use('/', router)
 app.use((err, req, res, next) => {

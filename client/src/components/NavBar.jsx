@@ -3,7 +3,7 @@
  */
 
 import { AppBar, Toolbar, Link, Avatar, Button } from '@mui/material'
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from '@mui/icons-material/Logout'
 import { logout } from '../api/auth.js'
 
 function NavBar() {
@@ -18,6 +18,7 @@ function NavBar() {
 
   const handleClick = async () => {
     await logout()
+    window.location.href = '/'
   }
 
   return (
@@ -28,7 +29,6 @@ function NavBar() {
           alt="Astronomy Icon"
           sx={{ margin: 2.5 }}>
         </Avatar>
-        <Link href="/" sx={linkStyle}>Auth</Link>
         <Link href="/dashboard" sx={linkStyle}>Dashboard</Link>
         <Link href="/neos" sx={linkStyle}>NEOs</Link>
         <Button onClick={handleClick}>

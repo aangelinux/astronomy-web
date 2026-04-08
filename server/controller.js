@@ -115,23 +115,23 @@ export function setCookie(req, res, jwt) {
   res.cookie('jwt', jwt, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
     maxAge: 15 * 60 * 1000
   })
 }
 
 export function authenticate(req, res, next) {
   const token = req.cookies.jwt
-  if (!token) res.sendStatus(401)
+  if (!token) return res.sendStatus(401)
 
   try {
-    return jwt.verify(token, process.env.JWT_SECRET)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    return res.status(200).json({ user: decoded })
   } catch (error) {
-    res.sendStatus(401)
+    return res.sendStatus(401)
   }
 }
 
 export function logout(req, res, next) {
   res.clearCookie('jwt')
-  res.redirect('http://localhost:3002')
+  return res.sendStatus(200)
 }

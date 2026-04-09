@@ -2,18 +2,16 @@
  * Table displaying Near-Earth Objects and their attributes.
  */
 
-import { TableContainer, Table, TableHead, TableBody, 
+import { TableContainer, Table, TableHead, TableBody, TableFooter, 
   TableRow, TablePagination, TableCell, Paper } from '@mui/material'
 import { filterNeos } from '../api/neos.js'
 import { useEffect, useState } from 'react'
 
 function NeoTable() {
   const [neos, setNeos] = useState([])
-
-  const tableHead = {
-    fontFamily: 'GoogleSans',
-    fontWeight: 'bolder'
-  }
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(20)
+  const totalRows = 16000
 
   useEffect(() => {
     async function fetchNeos() {
@@ -22,18 +20,33 @@ function NeoTable() {
     }
     fetchNeos()
   }, [])
+
+  const handleChangePage = () => {
+    setPage(prevPage => prevPage + 1)
+    console.log('Page: ', page)
+  }
+
+  const handleChangeRowsPerPage = (value) => {
+    setRowsPerPage(value)
+    console.log('Rows: ', rowsPerPage)
+  }
+
+  const tableHeadStyles = {
+    fontFamily: 'GoogleSans',
+    fontWeight: 'bolder'
+  }
   
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell style={tableHead}>Identifier</TableCell>
-            <TableCell style={tableHead}>Name</TableCell>
-            <TableCell style={tableHead}>Earth MOID</TableCell>
-            <TableCell style={tableHead}>Magnitude</TableCell>
-            <TableCell style={tableHead}>Rotation</TableCell>
-            <TableCell style={tableHead}>PHA</TableCell>
+            <TableCell style={tableHeadStyles}>Identifier</TableCell>
+            <TableCell style={tableHeadStyles}>Name</TableCell>
+            <TableCell style={tableHeadStyles}>Earth MOID</TableCell>
+            <TableCell style={tableHeadStyles}>Magnitude</TableCell>
+            <TableCell style={tableHeadStyles}>Rotation</TableCell>
+            <TableCell style={tableHeadStyles}>PHA</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -51,6 +64,18 @@ function NeoTable() {
             </TableRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination 
+              rowsPerPageOptions={[20, 50]}
+              rowsPerPage={rowsPerPage}
+              count={totalRows / rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={(e) => handleChangeRowsPerPage(e.target.value)}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   )

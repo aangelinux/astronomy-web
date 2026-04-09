@@ -21,14 +21,22 @@ function NeoTable() {
     fetchNeos()
   }, [])
 
+  useEffect(() => {
+    async function fetchNeos() {
+      const limit = rowsPerPage
+      const offset = rowsPerPage * page
+      const data = await filterNeos(limit, offset)
+      setNeos(data)
+    }
+    fetchNeos()
+  }, [page, rowsPerPage])
+
   const handleChangePage = () => {
     setPage(prevPage => prevPage + 1)
-    console.log('Page: ', page)
   }
 
   const handleChangeRowsPerPage = (value) => {
     setRowsPerPage(value)
-    console.log('Rows: ', rowsPerPage)
   }
 
   const tableHeadStyles = {
@@ -60,7 +68,7 @@ function NeoTable() {
               <TableCell>{neo.earth_moid_ld}</TableCell>
               <TableCell>{neo.magnitude}</TableCell>
               <TableCell>{neo.rotation_hours}</TableCell>
-              <TableCell>{neo.pot_hazardous_asteroid}</TableCell>
+              <TableCell>{(neo.pot_hazardous_asteroid).toString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>

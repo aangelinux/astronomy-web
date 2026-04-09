@@ -1,5 +1,5 @@
 /**
- * Express server for OAuth authorization.
+ * Express server for the Astronomy Dashboard.
  */
 
 import express from 'express'

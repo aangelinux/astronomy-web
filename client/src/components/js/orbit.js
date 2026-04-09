@@ -2,54 +2,62 @@
  * Renders a 3D view of an orbit using three.js.
  */
 
-import * as three from 'three'
+import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 
-export const orbit = (container, rawOrbitData) => {
-  if (!rawOrbitData) return
-
-  const renderer = new three.WebGLRenderer({ antialias: true })
+export function setup(container) {
   const width = container.clientWidth
   const height = container.clientHeight
 
+  const renderer = new THREE.WebGLRenderer({ antialias: true })
   renderer.setSize(width, height)
   container.appendChild(renderer.domElement)
 
   const camera = createCamera(width, height, renderer)
+  const controls = createOrbitControls(camera, renderer)
   const scene = createScene()
   const neo = createNeo(scene)
   const earth = createEarth(scene)
-  const orbitData = calculate(rawOrbitData)
 
-  createOrbit(scene, orbitData)
-  animateNeo({ orbitData, neo, renderer, scene, camera })
+  return { renderer, camera, controls, scene, neo, earth }
+}
 
-  // Cleanup
-  return () => {
-    neo.dispose()
-    earth.dispose()
-    renderer.dispose()
-    scene.removeFromParent()
-    camera.removeFromParent()
-    container.removeChild(renderer.domElement)
-  }
+export function renderOrbit(data, setup) {
+  if (!data) return
+  
+  const orbitData = calculate(data)
+  const animation = animateNeo(orbitData, setup)
+  createOrbit(orbitData, setup.scene)
+
+  return () => animation?.() // Stops animation, if running
+}
+
+export function cleanup({ renderer, controls, neo, earth }, container) {
+  renderer.dispose()
+  controls.dispose()
+  neo.material.dispose()
+  earth.material.dispose()
+
+  container.removeChild(renderer.domElement)
 }
 
 
 function createCamera(width, height, renderer) {
-  const camera = new three.PerspectiveCamera(75, width / height, 0.1, 1000)
+  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
   camera.position.y = 2
   camera.position.x = 2
   camera.position.z = 2
 
-  new OrbitControls(camera, renderer.domElement)
-
   return camera
 }
 
+function createOrbitControls(camera, renderer) {
+  return new OrbitControls(camera, renderer.domElement)
+}
+
 function createScene() {
-  const scene = new three.Scene()
-  const texture = new three.TextureLoader()
+  const scene = new THREE.Scene()
+  const texture = new THREE.TextureLoader()
   const starsTexture = texture.load('/assets/stars.jpg')
 
   scene.background = starsTexture
@@ -59,12 +67,12 @@ function createScene() {
 }
 
 function createNeo(scene) {
-  const texture = new three.TextureLoader()
+  const texture = new THREE.TextureLoader()
   const neoTexture = texture.load('/assets/haumea.jpg')
 
-  const neoGeometry = new three.SphereGeometry(0.1, 16, 16)
-  const neoMaterial = new three.MeshBasicMaterial({ map: neoTexture })
-  const neo = new three.Mesh(neoGeometry, neoMaterial)
+  const neoGeometry = new THREE.SphereGeometry(0.1, 16, 16)
+  const neoMaterial = new THREE.MeshBasicMaterial({ map: neoTexture })
+  const neo = new THREE.Mesh(neoGeometry, neoMaterial)
 
   scene.add(neo)
 
@@ -72,31 +80,31 @@ function createNeo(scene) {
 }
 
 function createEarth(scene) {
-  const texture = new three.TextureLoader()
+  const texture = new THREE.TextureLoader()
   const earthTexture = texture.load('/assets/earth.jpg')
 
-  const earthGeometry = new three.SphereGeometry(.4, 32, 32)
-  const earthMaterial = new three.MeshBasicMaterial({ map: earthTexture })
-  const earth = new three.Mesh(earthGeometry, earthMaterial)
+  const earthGeometry = new THREE.SphereGeometry(.4, 32, 32)
+  const earthMaterial = new THREE.MeshBasicMaterial({ map: earthTexture })
+  const earth = new THREE.Mesh(earthGeometry, earthMaterial)
 
   scene.add(earth)
 
   return earth
 }
 
-function calculate(orbitData) {
+function calculate(data) {
   const { axis_au, eccentricity, inclination_deg,
-    node_deg, peri_deg, mean_anomaly_deg } = orbitData
+    node_deg, peri_deg, mean_anomaly_deg } = data
 
   // Calculate minor axis from major axis & eccentricity
   const majorAxis = axis_au
   const minorAxis = majorAxis * Math.sqrt(1 - eccentricity * eccentricity)
 
   // Convert other values from degrees to radians
-  const inclination = three.MathUtils.degToRad(inclination_deg)
-  const node = three.MathUtils.degToRad(node_deg)
-  const perihelon = three.MathUtils.degToRad(peri_deg)
-  const meanAnomaly = three.MathUtils.degToRad(mean_anomaly_deg)
+  const inclination = THREE.MathUtils.degToRad(inclination_deg)
+  const node = THREE.MathUtils.degToRad(node_deg)
+  const perihelon = THREE.MathUtils.degToRad(peri_deg)
+  const meanAnomaly = THREE.MathUtils.degToRad(mean_anomaly_deg)
 
   return {
     majorAxis, minorAxis, eccentricity,
@@ -104,7 +112,7 @@ function calculate(orbitData) {
   }
 }
 
-function createOrbit(scene, orbitData) {
+function createOrbit(orbitData, scene) {
   const { majorAxis, minorAxis, eccentricity, 
     inclination, node, perihelon } = orbitData
 
@@ -115,12 +123,12 @@ function createOrbit(scene, orbitData) {
     const x = majorAxis * Math.cos(E) - majorAxis * eccentricity
     const z = minorAxis * Math.sin(E)
 
-    points.push(new three.Vector3(x, 0, z))
+    points.push(new THREE.Vector3(x, 0, z))
   }
 
-  const orbitGeometry = new three.BufferGeometry().setFromPoints(points)
-  const orbitMaterial = new three.LineBasicMaterial({ color: 0xffffff })
-  const orbit = new three.Line(orbitGeometry, orbitMaterial)
+  const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points)
+  const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff })
+  const orbit = new THREE.Line(orbitGeometry, orbitMaterial)
   orbit.rotation.z = node
   orbit.rotation.x = inclination
   orbit.rotation.z += perihelon
@@ -128,28 +136,30 @@ function createOrbit(scene, orbitData) {
   scene.add(orbit)
 }
 
-function animateNeo({ orbitData, neo, renderer, scene, camera }) {
+function animateNeo(orbitData, setup) {
   const { majorAxis, minorAxis, eccentricity,
     inclination, node, perihelon, meanAnomaly } = orbitData
+  const { neo, renderer, scene, camera } = setup
 
+  let animationFrame
   let animatedMeanAnomaly = meanAnomaly
   const animate = () => {
-    requestAnimationFrame(animate)
+    animationFrame = requestAnimationFrame(animate)
     animatedMeanAnomaly += 0.01
 
     const kepler = solveKepler(animatedMeanAnomaly, eccentricity)
     const x = majorAxis * Math.cos(kepler) - majorAxis * eccentricity
     const z = minorAxis * Math.sin(kepler)
-
     neo.position.set(x, 0, z)
-    neo.position.applyAxisAngle(new three.Vector3(0, 0, 1), node)
-    neo.position.applyAxisAngle(new three.Vector3(1, 0, 0), inclination)
-    neo.position.applyAxisAngle(new three.Vector3(0, 0, 1), perihelon)
+    neo.position.applyAxisAngle(new THREE.Vector3(0, 0, 1), node)
+    neo.position.applyAxisAngle(new THREE.Vector3(1, 0, 0), inclination)
+    neo.position.applyAxisAngle(new THREE.Vector3(0, 0, 1), perihelon)
 
     renderer.render(scene, camera)
   }
-
   animate()
+
+  return () => cancelAnimationFrame(animationFrame)
 }
 
 function solveKepler(meanAnomaly, eccentricity, iterations = 5) {

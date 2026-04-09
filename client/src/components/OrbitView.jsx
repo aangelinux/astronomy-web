@@ -5,14 +5,22 @@
 import { useEffect, useRef } from 'react'
 import { useAppContext } from '../context.jsx'
 import { Box } from '@mui/material'
-import { orbit } from './js/orbit.js'
+import { setup, renderOrbit, cleanup } from './js/orbit.js'
 
 function OrbitView() {
   const { neoData } = useAppContext()
-  const orbitRef = useRef()
+  const containerRef = useRef(null)
+  const setupRef = useRef({})
 
   useEffect(() => {
-    if (!orbitRef.current) return
+    const container = containerRef.current
+    setupRef.current = setup(container)
+
+    return () => cleanup(setupRef.current, container)
+  }, [])
+
+  useEffect(() => {
+    if (!setupRef.current || !(Object.keys(neoData)?.length)) return
 
     const orbitData = {
       eccentricity: 0.7202,
@@ -22,9 +30,9 @@ function OrbitView() {
       peri_deg: 347.63,
       mean_anomaly_deg: 46.69
     }
-    const cleanup = orbit(orbitRef.current, orbitData)
+    const animation = renderOrbit(orbitData, setupRef.current)
 
-    return () => cleanup && cleanup()
+    return () => animation?.() // Cancels current animation
   }, [neoData])
 
   return (
@@ -38,7 +46,7 @@ function OrbitView() {
       </h2>
 
       <Box
-        ref={orbitRef}
+        ref={containerRef}
         sx={{
           border: '2px solid white',
           height: 400,

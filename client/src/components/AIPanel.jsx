@@ -5,23 +5,29 @@
 import { Box, Card, CardContent } from '@mui/material'
 import { useAppContext } from '../context.jsx'
 import { useState, useEffect } from 'react'
-import { fetchGenAI } from '../api/genai.js'
+import { fetchAIResponse } from '../api/genai.js'
 
 function AIPanel() {
   const { neoData } = useAppContext()
   const [description, setDescription] = useState("")
 
   useEffect(() => {
-    // const fetchDescription = async () => {
-    // 	const text = await fetchGenAI(neoData)
-    // 	setDescription(text)
+    if (!(Object.keys(neoData)?.length)) return
+  
+    // async function fetchDescription() {
+    //   try {
+    //     const response = await fetchAIResponse(neoData)
+    //     setDescription(response)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
     // }
     // fetchDescription()
   }, [neoData])
 
   const card = (
     <CardContent>
-      AI generated description here ...
+      {description || 'AI generated content here ...'}
     </CardContent>
   )
 

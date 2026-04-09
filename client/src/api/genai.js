@@ -2,7 +2,7 @@
  * Fetches dynamic responses from a Gemini AI chatbot.
  */
 
-export async function fetchGenAI(input) {
+export async function fetchAIResponse(input) {
   const url = 'http://localhost:3001/genai'
   const res = await fetch(url, {
     method: 'POST',
@@ -16,8 +16,6 @@ export async function fetchGenAI(input) {
   if (!res.ok) {
     throw new Error(`Error fetching GenAI response: ${result.message}`)
   }
-
-  console.log(result)
 
   return result
 }

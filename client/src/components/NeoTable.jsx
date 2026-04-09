@@ -11,15 +11,7 @@ function NeoTable() {
   const [neos, setNeos] = useState([])
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(20)
-  const totalRows = 16000
-
-  useEffect(() => {
-    async function fetchNeos() {
-      const data = await filterNeos()
-      setNeos(data)
-    }
-    fetchNeos()
-  }, [])
+  const [totalRows, setTotalRows] = useState(16000) // Fix later
 
   useEffect(() => {
     async function fetchNeos() {
@@ -31,12 +23,13 @@ function NeoTable() {
     fetchNeos()
   }, [page, rowsPerPage])
 
-  const handleChangePage = () => {
-    setPage(prevPage => prevPage + 1)
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage)
   }
 
-  const handleChangeRowsPerPage = (value) => {
-    setRowsPerPage(value)
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
   }
 
   const tableHeadStyles = {
@@ -75,12 +68,12 @@ function NeoTable() {
         <TableFooter>
           <TableRow>
             <TablePagination 
-              rowsPerPageOptions={[20, 50]}
+              rowsPerPageOptions={[20, 50, { label: 'All', value: -1 }]}
               rowsPerPage={rowsPerPage}
-              count={totalRows / rowsPerPage}
+              count={totalRows}
               page={page}
               onPageChange={handleChangePage}
-              onRowsPerPageChange={(e) => handleChangeRowsPerPage(e.target.value)}
+              onRowsPerPageChange={(e) => handleChangeRowsPerPage(e)}
             />
           </TableRow>
         </TableFooter>

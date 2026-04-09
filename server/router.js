@@ -16,6 +16,7 @@ router.get('/auth/callback', async (req, res) => {
   const jwt = await authController.fetchJWT(user)
 
   authController.setCookie(req, res, jwt)
+  res.redirect('http://localhost:3002/dashboard')
 })
 
 router.post('/logout', authController.logout)

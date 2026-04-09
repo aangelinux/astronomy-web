@@ -109,8 +109,6 @@ export function setCookie(req, res, jwt) {
     secure: process.env.NODE_ENV === 'production',
     maxAge: 15 * 60 * 1000
   })
-
-  res.redirect('http://localhost:3002/dashboard')
 }
 
 export function logout(req, res) {

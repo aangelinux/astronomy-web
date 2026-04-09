@@ -19,9 +19,9 @@ export async function getResponse(req, res, next) {
       contents: `Generate a 4-5 sentences long, informative description of this 
         Near-Earth Object based on its attributes: ${attributes}.`,
     })
-    return res.send(200).json(response.text)
+    return res.status(200).json(response.text)
   } catch (error) {
-    console.log(error)
-    return res.send(error.code).json(error.message)
+    console.log(JSON.parse(error.message))
+    return res.sendStatus(error.status)
   }
 }

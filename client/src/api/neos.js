@@ -4,7 +4,7 @@
 
 const url = 'https://astronomy-api-production.up.railway.app/'
 
-export async function filterNeosBy(input) {
+export async function filterNeosBy(name) {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -13,10 +13,10 @@ export async function filterNeosBy(input) {
     },
     body: JSON.stringify({
       query:
-      `query Neos {
+        `query Neos {
 				neos(input: {
 					limit: 5,
-					name: "${input}"
+					name: "${name}"
 				}) {
 					neos {
 						name
@@ -43,7 +43,7 @@ export async function getNeoSpkid(name) {
     },
     body: JSON.stringify({
       query:
-      `query Neos {
+        `query Neos {
 				neos(input: { name: "${name}" }) {
 					neos {
 						spkid
@@ -70,7 +70,7 @@ export async function getNeoData(spkid) {
     },
     body: JSON.stringify({
       query:
-      `query Neo {
+        `query Neo {
 				neo(spkid: "${spkid}") {
 					spkid
 					name
@@ -107,7 +107,7 @@ export async function filterApproachesBy(decade) {
     },
     body: JSON.stringify({
       query:
-      `query Close_approaches {
+        `query Close_approaches {
 				close_approaches(input: { limit: 100, offset: ${decade} }) {
 					approaches {
 						spkid
@@ -127,4 +127,39 @@ export async function filterApproachesBy(decade) {
   }
 
   return result.data.close_approaches.approaches
+}
+
+export async function filterNeos(limit = 20, offset = 0) {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    },
+    body: JSON.stringify({
+      query:
+        `query Neos {
+				neos(input: {
+					limit: ${limit},
+					offset: ${offset}
+				}) {
+					neos {
+            spkid
+						name
+            earth_moid_ld
+            magnitude
+            rotation_hours
+            pot_hazardous_asteroid            
+					}
+				}
+			}`
+    })
+  })
+
+  const result = await res.json()
+  if (!res.ok) {
+    throw new Error('Error fetching NEO data: ', error.message)
+  }
+
+  return result.data.neos.neos
 }

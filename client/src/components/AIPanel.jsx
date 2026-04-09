@@ -13,15 +13,15 @@ function AIPanel() {
 
   useEffect(() => {
     if (!(Object.keys(neoData)?.length)) return
-    async function fetchDescription() {
-      try {
-        const response = await fetchAIResponse(neoData)
-        setDescription(response)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchDescription()
+    // async function fetchDescription() {
+    //   try {
+    //     const response = await fetchAIResponse(neoData)
+    //     setDescription(response)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
+    // fetchDescription()
   }, [neoData])
 
   const card = (

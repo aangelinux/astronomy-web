@@ -4,19 +4,22 @@
 
 import { TableContainer, Table, TableHead, TableBody, 
   TableRow, TablePagination, TableCell, Paper } from '@mui/material'
+import { filterNeos } from '../api/neos.js'
+import { useEffect, useState } from 'react'
 
 function NeoTable() {
-  const createData = (name, calories, fat, carbs, protein) => {
-    return { name, calories, fat, carbs, protein }
-  }
+  const [neos, setNeos] = useState([])
 
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ]
+  useEffect(() => {
+    if (!neos) return
+
+    async function fetchNeos() {
+      const data = await filterNeos()
+      setNeos(data)
+    }
+    fetchNeos()
+    console.log(neos)
+  }, [])
   
   return (
     <TableContainer component={Paper}>
@@ -25,24 +28,24 @@ function NeoTable() {
           <TableRow>
             <TableCell align='right'>Identifier</TableCell>
             <TableCell align='right'>Name</TableCell>
-            <TableCell align='right'>Attributes</TableCell>
-            <TableCell align='right'>Orbit</TableCell>
-            <TableCell align='right'>Approaches</TableCell>
+            <TableCell align='right'>Earth MOID</TableCell>
+            <TableCell align='right'>Magnitude</TableCell>
+            <TableCell align='right'>Rotation</TableCell>
+            <TableCell align='right'>PHA</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {neos.forEach((neo) => (
             <TableRow
-              key={row.name}
+              key={neo.spkid}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell component='th' scope='row'>{neo.spkid}</TableCell>
+              <TableCell align='right'>{neo.name}</TableCell>
+              <TableCell align='right'>{neo.earth_moid_ld}</TableCell>
+              <TableCell align='right'>{neo.magnitude}</TableCell>
+              <TableCell align='right'>{neo.rotation_hours}</TableCell>
+              <TableCell align='right'>{neo.pot_hazardous_asteroid}</TableCell>
             </TableRow>
           ))}
         </TableBody>

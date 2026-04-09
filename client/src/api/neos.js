@@ -14,15 +14,15 @@ export async function filterNeosBy(name) {
     body: JSON.stringify({
       query:
         `query Neos {
-				neos(input: {
-					limit: 5,
-					name: "${name}"
-				}) {
-					neos {
-						name
-					}
-				}
-			}`
+          neos(input: {
+            limit: 5,
+            name: "${name}"
+          }) {
+            neos {
+              name
+            }
+          }
+        }`
     })
   })
 
@@ -44,12 +44,12 @@ export async function getNeoSpkid(name) {
     body: JSON.stringify({
       query:
         `query Neos {
-				neos(input: { name: "${name}" }) {
-					neos {
-						spkid
-					}
-				}
-			}`
+          neos(input: { name: "${name}" }) {
+            neos {
+              spkid
+            }
+          }
+        }`
     })
   })
 
@@ -71,21 +71,21 @@ export async function getNeoData(spkid) {
     body: JSON.stringify({
       query:
         `query Neo {
-				neo(spkid: "${spkid}") {
-					spkid
-					name
-					earth_moid_ld
-					magnitude
-					rotation_hours
-					pot_hazardous_asteroid
-					close_approaches {
-						date
-						minimum_distance_km
-						relative_velocity_km_s
-						rarity
-					}
-				}
-			}`
+          neo(spkid: "${spkid}") {
+            spkid
+            name
+            earth_moid_ld
+            magnitude
+            rotation_hours
+            pot_hazardous_asteroid
+            close_approaches {
+              date
+              minimum_distance_km
+              relative_velocity_km_s
+              rarity
+            }
+          }
+        }`
     })
   })
 
@@ -108,16 +108,16 @@ export async function filterApproachesBy(decade) {
     body: JSON.stringify({
       query:
         `query Close_approaches {
-				close_approaches(input: { limit: 100, offset: ${decade} }) {
-					approaches {
-						spkid
-						date
-						minimum_distance_km
-						relative_velocity_km_s
-						rarity
-					}
-				}
-			}`
+          close_approaches(input: { limit: 100, offset: ${decade} }) {
+            approaches {
+              spkid
+              date
+              minimum_distance_km
+              relative_velocity_km_s
+              rarity
+            }
+          }
+        }`
     })
   })
 
@@ -139,20 +139,20 @@ export async function filterNeos(limit = 20, offset = 0) {
     body: JSON.stringify({
       query:
         `query Neos {
-				neos(input: {
-					limit: ${limit},
-					offset: ${offset}
-				}) {
-					neos {
-            spkid
-						name
-            earth_moid_ld
-            magnitude
-            rotation_hours
-            pot_hazardous_asteroid            
-					}
-				}
-			}`
+          neos(input: {
+            limit: ${limit},
+            offset: ${offset}
+          }) {
+            neos {
+              spkid
+              name
+              earth_moid_ld
+              magnitude
+              rotation_hours
+              pot_hazardous_asteroid
+            }
+          }
+        }`
     })
   })
 

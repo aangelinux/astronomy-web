@@ -1,0 +1,29 @@
+@font-face {
+	font-family: GoogleSans;
+	src: url(../../assets/GoogleSans-VariableFont_GRAD\,opsz\,wght.ttf);
+}
+
+.page {
+	font-family: GoogleSans;
+  display: grid;
+  grid-template-areas:
+    "nav"
+    "header"
+    "table";
+  min-height: 100vh;
+  padding: 10px;
+  color: white;
+}
+
+.nav {
+  grid-area: nav;
+}
+
+.header {
+  grid-area: header;
+  justify-self: center;
+}
+
+.table {
+  grid-area: table;
+}

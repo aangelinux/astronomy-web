@@ -10,15 +10,17 @@ import { useEffect, useState } from 'react'
 function NeoTable() {
   const [neos, setNeos] = useState([])
 
-  useEffect(() => {
-    if (!neos) return
+  const tableHead = {
+    fontFamily: 'GoogleSans',
+    fontWeight: 'bolder'
+  }
 
+  useEffect(() => {
     async function fetchNeos() {
       const data = await filterNeos()
       setNeos(data)
     }
     fetchNeos()
-    console.log(neos)
   }, [])
   
   return (
@@ -26,26 +28,26 @@ function NeoTable() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell align='right'>Identifier</TableCell>
-            <TableCell align='right'>Name</TableCell>
-            <TableCell align='right'>Earth MOID</TableCell>
-            <TableCell align='right'>Magnitude</TableCell>
-            <TableCell align='right'>Rotation</TableCell>
-            <TableCell align='right'>PHA</TableCell>
+            <TableCell style={tableHead}>Identifier</TableCell>
+            <TableCell style={tableHead}>Name</TableCell>
+            <TableCell style={tableHead}>Earth MOID</TableCell>
+            <TableCell style={tableHead}>Magnitude</TableCell>
+            <TableCell style={tableHead}>Rotation</TableCell>
+            <TableCell style={tableHead}>PHA</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {neos.forEach((neo) => (
+          {neos.map((neo) => (
             <TableRow
               key={neo.spkid}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component='th' scope='row'>{neo.spkid}</TableCell>
-              <TableCell align='right'>{neo.name}</TableCell>
-              <TableCell align='right'>{neo.earth_moid_ld}</TableCell>
-              <TableCell align='right'>{neo.magnitude}</TableCell>
-              <TableCell align='right'>{neo.rotation_hours}</TableCell>
-              <TableCell align='right'>{neo.pot_hazardous_asteroid}</TableCell>
+              <TableCell>{neo.name}</TableCell>
+              <TableCell>{neo.earth_moid_ld}</TableCell>
+              <TableCell>{neo.magnitude}</TableCell>
+              <TableCell>{neo.rotation_hours}</TableCell>
+              <TableCell>{neo.pot_hazardous_asteroid}</TableCell>
             </TableRow>
           ))}
         </TableBody>

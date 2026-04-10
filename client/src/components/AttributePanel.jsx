@@ -30,7 +30,7 @@ function AttributePanel() {
   }
 
   const card = (
-    <CardContent>
+    <CardContent sx={{ height: 225 }}>
       <Typography variant='h6' sx={{
         fontFamily: 'GoogleSans',
         fontWeight: 'bold',
@@ -51,14 +51,13 @@ function AttributePanel() {
 
   return (
     <Box sx={{
-      minWidth: 225,
       boxShadow: 1,
       fontFamily: 'GoogleSans',
       fontSize: '.95rem',
       textAlign: 'center',
       letterSpacing: 1,
       lineHeight: .8,
-      listStyleType: 'none',
+      listStyleType: 'none'
     }}>
       <Card variant="outlined">{card}</Card>
     </Box>

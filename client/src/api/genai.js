@@ -12,10 +12,15 @@ export async function fetchAIResponse(input) {
     body: JSON.stringify(input)
   })
 
-  const result = await res.json()
   if (!res.ok) {
-    throw new Error(`Error fetching GenAI: ${result.message}`)
+    const errors = {
+      503: 'Model is temporarily unavailable due to high demand. Please try again later.',
+      429: 'Rate limit exceeded. Please limit requests to 5 per minute and 20 per day.'
+    }
+    return errors[res.status]
   }
+
+  const result = await res.json()
 
   return result
 }

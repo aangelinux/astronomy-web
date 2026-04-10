@@ -41,10 +41,10 @@ export async function fetchAccessToken(req, res) {
       'Accept': 'application/json'
     }
   })
-  const result = await response.json()
   if (!response.ok) {
     throw new Error('Error fetching user data ', error.message)
   }
+  const result = await response.json()
   const accessToken = result.access_token
 
   return accessToken
@@ -59,10 +59,10 @@ export async function fetchUserData(token) {
       Authorization: `Bearer ${token}`,
     },
   })
-  const result = await response.json()
   if (!response.ok) {
     throw new Error('Error fetching user data ', error.message)
   }
+  const result = await response.json()
 
   return {
     username: result.email || result.id,
@@ -94,10 +94,10 @@ export async function fetchJWT({ username, provider, providerID }) {
     }),
   })
 
-  const result = await response.json()
   if (!response.ok) {
     throw new Error('Error fetching user data ', error.message)
   }
+  const result = await response.json()
   const jwt = result.data.loginOAuth.token
 
   return jwt

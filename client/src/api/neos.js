@@ -26,10 +26,10 @@ export async function filterNeosBy(name) {
     })
   })
 
-  const result = await res.json()
   if (!res.ok) {
     throw new Error('Error fetching NEO data: ', error.message)
   }
+  const result = await res.json()
 
   return result.data.neos.neos
 }
@@ -53,10 +53,10 @@ export async function getNeoSpkid(name) {
     })
   })
 
-  const result = await res.json()
   if (!res.ok) {
     throw new Error('Error fetching NEO spkid: ', error.message)
   }
+  const result = await res.json()
 
   return result.data.neos.neos[0].spkid
 }
@@ -89,10 +89,10 @@ export async function getNeoData(spkid) {
     })
   })
 
-  const result = await res.json()
   if (!res.ok) {
     throw new Error('Error fetching NEO data: ', error.message)
   }
+  const result = await res.json()
 
   return result.data.neo
 }
@@ -121,10 +121,10 @@ export async function filterApproachesBy(decade) {
     })
   })
 
-  const result = await res.json()
   if (!res.ok) {
     throw new Error('Error fetching Close Approach data: ', error.message)
   }
+  const result = await res.json()
 
   return result.data.close_approaches.approaches
 }
@@ -156,10 +156,10 @@ export async function filterNeos(limit = 20, offset = 0) {
     })
   })
 
-  const result = await res.json()
   if (!res.ok) {
     throw new Error('Error fetching NEO data: ', error.message)
   }
+  const result = await res.json()
 
   return result.data.neos.neos
 }

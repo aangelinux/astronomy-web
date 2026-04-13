@@ -50,11 +50,7 @@ function ApproachTimeline() {
   }
 
   const textFieldStyle = {
-    marginLeft: 5,
-    input: { 
-      color: 'white', 
-      height: 10,
-    },
+    input: { color: 'white' },
     label: { 
       color: 'white',
       fontFamily: 'GoogleSans',
@@ -73,23 +69,29 @@ function ApproachTimeline() {
     <div>
       <h2 style={{ textAlign: 'center' }}>Close Approaches: Timeline</h2>
 
-      <Button variant="outlined" onClick={() => handleClick('prev')} sx={{ margin: 2 }}>
-        <ArrowLeft />
-        <Typography sx={{ textAlign: 'center' }}>Prev</Typography>
-      </Button>
-
-      <Button variant="outlined" onClick={() => handleClick('next')}>
-        <Typography sx={{ textAlign: 'center' }}>Next</Typography>
-        <ArrowRight />
-      </Button>
-
-      <TextField 
-        label="Select Year ..." color="secondary" sx={textFieldStyle}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <Button variant="outlined" onClick={handleSubmit} sx={{ margin: 2 }}>
-        Select Year
-      </Button>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '20px',
+      }}>
+        <Button variant="outlined" onClick={() => handleClick('prev')}>
+          <ArrowLeft />
+          <Typography sx={{ textAlign: 'center' }}>Prev</Typography>
+        </Button>
+        <Button variant="outlined" onClick={() => handleClick('next')}>
+          <Typography sx={{ textAlign: 'center' }}>Next</Typography>
+          <ArrowRight />
+        </Button>
+        <TextField 
+          label="Select Year ..." color="secondary" sx={textFieldStyle}
+          onChange={(e) => setInput(e.target.value)}
+          size="small"
+        />
+        <Button variant="outlined" onClick={handleSubmit}>
+          Select Year
+        </Button>
+      </div>
 
       <svg ref={svgRef}></svg>
       {hoverData && (
@@ -112,6 +114,7 @@ function ApproachTimeline() {
           <p>Rarity: {hoverData.data.rarity}</p>
         </div>
       )}
+
     </div>
   )
 }

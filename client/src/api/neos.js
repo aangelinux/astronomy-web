@@ -78,6 +78,14 @@ export async function getNeoData(spkid) {
             magnitude
             rotation_hours
             pot_hazardous_asteroid
+            orbit {
+              eccentricity
+              axis_au
+              inclination_deg
+              node_deg
+              peri_deg
+              mean_anomaly_deg
+            }
             close_approaches {
               date
               minimum_distance_km

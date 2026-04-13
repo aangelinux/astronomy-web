@@ -22,14 +22,7 @@ function OrbitView() {
   useEffect(() => {
     if (!setupRef.current || !(Object.keys(neoData)?.length)) return
 
-    const orbitData = {
-      eccentricity: 0.7202,
-      axis_au: 3.49,
-      inclination_deg: 6.8,
-      node_deg: 13.75,
-      peri_deg: 347.63,
-      mean_anomaly_deg: 46.69
-    }
+    const orbitData = neoData.orbit
     const animation = renderOrbit(orbitData, setupRef.current)
 
     return () => animation?.() // Cancels current animation

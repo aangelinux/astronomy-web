@@ -19,20 +19,22 @@ export function setup(container) {
   const neo = createNeo(scene)
   const earth = createEarth(scene)
 
-  return { renderer, camera, controls, scene, neo, earth }
+  return { renderer, camera, controls, scene, neo, earth, orbit: null }
 }
 
 export function renderOrbit(data, setup) {
   if (!data) return
+  if (setup.orbit) setup.orbit.removeFromParent()
   
   const orbitData = calculate(data)
   const animation = animateNeo(orbitData, setup)
-  createOrbit(orbitData, setup.scene)
+  setup.orbit = createOrbit(orbitData, setup.scene)
 
   return () => animation?.() // Stops animation, if running
 }
 
-export function cleanup({ renderer, controls, neo, earth }, container) {
+export function cleanup({ renderer, controls, neo, earth, orbit }, container) {
+  orbit = null
   renderer.dispose()
   controls.dispose()
   neo.material.dispose()
@@ -134,6 +136,8 @@ function createOrbit(orbitData, scene) {
   orbit.rotation.z += perihelon
 
   scene.add(orbit)
+
+  return orbit
 }
 
 function animateNeo(orbitData, setup) {

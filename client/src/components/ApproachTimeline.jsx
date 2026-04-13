@@ -12,40 +12,34 @@ import { chart } from './js/timeline.js'
 
 function ApproachTimeline() {
   const { neoData } = useAppContext()
-  const [decade, setDecade] = useState(0) // Change to 1900 later
-  const [approaches, setApproaches] = useState([])
+  const [year, setYear] = useState(1900)
   const [hoverData, setHoverData] = useState(null)
   const svgRef = useRef()
 
   useEffect(() => {
     async function fetchApproaches() {
-      const data = await filterApproachesBy(decade)
-      setApproaches(data)
+      const yearString = `${year.toString()}-`
+      const data = await filterApproachesBy(yearString)
+      if (!data?.length) return
+      chart(svgRef.current, data, setHoverData)
     }
     fetchApproaches()
-  }, [decade])
-
-  useEffect(() => {
-    if (!approaches.length) return
-    chart(svgRef.current, approaches, setHoverData)
-  }, [approaches])
+  }, [year])
 
   useEffect(() => {
     if (!neoData?.close_approaches?.length) return
 
     const date = new Date(neoData.close_approaches[0].date)
     const year = date.getFullYear()
-    const decade = Math.floor(year / 10) * 10
-    setDecade(decade)
+    setYear(year)
   }, [neoData])
 
   const handleClick = (direction) => {
-    // Change to real decades later
-    if (direction === 'next' && decade < 1500) {
-      setDecade(prevDecade => prevDecade + 100)
+    if (direction === 'next' && year < 2026) {
+      setYear(prevYear => prevYear + 1)
     }
-    if (direction === 'prev' && decade > 0) {
-      setDecade(prevDecade => prevDecade - 100)
+    if (direction === 'prev' && year > 0) {
+      setYear(prevYear => prevYear - 1)
     }
   }
 

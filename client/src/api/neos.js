@@ -105,8 +105,7 @@ export async function getNeoData(spkid) {
   return result.data.neo
 }
 
-export async function filterApproachesBy(decade) {
-  // Fix decade filtering later
+export async function filterApproachesBy(year) {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -116,7 +115,7 @@ export async function filterApproachesBy(decade) {
     body: JSON.stringify({
       query:
         `query Close_approaches {
-          close_approaches(input: { limit: 100, offset: ${decade} }) {
+          close_approaches(input: { date: "${year}", limit: 1200 }) {
             approaches {
               spkid
               date

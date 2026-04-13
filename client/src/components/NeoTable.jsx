@@ -59,8 +59,8 @@ function NeoTable() {
               <TableCell component='th' scope='row'>{neo.spkid}</TableCell>
               <TableCell>{neo.name}</TableCell>
               <TableCell>{neo.earth_moid_ld}</TableCell>
-              <TableCell>{neo.magnitude}</TableCell>
-              <TableCell>{neo.rotation_hours}</TableCell>
+              <TableCell>{neo.magnitude || 'N/A'}</TableCell>
+              <TableCell>{neo.rotation_hours || 'N/A'}</TableCell>
               <TableCell>{(neo.pot_hazardous_asteroid).toString()}</TableCell>
             </TableRow>
           ))}

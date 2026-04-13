@@ -107,7 +107,8 @@ function renderXAxis(svg, height, x) {
     .attr("transform", `translate(0, ${height / 2})`)
     .call(d3.axisBottom(x)
       .ticks(d3.utcMonth.every(3))
-      .tickFormat(d => d <= d3.utcYear(d) ? d.getUTCFullYear() : null))
+      .tickFormat(d => d.toLocaleString('en-US', 
+        { month: 'long', year: 'numeric' })))
     .call(g => g.selectAll(".tick line")
       .remove())
     .call(g => g.selectAll(".tick text")

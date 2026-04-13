@@ -13,13 +13,15 @@ export function setup(container) {
   renderer.setSize(width, height)
   container.appendChild(renderer.domElement)
 
-  const camera = createCamera(width, height, renderer)
+  const camera = createCamera(width, height)
   const controls = createOrbitControls(camera, renderer)
+  const timer = createTimer()
   const scene = createScene()
   const neo = createNeo(scene)
   const earth = createEarth(scene)
 
-  return { renderer, camera, controls, scene, neo, earth, orbit: null }
+  return { renderer, camera, controls, timer, scene, 
+    neo, earth, orbit: null }
 }
 
 export function renderOrbit(data, setup) {
@@ -33,10 +35,13 @@ export function renderOrbit(data, setup) {
   return () => animation?.() // Stops animation, if running
 }
 
-export function cleanup({ renderer, controls, neo, earth, orbit }, container) {
+export function cleanup(setup, container) {
+  const { orbit, renderer, controls, timer, neo, earth } = setup
+
   orbit = null
   renderer.dispose()
   controls.dispose()
+  timer.dispose()
   neo.material.dispose()
   earth.material.dispose()
 
@@ -44,17 +49,19 @@ export function cleanup({ renderer, controls, neo, earth, orbit }, container) {
 }
 
 
-function createCamera(width, height, renderer) {
+function createCamera(width, height) {
   const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
-  camera.position.y = 2
-  camera.position.x = 2
-  camera.position.z = 2
+  camera.position.set(2, 2, 2)
 
   return camera
 }
 
 function createOrbitControls(camera, renderer) {
   return new OrbitControls(camera, renderer.domElement)
+}
+
+function createTimer() {
+  return new THREE.Timer()
 }
 
 function createScene() {
@@ -72,7 +79,7 @@ function createNeo(scene) {
   const texture = new THREE.TextureLoader()
   const neoTexture = texture.load('/assets/haumea.jpg')
 
-  const neoGeometry = new THREE.SphereGeometry(0.1, 16, 16)
+  const neoGeometry = new THREE.SphereGeometry(.1, 16, 16)
   const neoMaterial = new THREE.MeshBasicMaterial({ map: neoTexture })
   const neo = new THREE.Mesh(neoGeometry, neoMaterial)
 
@@ -85,7 +92,7 @@ function createEarth(scene) {
   const texture = new THREE.TextureLoader()
   const earthTexture = texture.load('/assets/earth.jpg')
 
-  const earthGeometry = new THREE.SphereGeometry(.4, 32, 32)
+  const earthGeometry = new THREE.SphereGeometry(.2, 32, 32)
   const earthMaterial = new THREE.MeshBasicMaterial({ map: earthTexture })
   const earth = new THREE.Mesh(earthGeometry, earthMaterial)
 
@@ -108,15 +115,20 @@ function calculate(data) {
   const perihelon = THREE.MathUtils.degToRad(peri_deg)
   const meanAnomaly = THREE.MathUtils.degToRad(mean_anomaly_deg)
 
+  // Create a rotation matrix for orbit and NEO-animation
+  const rotationMatrix = new THREE.Matrix4()
+    .makeRotationZ(node)
+    .multiply(new THREE.Matrix4().makeRotationX(inclination))
+    .multiply(new THREE.Matrix4().makeRotationZ(perihelon))
+
   return {
     majorAxis, minorAxis, eccentricity,
-    inclination, node, perihelon, meanAnomaly
+    rotationMatrix, meanAnomaly
   }
 }
 
 function createOrbit(orbitData, scene) {
-  const { majorAxis, minorAxis, eccentricity, 
-    inclination, node, perihelon } = orbitData
+  const { majorAxis, minorAxis, eccentricity, rotationMatrix } = orbitData
 
   const points = []
   const segments = 200
@@ -131,9 +143,7 @@ function createOrbit(orbitData, scene) {
   const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points)
   const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff })
   const orbit = new THREE.Line(orbitGeometry, orbitMaterial)
-  orbit.rotation.z = node
-  orbit.rotation.x = inclination
-  orbit.rotation.z += perihelon
+  orbit.applyMatrix4(rotationMatrix)
 
   scene.add(orbit)
 
@@ -141,23 +151,28 @@ function createOrbit(orbitData, scene) {
 }
 
 function animateNeo(orbitData, setup) {
-  const { majorAxis, minorAxis, eccentricity,
-    inclination, node, perihelon, meanAnomaly } = orbitData
-  const { neo, renderer, scene, camera } = setup
+  const { majorAxis, minorAxis, eccentricity, 
+    meanAnomaly, rotationMatrix } = orbitData
+  const { neo, renderer, scene, camera, timer } = setup
 
   let animationFrame
   let animatedMeanAnomaly = meanAnomaly
   const animate = () => {
     animationFrame = requestAnimationFrame(animate)
-    animatedMeanAnomaly += 0.01
+
+    timer.update()
+    const speed = .5
+    const deltaTime = timer.getDelta()
+    animatedMeanAnomaly += speed * deltaTime
+    animatedMeanAnomaly %= Math.PI * 2 // Clamp to avoid large values
 
     const kepler = solveKepler(animatedMeanAnomaly, eccentricity)
     const x = majorAxis * Math.cos(kepler) - majorAxis * eccentricity
     const z = minorAxis * Math.sin(kepler)
-    neo.position.set(x, 0, z)
-    neo.position.applyAxisAngle(new THREE.Vector3(0, 0, 1), node)
-    neo.position.applyAxisAngle(new THREE.Vector3(1, 0, 0), inclination)
-    neo.position.applyAxisAngle(new THREE.Vector3(0, 0, 1), perihelon)
+    const position = new THREE.Vector3(x, 0, z)
+      .applyMatrix4(rotationMatrix)
+
+    neo.position.copy(position)
 
     renderer.render(scene, camera)
   }
@@ -166,10 +181,14 @@ function animateNeo(orbitData, setup) {
   return () => cancelAnimationFrame(animationFrame)
 }
 
-function solveKepler(meanAnomaly, eccentricity, iterations = 5) {
-  let kepler = meanAnomaly
+function solveKepler(meanAnomaly, eccentricity, iterations = 10) {
+  let kepler = eccentricity < 0.8
+    ? meanAnomaly
+    : Math.PI
+
   for (let i = 0; i < iterations; i++) {
-    kepler = meanAnomaly + eccentricity * Math.sin(kepler)
+    kepler = kepler - (kepler - eccentricity * Math.sin(kepler) - meanAnomaly) /
+      (1 - eccentricity * Math.cos(kepler))
   }
 
   return kepler

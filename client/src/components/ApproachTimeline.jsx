@@ -5,13 +5,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAppContext } from '../context.jsx'
 import { filterApproachesBy } from '../api/neos.js'
-import { Button, Typography } from '@mui/material'
+import { Button, TextField, Typography } from '@mui/material'
 import ArrowRight from '@mui/icons-material/ArrowRight'
 import ArrowLeft from '@mui/icons-material/ArrowLeft'
 import { chart } from './js/timeline.js'
 
 function ApproachTimeline() {
   const { neoData } = useAppContext()
+  const [input, setInput] = useState(null)
   const [year, setYear] = useState(1900)
   const [hoverData, setHoverData] = useState(null)
   const svgRef = useRef()
@@ -43,6 +44,31 @@ function ApproachTimeline() {
     }
   }
 
+  const handleSubmit = () => {
+    const inputYear = new Date(input).getFullYear()
+    if (inputYear) setYear(inputYear)
+  }
+
+  const textFieldStyle = {
+    marginLeft: 5,
+    input: { 
+      color: 'white', 
+      height: 10,
+    },
+    label: { 
+      color: 'white',
+      fontFamily: 'GoogleSans',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'whitesmoke',
+      },
+      '&:hover fieldset': {
+        borderColor: 'white',
+      },
+    },
+  }
+
   return (
     <div>
       <h2 style={{ textAlign: 'center' }}>Close Approaches: Timeline</h2>
@@ -55,6 +81,14 @@ function ApproachTimeline() {
       <Button variant="outlined" onClick={() => handleClick('next')}>
         <Typography sx={{ textAlign: 'center' }}>Next</Typography>
         <ArrowRight />
+      </Button>
+
+      <TextField 
+        label="Select Year ..." color="secondary" sx={textFieldStyle}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <Button variant="outlined" onClick={handleSubmit} sx={{ margin: 2 }}>
+        Select Year
       </Button>
 
       <svg ref={svgRef}></svg>

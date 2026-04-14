@@ -8,24 +8,15 @@ import { filterApproachesBy } from '../api/neos.js'
 import { Button, TextField, Typography } from '@mui/material'
 import ArrowRight from '@mui/icons-material/ArrowRight'
 import ArrowLeft from '@mui/icons-material/ArrowLeft'
-import { chart } from './js/timeline.js'
+import { chart, toggleActive } from './js/timeline.js'
 
 function ApproachTimeline() {
   const { neoData } = useAppContext()
   const [input, setInput] = useState(null)
   const [year, setYear] = useState(1900)
   const [hoverData, setHoverData] = useState(null)
+  const [datapoints, setDatapoints] = useState(null)
   const svgRef = useRef()
-
-  useEffect(() => {
-    async function fetchApproaches() {
-      const yearString = `${year.toString()}-`
-      const data = await filterApproachesBy(yearString)
-      if (!data?.length) return
-      chart(svgRef.current, data, setHoverData)
-    }
-    fetchApproaches()
-  }, [year])
 
   useEffect(() => {
     if (!neoData?.close_approaches?.length) return
@@ -34,6 +25,21 @@ function ApproachTimeline() {
     const year = date.getFullYear()
     setYear(year)
   }, [neoData])
+
+  useEffect(() => {
+    async function fetchApproaches() {
+      const yearString = `${year.toString()}-`
+      const data = await filterApproachesBy(yearString)
+      if (!data?.length) return
+      setDatapoints(chart(svgRef.current, data, setHoverData))
+    }
+    fetchApproaches()
+  }, [year])
+
+  useEffect(() => {
+    if (!datapoints || !neoData?.spkid) return
+    toggleActive(datapoints, neoData.spkid)
+  }, [datapoints, neoData])
 
   const handleClick = (direction) => {
     if (direction === 'next' && year < 2026) {

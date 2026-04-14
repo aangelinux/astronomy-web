@@ -38,7 +38,7 @@ export function renderOrbit(data, setup) {
 export function cleanup(setup, container) {
   const { orbit, renderer, controls, timer, neo, earth } = setup
 
-  orbit = null
+  if (orbit) orbit.removeFromParent()
   renderer.dispose()
   controls.dispose()
   timer.dispose()

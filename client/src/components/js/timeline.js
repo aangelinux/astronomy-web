@@ -17,11 +17,11 @@ export const chart = (svgElement, data, hoverData) => {
 
   const x = createHorizontalScale(width, data)
   const y = createVerticalScale(height, data)
+  const datapoints = renderDataPoints({ svg, data, x, y, hoverData })
 
-  renderDataPoints({ svg, data, x, y, hoverData })
   renderXAxis(svg, height, x) // Rendered last so it's not obscured
 
-  return () => {}
+  return datapoints
 }
 
 function createHorizontalScale(width, data) {
@@ -51,7 +51,7 @@ function renderDataPoints({ svg, data, x, y, hoverData }) {
       : -d.minimum_distance_km
   }))
 
-  svg.append("g")
+  const datapoints = svg.append("g")
     .selectAll("g")
     .data(mirroredData)
     .join("g")
@@ -62,12 +62,15 @@ function renderDataPoints({ svg, data, x, y, hoverData }) {
     })
     .on("mouseover", (event) => onHover(event, hoverData))
     .on("mouseleave", (event) => onLeave(event, hoverData))
-    .append("image")
+  
+  datapoints.append("image")
     .attr("href", "../../assets/asteroid.png")
     .attr("height", 18)
     .attr("width", 18)
     .attr("x", -9) // Center image
     .attr("y", -9)
+
+  return datapoints
 }
 
 function onHover(event, hoverData) {
@@ -125,4 +128,27 @@ function renderXAxis(svg, height, x) {
       .attr("r", 7)
       .attr("fill", "white")
       .attr("opacity", .4))
+}
+
+export const toggleActive = (datapoints, spkid) => {
+  if (!datapoints || !spkid) return
+  
+  datapoints.each(function(d) {
+    if (d.spkid === spkid) {
+      d3.select(this)
+        .select("image")
+        .transition()
+        .duration(150)
+        .attr("cursor", "pointer")
+        .attr("width", 30)
+        .attr("height", 30)
+        .attr("x", -15)
+        .attr("y", -15)
+        .style("filter", "brightness(1.5)")
+
+    } else {
+      d3.select(this)
+        .style("opacity", .4)
+    }
+  })
 }

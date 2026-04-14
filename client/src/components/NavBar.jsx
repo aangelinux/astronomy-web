@@ -25,7 +25,7 @@ function NavBar() {
     <AppBar sx={{ maxHeight: 50 }}>
       <Toolbar sx={{ backgroundColor: '#0b0f1a', boxShadow: 10 }}>
         <Avatar
-          src="../../assets/astronomy.png"
+          src="/assets/astronomy.png"
           alt="Astronomy Icon"
           sx={{ margin: 2.5 }}>
         </Avatar>

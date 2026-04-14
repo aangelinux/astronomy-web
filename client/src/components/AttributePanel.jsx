@@ -30,7 +30,7 @@ function AttributePanel() {
   }
 
   const card = (
-    <CardContent sx={{ height: 225 }}>
+    <CardContent sx={{ minHeight: 225 }}>
       <Typography variant='h6' sx={{
         fontFamily: 'GoogleSans',
         fontWeight: 'bold',

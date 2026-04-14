@@ -16,8 +16,9 @@ export async function getResponse(req, res, next) {
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
-      contents: `Generate a 4-5 sentences long informative description, split into 
-        two paragraphs, of this Near-Earth Object based on its attributes: ${attributes}.`,
+      contents: `Generate a 4 sentences long informative description 
+        of this Near-Earth Object based on its attributes: ${attributes}. 
+        Assume that the reader may not have advanced knowledge of astronomy.`,
     })
     return res.status(200).json(response.text)
   } catch (error) {

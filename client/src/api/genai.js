@@ -17,7 +17,7 @@ export async function fetchAIResponse(input) {
       503: 'Model is temporarily unavailable due to high demand. Please try again later.',
       429: 'Rate limit exceeded. Please limit requests to 5 per minute and 20 per day.'
     }
-    return errors[res.status]
+    return errors[res.status] || 'Something went wrong. Please try again later.'
   }
 
   const result = await res.json()

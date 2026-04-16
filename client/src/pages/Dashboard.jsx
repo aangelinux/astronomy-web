@@ -4,7 +4,7 @@
 
 import styles from './styles/Dashboard.module.css'
 import AIPanel from '../components/AIPanel.jsx'
-import ApproachTimeline from '../components/ApproachTimeline.jsx'
+import ApproachTimeline from '../features/approachTimeline/ApproachTimeline.jsx'
 import AttributePanel from '../components/AttributePanel.jsx'
 import NavBar from '../components/NavBar.jsx'
 import OrbitView from '../components/OrbitView.jsx'

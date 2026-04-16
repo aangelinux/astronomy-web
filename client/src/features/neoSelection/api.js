@@ -5,6 +5,7 @@
 const url = 'https://astronomy-api-production.up.railway.app/'
 
 export async function filterNeosBy(name) {
+  const limit = 5
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -14,38 +15,9 @@ export async function filterNeosBy(name) {
     body: JSON.stringify({
       query:
         `query Neos {
-          neos(input: {
-            limit: 5,
-            name: "${name}"
-          }) {
+          neos(input: { limit: ${limit}, name: "${name}" }) {
             neos {
               name
-            }
-          }
-        }`
-    })
-  })
-
-  if (!res.ok) {
-    throw new Error('Error fetching NEO data: ', error.message)
-  }
-  const result = await res.json()
-
-  return result.data.neos.neos
-}
-
-export async function getNeoSpkid(name) {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: '*/*'
-    },
-    body: JSON.stringify({
-      query:
-        `query Neos {
-          neos(input: { name: "${name}" }) {
-            neos {
               spkid
             }
           }
@@ -54,11 +26,13 @@ export async function getNeoSpkid(name) {
   })
 
   if (!res.ok) {
-    throw new Error('Error fetching NEO spkid: ', error.message)
+    throw new Error('Error fetching NEOs: ', error.message)
   }
-  const result = await res.json()
 
-  return result.data.neos.neos[0].spkid
+  const result = await res.json()
+  const neos = result.data.neos.neos
+
+  return neos
 }
 
 export async function getNeoData(spkid) {
@@ -100,7 +74,9 @@ export async function getNeoData(spkid) {
   if (!res.ok) {
     throw new Error('Error fetching NEO data: ', error.message)
   }
-  const result = await res.json()
 
-  return result.data.neo
+  const result = await res.json()
+  const data = result.data.neo
+
+  return data
 }

@@ -3,11 +3,8 @@
  */
 
 import { Autocomplete, TextField, Button } from '@mui/material'
-import useSelection from './useSelection.jsx'
 
-function SearchBar() {
-  const { setNeo, fetchOptions, options, handleClick } = useSelection()
-
+function SearchBar({ setNeo, fetchOptions, options, handleClick }) {
   const wrapperStyle = {
     display: 'flex', 
     flexDirection: 'row', 
@@ -26,6 +23,8 @@ function SearchBar() {
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: 'white',
+        color: 'white',
+        fontFamily: 'GoogleSans'
       },
       '&:hover fieldset': {
         borderColor: 'white',
@@ -39,8 +38,8 @@ function SearchBar() {
         disablePortal
         onChange={(event, value) => setNeo(value)}
         onInputChange={(e) => fetchOptions(e.target.value)}
-        filterOptions={(x) => x}
-        options={options}
+        options={options.filter(option => option.name)}
+        getOptionLabel={(option) => option?.name ?? ''}
         sx={{ width: 300 }}
         renderInput={(params) =>
           <TextField {...params}

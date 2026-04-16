@@ -4,8 +4,11 @@
 
 import NeoTooltip from './NeoTooltip'
 import SearchBar from './SearchBar'
+import useSelection from './useSelection.jsx'
 
 function NeoSelection() {
+  const { setNeo, fetchOptions, options, handleClick } = useSelection()
+
   return (
     <div style={{ 
       display: 'flex', 
@@ -14,7 +17,12 @@ function NeoSelection() {
       alignItems: 'center' 
     }}>
       <NeoTooltip />
-      <SearchBar />
+      <SearchBar
+        setNeo={setNeo}
+        fetchOptions={fetchOptions}
+        options={options}
+        handleClick={handleClick}
+      />
     </div>
   )
 }

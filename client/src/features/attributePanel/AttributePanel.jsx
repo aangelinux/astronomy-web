@@ -4,8 +4,11 @@
 
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import AttributeList from './AttributeList.jsx'
+import useAttributes from './useAttributes.jsx'
 
 function AttributePanel() {
+  const attributes = useAttributes()
+  
   const boxStyle = {
     boxShadow: 1,
     fontFamily: 'GoogleSans',
@@ -32,7 +35,7 @@ function AttributePanel() {
             Attributes
           </Typography>
 
-          <AttributeList />
+          <AttributeList attributes={attributes} />
 
         </CardContent>
       </Card>

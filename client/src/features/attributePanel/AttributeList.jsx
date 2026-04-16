@@ -2,13 +2,10 @@
  * Renders a list of attributes.
  */
 
-import useAttributes from './useAttributes.jsx'
 import Fade from '@mui/material/Fade'
 import { List, ListItem, Button, Tooltip } from '@mui/material'
 
-function AttributeList() {
-  const attributes = useAttributes()
-
+function AttributeList({ attributes }) {
   const getName = (attribute) => {
     return `${Object.keys(attribute)[0]}: `
   }
@@ -29,7 +26,7 @@ function AttributeList() {
   }
 
   const tooltipStyle = {
-    fontSize: '1rem',
+    fontSize: '.9rem',
     fontFamily: 'GoogleSans',
     padding: .35,
   }

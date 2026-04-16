@@ -36,25 +36,25 @@ function TimelineControls({ onPrev, onNext, onSubmit, setInput }) {
   return (
     <div style={wrapperStyle}>
 
-      <Button variant="outlined" onClick={onPrev}>
+      <Button variant='outlined' onClick={onPrev}>
         <ArrowLeft />
           Prev
       </Button>
 
-      <Button variant="outlined" onClick={onNext}>
+      <Button variant='outlined' onClick={onNext}>
           Next
         <ArrowRight />
       </Button>
 
       <TextField 
-        label="Select Year ..."
-        color="secondary"
-        size="small"
+        label='Select Year ...'
+        color='secondary'
+        size='small'
         sx={textFieldStyle}
         onChange={(e) => setInput(e.target.value)}
       />
 
-      <Button variant="outlined" onClick={onSubmit}>
+      <Button variant='outlined' onClick={onSubmit}>
         Select Year
       </Button>
 

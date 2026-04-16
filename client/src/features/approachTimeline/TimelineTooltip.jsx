@@ -6,15 +6,15 @@ function TimelineTooltip({ hoverData }) {
   if (!hoverData) return null
 
   const tooltipStyle = {
-    position: "fixed",
+    position: 'fixed',
     top: hoverData.y + 10,
     left: hoverData.x + 10,
-    background: "rgba(0,0,0,0.8)",
-    color: "white",
-    padding: "10px",
-    borderRadius: "8px",
-    pointerEvents: "none",
-    fontSize: "0.8rem",
+    background: 'rgba(0,0,0,0.8)',
+    color: 'white',
+    padding: '10px',
+    borderRadius: '8px',
+    pointerEvents: 'none',
+    fontSize: '0.8rem',
   }
 
   return (

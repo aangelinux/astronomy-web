@@ -3,7 +3,7 @@
  */
 
 import styles from './styles/Dashboard.module.css'
-import AIPanel from '../components/AIPanel.jsx'
+import DescriptionPanel from '../features/descriptionPanel/DescriptionPanel.jsx'
 import ApproachTimeline from '../features/approachTimeline/ApproachTimeline.jsx'
 import AttributePanel from '../features/attributePanel/AttributePanel.jsx'
 import NavBar from '../components/NavBar.jsx'
@@ -33,7 +33,7 @@ function Dashboard() {
         <div className={styles.header}><h1>Astronomy Dashboard</h1></div>
         <div className={styles.search}><SearchBar /></div>
         <div className={styles.attributes}><AttributePanel /></div>
-        <div className={styles.ai}><AIPanel /></div>
+        <div className={styles.ai}><DescriptionPanel /></div>
         <div className={styles.orbit}><OrbitView /></div>
         <div className={styles.timeline}><ApproachTimeline /></div>
       </AppProvider>

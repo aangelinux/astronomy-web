@@ -13,7 +13,7 @@ function AttributePanel() {
     textAlign: 'center',
     letterSpacing: 1,
     lineHeight: .8,
-    listStyleType: 'none'
+    listStyleType: 'none',
   }
 
   const headerStyle = {

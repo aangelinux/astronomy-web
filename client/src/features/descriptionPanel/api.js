@@ -1,5 +1,5 @@
 /**
- * Fetches dynamic responses from a Gemini AI chatbot.
+ * Fetches dynamic responses from Google's Gemini API.
  */
 
 export async function fetchAIResponse(input) {

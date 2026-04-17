@@ -4,7 +4,7 @@
 
 import styles from './styles/Neos.module.css'
 import NavBar from '../components/NavBar.jsx'
-import NeoTable from '../components/NeoTable.jsx'
+import NeoTable from '../features/neoTable/NeoTable.jsx'
 import { authenticate } from '../api/auth.js'
 import { useEffect } from 'react'
 

@@ -1,78 +1,73 @@
 # Assignment WT - Web for Data Science
-
-## Project Name
-
-_Replace with the name of your project._
+# Astronomy Dashboard
 
 ## Objective
+  
+### Dataset  
+  
+This application visualizes a dataset containing information on 16 000+ Near-Earth Objects (NEOs); that is, asteroids or comets that have been designated by NASA to orbit close enough to Earth to pose a potential collision danger. Each Near-Earth Object contains a set of attributes describing its physical properties, as well as data describing its orbit around the Sun and records of close approach events where the NEO came particularly close to Earth's orbit.  
+  
+Additionally, the application has a separate page with a table contaning all NEOs from the database for convenient browsing.  
 
-Create a functional, visually engaging, and _interactive_ data visualization web application that consumes the API you built in the previous assignment. The application must authenticate users via OAuth and be publicly accessible.
-
-_Describe your application in a few sentences: what does it do, what dataset does it visualize, and what insights does it provide?_
-
+### Features
+  
+The application allows users to select any NEO from the database using a search bar. A list of the NEO's attributes and a 3D view of its orbit will be displayed on the dashboard.  
+  
+In addition, if the NEO has previously made any close approaches to Earth, the timeline will be updated to display these events. If no past approaches has been made by the selected NEO, the timeline will still be available for browsing; users can select any year to view all approaches made by other NEOs during that year.  
+  
+### AI/ML Feature
+  
+The application uses Google's Gemini API to dynamically generate a description of the user's selected Near-Earth Object based on its attributes, orbit data, and potential close approach-events. 
+  
 ## Deployed Application
-
-_Provide the link to your publicly accessible application:_
 
 > URL: ...
 
 ## Requirements
 
-See [all requirements in Issues](../../issues/). Close issues as you implement them. Create additional issues for any custom functionality.
-
 ### Functional Requirements
 
 | Requirement                                                                        | Issue                  | Status               |
 | ---------------------------------------------------------------------------------- | ---------------------- | -------------------- |
-| API Integration — the app consumes your WT1 API                                    | [#14](../../issues/14) | :white_large_square: |
-| OAuth Authentication — users log in via OAuth 2.0                                  | [#15](../../issues/15) | :white_large_square: |
-| Interactive data visualization with aggregation/adaptation for 10 000+ data points | [#11](../../issues/11) | :white_large_square: |
-| Efficient loading — pagination, lazy loading, loading indicators                   | [#13](../../issues/13) | :white_large_square: |
+| API Integration — the app consumes your WT1 API                                    | [#14](../../issues/14) | :white_check_mark: |
+| OAuth Authentication — users log in via OAuth 2.0                                  | [#15](../../issues/15) | :white_check_mark: |
+| Interactive data visualization with aggregation/adaptation for 10 000+ data points | [#11](../../issues/11) | :white_check_mark: |
+| Efficient loading — pagination, lazy loading, loading indicators                   | [#13](../../issues/13) | :white_check_mark: |
 
 ### Non-Functional Requirements
 
 | Requirement                                   | Issue                | Status               |
 | --------------------------------------------- | -------------------- | -------------------- |
-| Clear and well-structured code                | [#1](../../issues/1) | :white_large_square: |
-| Code reuse                                    | [#2](../../issues/2) | :white_large_square: |
-| Dependency management and scripts             | [#3](../../issues/3) | :white_large_square: |
-| Source code documentation                     | [#4](../../issues/4) | :white_large_square: |
-| Coding standard                               | [#5](../../issues/5) | :white_large_square: |
-| Examiner can follow the creation process      | [#6](../../issues/6) | :white_large_square: |
-| Publicly accessible over the internet         | [#7](../../issues/7) | :white_large_square: |
-| Keys and tokens handled correctly             | [#8](../../issues/8) | :white_large_square: |
-| Complete assignment report with correct links | [#9](../../issues/9) | :white_large_square: |
+| Clear and well-structured code                | [#1](../../issues/1) | :white_check_mark: |
+| Code reuse                                    | [#2](../../issues/2) | :white_check_mark: |
+| Dependency management and scripts             | [#3](../../issues/3) | :white_check_mark: |
+| Source code documentation                     | [#4](../../issues/4) | :white_check_mark: |
+| Coding standard                               | [#5](../../issues/5) | :white_check_mark: |
+| Examiner can follow the creation process      | [#6](../../issues/6) | :white_check_mark: |
+| Publicly accessible over the internet         | [#7](../../issues/7) | :white_check_mark: |
+| Keys and tokens handled correctly             | [#8](../../issues/8) | :white_check_mark: |
+| Complete assignment report with correct links | [#9](../../issues/9) | :white_check_mark: |
 
-### VG — AI/ML Feature (optional)
-
-For a VG grade, integrate **one** AI/ML feature into the application. Pick one below or propose your own of similar scope. See the [VG issue](../../issues/12) for full details and acceptance criteria.
+### VG — AI/ML Feature
 
 | Option                                                        | Status               |
 | ------------------------------------------------------------- | -------------------- |
 | Semantic Search — natural language queries matched by meaning | :white_large_square: |
 | Content-Based Recommendations — "items similar to this one"   | :white_large_square: |
 | Sentiment Analysis — analyze and visualize text sentiment     | :white_large_square: |
-| Text Summarization / Generation — LLM-powered summaries       | :white_large_square: |
+| Text Summarization / Generation — LLM-powered summaries       | :white_check_mark: |
 | Clustering & Grouping — auto-group similar items visually     | :white_large_square: |
 | RAG — natural language Q&A grounded in your dataset           | :white_large_square: |
 | Other: _describe_                                             | :white_large_square: |
 
-_Describe your chosen AI/ML feature and how it integrates with your application:_
-
 ## Core Technologies Used
 
-| Layer             | Options                                                                 |
-| ----------------- | ----------------------------------------------------------------------- |
-| **Visualization** | D3.js, Chart.js, Plotly, or similar                                     |
-| **Front-end**     | React, Vue, Next.js, Nuxt, or similar                                   |
-| **Styling**       | Tailwind CSS, Bootstrap, Material UI, shadcn/ui, Ant Design, or similar |
-
-_List the technologies you chose and briefly explain why:_
+| Layer             | Technologies                                                             |
+| ----------------- | -----------------------------------------------------------------------  |
+| **Visualization** | D3.js & Three.js                                                         |
+| **Front-end**     | React & MUI Materials                                                    |
+| **Styling**       | Vanilla CSS & MUI Materials                                                      |
 
 ## How to Use
 
 _Explain how to interact with your visualization (controls, filters, etc.). Screenshots/gifs are encouraged._
-
-## Acknowledgements
-
-_Resources, attributions, or shoutouts._

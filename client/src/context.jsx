@@ -1,5 +1,5 @@
 /**
- * React context for the application.
+ * Contains state that's used by multiple components.
  */
 
 import { createContext, useContext, useState } from 'react'

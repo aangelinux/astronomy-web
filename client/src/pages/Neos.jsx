@@ -1,11 +1,11 @@
 /**
- * Page displaying a table containing all NEOs.
+ * Page displaying all NEOs in the database.
  */
 
 import styles from './styles/Neos.module.css'
-import NavBar from '../components/NavBar.jsx'
+import NavBar from '../features/navBar/NavBar.jsx'
 import NeoTable from '../features/neoTable/NeoTable.jsx'
-import { authenticate } from '../api/auth.js'
+import { authenticate } from '../features/authentication/api.js'
 import { useEffect } from 'react'
 
 function Neos() {
@@ -15,7 +15,7 @@ function Neos() {
         await authenticate()
       } catch (error) {
         console.log(error)
-        window.location.href = '/'
+        window.location.href = '/auth'
       }
     }
     checkAuth()

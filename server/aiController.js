@@ -1,5 +1,5 @@
 /**
- * Controller for communicating with GenAI, serving a pre-trained AI-model.
+ * Controller for generating content with Google's Gemini API.
  */
 
 import dotenv from 'dotenv'

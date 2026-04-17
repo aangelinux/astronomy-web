@@ -16,8 +16,8 @@ body {
   grid-template-areas:
     "nav nav"
     "header header"
-    "search search"
-    "attributes ai"
+    "select select"
+    "attributes description"
 		"orbit orbit"
 		"timeline timeline";
   gap: 20px;
@@ -37,8 +37,8 @@ body {
   margin-top: 40px;
 }
 
-.search {
-	grid-area: search;
+.select {
+	grid-area: select;
 	justify-self: center;
 	color: white;
 }
@@ -47,8 +47,8 @@ body {
 	grid-area: attributes;
 }
 
-.ai {
-	grid-area: ai;
+.description {
+	grid-area: description;
 }
 
 .orbit {
@@ -65,9 +65,9 @@ body {
     grid-template-areas:
       "nav"
       "header"
-      "search"
+      "select"
       "attributes"
-      "ai"
+      "description"
       "orbit"
       "timeline";
   }

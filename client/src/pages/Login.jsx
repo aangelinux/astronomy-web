@@ -1,10 +1,10 @@
 /**
- * Page for authorizing users with GitHub OAuth.
+ * Login page.
  */
 
-import LoginButton from '../components/LoginButton.jsx'
 import styles from './styles/Login.module.css'
-import { authenticate } from '../api/auth.js'
+import LoginButton from '../features/authentication/LoginButton.jsx'
+import { authenticate } from '../features/authentication/api.js'
 import { useEffect } from 'react'
 
 function Login() {

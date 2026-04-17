@@ -1,12 +1,17 @@
 /**
- * Navigation bar for authorized users.
+ * Renders a navigation bar for authorized users.
  */
 
-import { AppBar, Toolbar, Link, Avatar, Button } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { logout } from '../api/auth.js'
+import { AppBar, Toolbar, Link, Button } from '@mui/material'
+import { logout } from './api.js'
 
 function NavBar() {
+  const handleClick = async () => {
+    await logout()
+    window.location.href = '/auth'
+  }
+
   const linkStyle = {
     color: 'white',
     fontFamily: 'GoogleSans',
@@ -16,24 +21,23 @@ function NavBar() {
     margin: 1.7
   }
 
-  const handleClick = async () => {
-    await logout()
-    window.location.href = '/'
-  }
-
   return (
     <AppBar sx={{ maxHeight: 50 }}>
-      <Toolbar sx={{ backgroundColor: '#0b0f1a', boxShadow: 10 }}>
-        <Avatar
+      <Toolbar sx={{ backgroundColor: '#0b0f1a', boxShadow: 20 }}>
+
+        <img
           src="/assets/astronomy.png"
           alt="Astronomy Icon"
-          sx={{ margin: 2.5 }}>
-        </Avatar>
+          style={{ margin: 5, height: 35 }}
+        />
+
         <Link href="/dashboard" sx={linkStyle}>Dashboard</Link>
         <Link href="/neos" sx={linkStyle}>NEOs</Link>
+
         <Button onClick={handleClick}>
           <LogoutIcon />
         </Button>
+
       </Toolbar>
     </AppBar>
   )

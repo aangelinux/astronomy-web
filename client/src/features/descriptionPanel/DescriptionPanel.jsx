@@ -56,9 +56,7 @@ function DescriptionPanel() {
             Description
           </Typography>
 
-          {loading && (
-            <CircularProgress></CircularProgress>) 
-          || description}
+          {loading ? <CircularProgress /> : description}
 
         </CardContent>
       </Card>

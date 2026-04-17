@@ -26,7 +26,8 @@ export async function filterNeosBy(name) {
   })
 
   if (!res.ok) {
-    throw new Error('Error fetching NEOs: ', error.message)
+    throw new Error('Error fetching NEOs: ', 
+      res.statusText || res.status)
   }
 
   const result = await res.json()
@@ -72,7 +73,8 @@ export async function getNeoData(spkid) {
   })
 
   if (!res.ok) {
-    throw new Error('Error fetching NEO data: ', error.message)
+    throw new Error('Error fetching NEO data: ', 
+      res.statusText || res.status)
   }
 
   const result = await res.json()

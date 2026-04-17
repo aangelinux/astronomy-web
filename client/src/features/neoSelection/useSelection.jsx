@@ -9,24 +9,34 @@ import { filterNeosBy, getNeoData } from './api.js'
 function useSelection() {
   const { setNeoData } = useAppContext()
   const [options, setOptions] = useState([])
+  const [input, setInput] = useState('')
   const [neo, setNeo] = useState('')
 
-  const fetchOptions = (query) => {
-    if (!query) return
+  useEffect(() => {
+    if (!input) 
+      return
 
     const timer = setTimeout(async () => {
-      const neos = await filterNeosBy(query)
+      const neos = await filterNeosBy(input)
       setOptions(neos)
     }, 500)
+
     return () => clearTimeout(timer)
-  }
+  }, [input])
 
   const handleClick = async () => {
-    const data = await getNeoData(neo.spkid)
-    setNeoData(data)
+    if (!neo) 
+      return
+
+    try {
+      const data = await getNeoData(neo.spkid)
+      setNeoData(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
   
-  return { setNeo, fetchOptions, options, handleClick }
+  return { setNeo, setInput, options, handleClick }
 }
 
 export default useSelection

@@ -8,8 +8,12 @@ import { logout } from './api.js'
 
 function NavBar() {
   const handleClick = async () => {
-    await logout()
-    window.location.href = '/auth'
+    try {
+      await logout()
+      window.location.href = '/auth'
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const linkStyle = {

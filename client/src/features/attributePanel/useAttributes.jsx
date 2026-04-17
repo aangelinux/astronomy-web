@@ -43,8 +43,8 @@ function useAttributes() {
       }
     ]
 
-    return map.filter((attribute) =>
-      (Object.values(attribute)[0] !== null || undefined))
+    return map.filter((attribute) => 
+      (Object.values(attribute)[0] !== null))
   }
 
   return attributes

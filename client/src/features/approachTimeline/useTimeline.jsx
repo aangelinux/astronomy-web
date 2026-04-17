@@ -16,27 +16,39 @@ function useTimeline() {
   const svgRef = useRef()
 
   useEffect(() => {
-    if (!neoData?.close_approaches?.length) return
+    if (!neoData?.close_approaches?.length) 
+      return
 
     const date = new Date(neoData.close_approaches[0].date)
+    if (!date) 
+      return
+
     const year = date.getFullYear()
     setYear(year)
   }, [neoData])
 
   useEffect(() => {
-    async function fetchApproaches() {
-      const yearString = `${year.toString()}-`
-      const data = await filterApproachesBy(yearString)
-      if (!data?.length) return
+    const yearString = `${year.toString()}-`
 
-      setDatapoints(chart(svgRef.current, data, setHoverData))
+    async function fetchApproaches() {
+      try {
+        const data = await filterApproachesBy(yearString)
+        if (!data?.length) 
+          return
+        
+        setDatapoints(chart(svgRef.current, data, setHoverData))
+      } catch (error) {
+        console.log(error)
+      }
     }
+
     fetchApproaches()
   }, [year])
 
   useEffect(() => {
-    if (!datapoints || !neoData?.spkid) return
-    
+    if (!datapoints || !neoData?.spkid) 
+      return
+
     toggleActive(datapoints, neoData.spkid)
   }, [datapoints, neoData])
 

@@ -4,7 +4,7 @@
 
 import { Autocomplete, TextField, Button } from '@mui/material'
 
-function SearchBar({ setNeo, fetchOptions, options, handleClick }) {
+function SearchBar({ setNeo, setInput, options, handleClick }) {
   const wrapperStyle = {
     display: 'flex', 
     flexDirection: 'row', 
@@ -37,7 +37,7 @@ function SearchBar({ setNeo, fetchOptions, options, handleClick }) {
       <Autocomplete
         disablePortal
         onChange={(event, value) => setNeo(value)}
-        onInputChange={(e) => fetchOptions(e.target.value)}
+        onInputChange={(event, value) => setInput(value)}
         options={options.filter(option => option.name)}
         getOptionLabel={(option) => option?.name ?? ''}
         sx={{ width: 300 }}

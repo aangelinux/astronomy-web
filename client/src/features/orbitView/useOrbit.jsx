@@ -19,7 +19,8 @@ function useOrbit() {
   }, [])
 
   useEffect(() => {
-    if (!setupRef.current || !(Object.keys(neoData)?.length)) return
+    if (!setupRef.current || !(Object.keys(neoData)?.length)) 
+      return
 
     const orbitData = neoData.orbit
     const animation = renderOrbit(orbitData, setupRef.current)

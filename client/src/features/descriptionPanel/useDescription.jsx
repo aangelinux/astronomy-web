@@ -12,7 +12,8 @@ function useDescription() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (!(Object.keys(neoData)?.length)) return
+    if (!(Object.keys(neoData)?.length)) 
+      return
 
     async function fetchDescription() {
       try {

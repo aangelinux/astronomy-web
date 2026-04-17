@@ -3,7 +3,8 @@
  */
 
 function TimelineTooltip({ hoverData }) {
-  if (!hoverData) return null
+  if (!hoverData) 
+    return null
 
   const tooltipStyle = {
     position: 'fixed',

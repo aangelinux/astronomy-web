@@ -13,18 +13,26 @@ function useTable() {
 
   useEffect(() => {
     async function fetchCount() {
-      const count = await getTotalNeoCount()
-      setTotalRows(count)
+      try {
+        const count = await getTotalNeoCount()
+        setTotalRows(count)
+      } catch (error) {
+        console.log(error)
+      }
     }
     fetchCount()
   }, [])
 
   useEffect(() => {
+    const limit = rowsPerPage
+    const offset = rowsPerPage * page
     async function fetchNeos() {
-      const limit = rowsPerPage
-      const offset = rowsPerPage * page
-      const data = await filterNeos(limit, offset)
-      setNeos(data)
+      try {
+        const data = await filterNeos(limit, offset)
+        setNeos(data)
+      } catch (error) {
+        console.log(error)
+      }
     }
     fetchNeos()
   }, [page, rowsPerPage])

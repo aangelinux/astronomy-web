@@ -28,7 +28,8 @@ export async function filterApproachesBy(year) {
   })
 
   if (!res.ok) {
-    throw new Error('Error fetching approach data: ', error.message)
+    throw new Error('Error fetching approach data: ', 
+      res.statusText || res.status)
   }
 
   const result = await res.json()

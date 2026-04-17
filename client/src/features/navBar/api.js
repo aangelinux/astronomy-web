@@ -10,7 +10,8 @@ export async function logout() {
   })
   
   if (!res.ok) {
-    throw new Error('Error logging out: ', error.message)
+    throw new Error('Error logging out: ', 
+      res.statusText || res.status)
   }
 
   return res

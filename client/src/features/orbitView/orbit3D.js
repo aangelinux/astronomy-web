@@ -1,5 +1,5 @@
 /**
- * Renders a 3D view of an orbit using three.js.
+ * Creates a 3D view of an orbit using three.js.
  */
 
 import * as THREE from 'three'

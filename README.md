@@ -52,13 +52,7 @@ The application uses Google's Gemini API to dynamically generate a description o
 
 | Option                                                        | Status               |
 | ------------------------------------------------------------- | -------------------- |
-| Semantic Search — natural language queries matched by meaning | :white_large_square: |
-| Content-Based Recommendations — "items similar to this one"   | :white_large_square: |
-| Sentiment Analysis — analyze and visualize text sentiment     | :white_large_square: |
-| Text Summarization / Generation — LLM-powered summaries       | :white_check_mark: |
-| Clustering & Grouping — auto-group similar items visually     | :white_large_square: |
-| RAG — natural language Q&A grounded in your dataset           | :white_large_square: |
-| Other: _describe_                                             | :white_large_square: |
+| Text Summarization / Generation — LLM-powered summaries       | :white_check_mark:   |
 
 ## Core Technologies Used
 

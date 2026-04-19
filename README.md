@@ -1,21 +1,19 @@
 # Assignment WT - Web for Data Science
 # Astronomy Dashboard
-
-## Objective
   
-### Dataset  
+## Dataset  
   
-This application visualizes a dataset containing information on 16 000+ Near-Earth Objects (NEOs); that is, asteroids or comets that have been designated by NASA to orbit close enough to Earth to pose a potential collision danger. Each Near-Earth Object contains a set of attributes describing its physical properties, as well as data describing its orbit around the Sun and records of close approach events where the NEO came particularly close to Earth's orbit.  
+This application visualizes a dataset containing information on 16 000+ Near-Earth Objects (NEOs); that is, asteroids or comets that have been designated by NASA to orbit close enough to Earth to pose a potential collision danger. Each Near-Earth Object contains a set of attributes describing its physical properties, as well as data describing its orbit around the Sun and records of close approach events-where it orbited particularly close to Earth's orbit.  
   
 Additionally, the application has a separate page with a table contaning all NEOs from the database for convenient browsing.  
 
-### Features
+## Features
   
 The application allows users to select any NEO from the database using a search bar. A list of the NEO's attributes and a 3D view of its orbit will be displayed on the dashboard.  
   
 In addition, if the NEO has previously made any close approaches to Earth, the timeline will be updated to display these events. If no past approaches has been made by the selected NEO, the timeline will still be available for browsing; users can select any year to view all approaches made by other NEOs during that year.  
   
-### AI/ML Feature
+## AI/ML Feature
   
 The application uses Google's Gemini API to dynamically generate a description of the user's selected Near-Earth Object based on its attributes, orbit data, and potential close approach-events. 
   

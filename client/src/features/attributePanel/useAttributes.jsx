@@ -39,7 +39,7 @@ function useAttributes() {
       },
       { 
         'Potentially Hazardous Asteroid (PHA)': data['pot_hazardous_asteroid'], 
-        explanation: `An asteroid with a MOID of less than 0.05 AU` 
+        explanation: `An asteroid with a MOID of less than 19.5 LD, roughly` 
       }
     ]
 

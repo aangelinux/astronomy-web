@@ -17,8 +17,12 @@ function useSelection() {
       return
 
     const timer = setTimeout(async () => {
-      const neos = await filterNeosBy(input)
-      setOptions(neos)
+      try {
+        const neos = await filterNeosBy(input)
+        setOptions(neos)
+      } catch (error) {
+        console.log(error)
+      }
     }, 500)
 
     return () => clearTimeout(timer)

@@ -11,16 +11,19 @@ import NeoSelection from '../features/neoSelection/NeoSelection.jsx'
 import OrbitView from '../features/orbitView/OrbitView.jsx'
 import ErrorAlert from '../features/alerts/ErrorAlert.jsx'
 import { authenticate } from '../features/authentication/api.js'
+import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
 function Dashboard() {
+  const navigate = useNavigate()
+
   useEffect(() => {
     async function checkAuth() {
       try {
         await authenticate()
       } catch (error) {
         console.log(error)
-        window.location.href = '/auth'
+        navigate('/auth')
       }
     }
     checkAuth()

@@ -7,15 +7,18 @@ import NavBar from '../features/navBar/NavBar.jsx'
 import NeoTable from '../features/neoTable/NeoTable.jsx'
 import { authenticate } from '../features/authentication/api.js'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Neos() {
+  const navigate = useNavigate()
+
   useEffect(() => {
     async function checkAuth() {
       try {
         await authenticate()
       } catch (error) {
         console.log(error)
-        window.location.href = '/auth'
+        navigate('/auth')
       }
     }
     checkAuth()

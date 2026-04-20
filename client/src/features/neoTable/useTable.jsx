@@ -4,8 +4,10 @@
 
 import { useState, useEffect } from 'react'
 import { filterNeos, getTotalNeoCount } from './api.js'
+import { useAppContext } from '../../context.jsx'
 
 function useTable() {
+  const { setError } = useAppContext()
   const [neos, setNeos] = useState([])
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(20)
@@ -32,6 +34,7 @@ function useTable() {
         setNeos(data)
       } catch (error) {
         console.log(error)
+        setError('Failed to fetch NEOs')
       }
     }
     fetchNeos()

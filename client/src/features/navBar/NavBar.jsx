@@ -5,14 +5,18 @@
 import LogoutIcon from '@mui/icons-material/Logout'
 import { AppBar, Toolbar, Link, Button } from '@mui/material'
 import { logout } from './api.js'
+import { useAppContext } from '../../context.jsx'
 
 function NavBar() {
+  const { setError } = useAppContext()
+  
   const handleClick = async () => {
     try {
       await logout()
       window.location.href = '/auth'
     } catch (error) {
       console.log(error)
+      setError('Failed to logout')
     }
   }
 

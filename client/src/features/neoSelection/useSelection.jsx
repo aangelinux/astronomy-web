@@ -7,7 +7,7 @@ import { useAppContext } from '../../context.jsx'
 import { filterNeosBy, getNeoData } from './api.js'
 
 function useSelection() {
-  const { setNeoData } = useAppContext()
+  const { setNeoData, setError } = useAppContext()
   const [options, setOptions] = useState([])
   const [input, setInput] = useState('')
   const [neo, setNeo] = useState('')
@@ -22,6 +22,7 @@ function useSelection() {
         setOptions(neos)
       } catch (error) {
         console.log(error)
+        setError('Failed to fetch NEOs')
       }
     }, 500)
 
@@ -37,6 +38,7 @@ function useSelection() {
       setNeoData(data)
     } catch (error) {
       console.log(error)
+      setError('Failed to fetch NEO data')
     }
   }
   

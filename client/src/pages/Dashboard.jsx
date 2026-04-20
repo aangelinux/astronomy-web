@@ -9,6 +9,7 @@ import DescriptionPanel from '../features/descriptionPanel/DescriptionPanel.jsx'
 import NavBar from '../features/navBar/NavBar.jsx'
 import NeoSelection from '../features/neoSelection/NeoSelection.jsx'
 import OrbitView from '../features/orbitView/OrbitView.jsx'
+import ErrorAlert from '../features/errorAlert/ErrorAlert.jsx'
 import { authenticate } from '../features/authentication/api.js'
 import { useEffect } from 'react'
 
@@ -34,6 +35,7 @@ function Dashboard() {
       <div className={styles.description}><DescriptionPanel /></div>
       <div className={styles.orbit}><OrbitView /></div>
       <div className={styles.timeline}><ApproachTimeline /></div>
+      <div className={styles.error}><ErrorAlert></ErrorAlert></div>
     </div>
   )
 }

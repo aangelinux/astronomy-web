@@ -7,7 +7,7 @@ import { useAppContext } from '../../context.jsx'
 import { fetchAIResponse } from './api.js'
 
 function useDescription() {
-  const { neoData } = useAppContext()
+  const { neoData, setError } = useAppContext()
   const [description, setDescription] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -16,14 +16,15 @@ function useDescription() {
       return
 
     async function fetchDescription() {
+      setLoading(true)
       try {
-        setLoading(true)
         const response = await fetchAIResponse(neoData)
         setDescription(response)
-        setLoading(false)
       } catch (error) {
         console.log(error)
+        setError('Failed to fetch AI response')
       }
+      setLoading(false)
     }
 
     fetchDescription()

@@ -59,6 +59,9 @@ body {
 	grid-area: timeline;
 }
 
+.error {
+}
+
 @media (max-width: 768px) {
   .page {
     grid-template-columns: 1fr;

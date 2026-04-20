@@ -8,7 +8,7 @@ import { filterApproachesBy } from './utils/api.js'
 import { chart, toggleActive } from './utils/timelineChart.js'
 
 function useTimeline() {
-  const { neoData } = useAppContext()
+  const { neoData, setError } = useAppContext()
   const [input, setInput] = useState(null)
   const [year, setYear] = useState(1900)
   const [hoverData, setHoverData] = useState(null)
@@ -18,7 +18,6 @@ function useTimeline() {
   useEffect(() => {
     if (!neoData?.close_approaches?.length) 
       return
-
     const date = new Date(neoData.close_approaches[0].date)
     if (!date) 
       return
@@ -39,6 +38,7 @@ function useTimeline() {
         setDatapoints(chart(svgRef.current, data, setHoverData))
       } catch (error) {
         console.log(error)
+        setError('Failed to fetch approach data')
       }
     }
 

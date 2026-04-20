@@ -8,9 +8,13 @@ const AppContext = createContext()
 
 export function AppProvider({ children }) {
   const [neoData, setNeoData] = useState({})
+  const [error, setError] = useState(null)
 
   return (
-    <AppContext.Provider value={{ neoData, setNeoData }}>
+    <AppContext.Provider value={{ 
+      neoData, setNeoData,
+      error, setError
+    }}>
       {children}
     </AppContext.Provider>
   )

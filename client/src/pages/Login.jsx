@@ -6,7 +6,7 @@ import styles from './styles/Login.module.css'
 import LoginButton from '../features/authentication/LoginButton.jsx'
 import { authenticate } from '../features/authentication/api.js'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const navigate = useNavigate()

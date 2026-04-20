@@ -4,13 +4,12 @@
 
 import GitHubIcon from '@mui/icons-material/GitHub'
 import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 
 function LoginButton() {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    navigate('/auth/github')
+    window.location.href = '/auth/github'
   }
 
   const buttonStyle = {

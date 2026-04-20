@@ -23,7 +23,7 @@ function Dashboard() {
         await authenticate()
       } catch (error) {
         console.log(error)
-        navigate('/auth')
+        navigate('/login')
       }
     }
     checkAuth()

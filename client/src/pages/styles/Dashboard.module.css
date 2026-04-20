@@ -1,11 +1,11 @@
 @font-face {
 	font-family: GoogleSans;
-	src: url(../../assets/GoogleSans-VariableFont_GRAD\,opsz\,wght.ttf);
+	src: url(/client/assets/GoogleSans-VariableFont_GRAD\,opsz\,wght.ttf);
 }
 
 body {
 	background-color: #0b0f1a;
-	background-image: url('../../assets/stars.jpg');
+	background-image: url('/client/assets/stars.jpg');
 }
 
 .page {

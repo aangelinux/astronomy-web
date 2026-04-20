@@ -15,7 +15,7 @@ function NavBar() {
   const handleClick = async () => {
     try {
       await logout()
-      navigate('/auth')
+      navigate('/login')
     } catch (error) {
       console.log(error)
       setError('Failed to logout')

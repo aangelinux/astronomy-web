@@ -71,7 +71,7 @@ function useTimeline() {
       return
     }
     const inputYear = new Date(input).getFullYear()
-    if (!inputYear || isNaN(inputYear)) {
+    if (!inputYear || inputYear < 1900 || inputYear > 2026) {
       setAlert(true)
       return
     }

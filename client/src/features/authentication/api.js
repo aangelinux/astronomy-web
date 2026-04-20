@@ -3,7 +3,7 @@
  */
 
 export async function authenticate() {
-  const url = 'http://localhost:3001/auth/me'
+  const url = '/auth/me'
   const res = await fetch(url, { credentials: 'include' })
 
   if (!res.ok) {

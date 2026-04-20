@@ -3,7 +3,7 @@
  */
 
 export async function fetchAIResponse(input) {
-  const url = 'http://localhost:3001/genai'
+  const url = '/genai'
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -20,7 +20,7 @@ export async function fetchAIResponse(input) {
     if (errors[res.status])
       return errors[res.status]
 
-    throw new Error('Error fetching AI response: ', 
+    throw new Error('Error fetching AI response: ',
       res.statusText || res.status)
   }
 

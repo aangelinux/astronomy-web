@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "client/src/index.jsx",
+  "main": "server/app.js",
   "scripts": {
     "client": "start http://localhost:3002/auth && vite",
     "server": "nodemon server/app.js",

@@ -17,7 +17,7 @@ function App() {
         <BrowserRouter>
           <Routes>
               <Route path='/auth' element={<Login />} />
-              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/' element={<Dashboard />} />
               <Route path='/neos' element={<Neos />} />
           </Routes>
         </BrowserRouter>

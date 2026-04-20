@@ -15,7 +15,7 @@ function Login() {
     async function checkAuth() {
       try {
         await authenticate()
-        navigate('/dashboard')
+        navigate('/')
       } catch (error) {
         console.log(error)
       }

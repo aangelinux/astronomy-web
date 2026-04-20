@@ -6,8 +6,6 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import { Button } from '@mui/material'
 
 function LoginButton() {
-  const navigate = useNavigate()
-
   const handleClick = () => {
     window.location.href = '/auth/github'
   }

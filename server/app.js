@@ -25,7 +25,7 @@ app.use(cookieParser())
 app.use(xss())
 
 app.use(cors({
-  origin: 'http://localhost:3002',
+  origin: process.env.ROOT_URL,
   credentials: true
 }))
 

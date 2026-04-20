@@ -3,8 +3,11 @@
  */
 
 import express from 'express'
+import dotenv from 'dotenv'
 import * as authController from './authController.js'
 import * as aiController from './aiController.js'
+
+dotenv.config()
 
 export const router = express.Router()
 
@@ -16,7 +19,7 @@ router.get('/auth/callback', async (req, res) => {
   const jwt = await authController.fetchJWT(user)
 
   authController.setCookie(req, res, jwt)
-  res.redirect('http://localhost:3002/dashboard')
+  res.redirect(process.env.ROOT_URL)
 })
 
 router.post('/logout', authController.logout)

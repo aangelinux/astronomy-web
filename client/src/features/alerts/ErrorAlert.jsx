@@ -1,5 +1,5 @@
 /**
- * Renders an alert for server-based errors.
+ * Renders an alert for server-state errors.
  */
 
 import { useAppContext } from '../../context'

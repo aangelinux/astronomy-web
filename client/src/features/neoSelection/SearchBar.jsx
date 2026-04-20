@@ -3,8 +3,9 @@
  */
 
 import { Autocomplete, TextField, Button } from '@mui/material'
+import InputAlert from '../alerts/InputAlert.jsx'
 
-function SearchBar({ setNeo, setInput, options, handleClick }) {
+function SearchBar({ setInput, options, setNeo, handleClick, alert }) {
   const wrapperStyle = {
     display: 'flex', 
     flexDirection: 'row', 
@@ -41,6 +42,7 @@ function SearchBar({ setNeo, setInput, options, handleClick }) {
         options={options.filter(option => option.name)}
         getOptionLabel={(option) => option?.name ?? ''}
         sx={{ width: 300 }}
+        
         renderInput={(params) =>
           <TextField {...params}
             label='Search NEOs ...'
@@ -48,6 +50,10 @@ function SearchBar({ setNeo, setInput, options, handleClick }) {
             sx={textFieldStyle} 
           />
         }
+      />
+
+      <InputAlert
+        alert={alert}
       />
 
       <Button 

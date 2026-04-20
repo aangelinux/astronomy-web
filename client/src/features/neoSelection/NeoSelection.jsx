@@ -7,7 +7,7 @@ import SearchBar from './SearchBar'
 import useSelection from './useSelection.jsx'
 
 function NeoSelection() {
-  const { setNeo, setInput, options, handleClick } = useSelection()
+  const { setInput, options, setNeo, handleClick, alert } = useSelection()
 
   return (
     <div style={{ 
@@ -18,10 +18,11 @@ function NeoSelection() {
     }}>
       <NeoTooltip />
       <SearchBar
-        setNeo={setNeo}
         setInput={setInput}
         options={options}
+        setNeo={setNeo}
         handleClick={handleClick}
+        alert={alert}
       />
     </div>
   )

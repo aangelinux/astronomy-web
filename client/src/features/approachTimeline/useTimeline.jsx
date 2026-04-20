@@ -11,15 +11,16 @@ function useTimeline() {
   const { neoData, setError } = useAppContext()
   const [input, setInput] = useState(null)
   const [year, setYear] = useState(1900)
-  const [hoverData, setHoverData] = useState(null)
   const [datapoints, setDatapoints] = useState(null)
+  const [hoverData, setHoverData] = useState(null)
+  const [alert, setAlert] = useState(false)
   const svgRef = useRef()
 
   useEffect(() => {
     if (!neoData?.close_approaches?.length) 
       return
     const date = new Date(neoData.close_approaches[0].date)
-    if (!date) 
+    if (!date || isNaN(date)) 
       return
 
     const year = date.getFullYear()
@@ -65,20 +66,29 @@ function useTimeline() {
   }
 
   const handleSubmit = () => {
-    const inputYear = new Date(input).getFullYear()
-    if (inputYear) {
-      setYear(inputYear)
+    if (!input) {
+      setAlert(true)
+      return
     }
+    const inputYear = new Date(input).getFullYear()
+    if (!inputYear || isNaN(inputYear)) {
+      setAlert(true)
+      return
+    }
+    
+    setYear(inputYear)
+    setAlert(false)
   }
 
   return {
     year,
+    alert,
     svgRef,
     hoverData,
     handlePrev,
     handleNext,
     handleSubmit,
-    setInput
+    setInput,
   }
 }
 

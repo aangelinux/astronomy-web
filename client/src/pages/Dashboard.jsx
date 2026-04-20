@@ -9,7 +9,7 @@ import DescriptionPanel from '../features/descriptionPanel/DescriptionPanel.jsx'
 import NavBar from '../features/navBar/NavBar.jsx'
 import NeoSelection from '../features/neoSelection/NeoSelection.jsx'
 import OrbitView from '../features/orbitView/OrbitView.jsx'
-import ErrorAlert from '../features/errorAlert/ErrorAlert.jsx'
+import ErrorAlert from '../features/alerts/ErrorAlert.jsx'
 import { authenticate } from '../features/authentication/api.js'
 import { useEffect } from 'react'
 

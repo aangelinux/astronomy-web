@@ -11,9 +11,10 @@ function useSelection() {
   const [options, setOptions] = useState([])
   const [input, setInput] = useState('')
   const [neo, setNeo] = useState('')
+  const [alert, setAlert] = useState(false)
 
   useEffect(() => {
-    if (!input) 
+    if (!input)
       return
 
     const timer = setTimeout(async () => {
@@ -30,19 +31,21 @@ function useSelection() {
   }, [input])
 
   const handleClick = async () => {
-    if (!neo) 
+    if (!neo) {
+      setAlert(true)
       return
-
+    }
     try {
       const data = await getNeoData(neo.spkid)
       setNeoData(data)
+      setAlert(false)
     } catch (error) {
       console.log(error)
       setError('Failed to fetch NEO data')
     }
   }
   
-  return { setNeo, setInput, options, handleClick }
+  return { setInput, options, setNeo, handleClick, alert }
 }
 
 export default useSelection

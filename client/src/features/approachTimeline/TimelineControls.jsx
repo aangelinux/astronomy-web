@@ -5,8 +5,9 @@
 import { Button, TextField, Typography } from '@mui/material'
 import ArrowRight from '@mui/icons-material/ArrowRight'
 import ArrowLeft from '@mui/icons-material/ArrowLeft'
+import InputAlert from '../alerts/InputAlert.jsx'
 
-function TimelineControls({ onPrev, onNext, onSubmit, setInput }) {
+function TimelineControls({ onPrev, onNext, onSubmit, setInput, alert }) {
   const wrapperStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -15,11 +16,11 @@ function TimelineControls({ onPrev, onNext, onSubmit, setInput }) {
   }
 
   const textFieldStyle = {
-    input: { 
+    input: {
       color: 'white',
       fontFamily: 'GoogleSans'
     },
-    label: { 
+    label: {
       color: 'white',
       fontFamily: 'GoogleSans',
     },
@@ -38,20 +39,24 @@ function TimelineControls({ onPrev, onNext, onSubmit, setInput }) {
 
       <Button variant='outlined' onClick={onPrev}>
         <ArrowLeft />
-          Prev
+        Prev
       </Button>
 
       <Button variant='outlined' onClick={onNext}>
-          Next
+        Next
         <ArrowRight />
       </Button>
 
-      <TextField 
+      <TextField
         label='Select Year ...'
         color='secondary'
         size='small'
         sx={textFieldStyle}
         onChange={(e) => setInput(e.target.value)}
+      />
+
+      <InputAlert
+        alert={alert}
       />
 
       <Button variant='outlined' onClick={onSubmit}>

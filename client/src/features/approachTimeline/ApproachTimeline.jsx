@@ -5,10 +5,12 @@
 import useTimeline from './useTimeline.jsx'
 import TimelineControls from './TimelineControls.jsx'
 import TimelineTooltip from './TimelineTooltip.jsx'
+import InputAlert from '../alerts/InputAlert.jsx'
 
 function ApproachTimeline() {
   const {
     year,
+    alert,
     svgRef,
     hoverData,
     handlePrev,
@@ -24,10 +26,11 @@ function ApproachTimeline() {
       </h2>
 
       <TimelineControls
-        onPrev={handlePrev} 
-        onNext={handleNext} 
-        onSubmit={handleSubmit} 
-        setInput={setInput} 
+        onPrev={handlePrev}
+        onNext={handleNext}
+        onSubmit={handleSubmit}
+        setInput={setInput}
+        alert={alert}
       />
 
       <svg ref={svgRef}></svg>

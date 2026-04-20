@@ -21,7 +21,7 @@ export class ErrorBoundary extends React.Component {
   }
 
   handleClick() {
-    window.location.href = '/dashboard'
+    window.location.reload()
   }
 
   fallbackUIStyle = {

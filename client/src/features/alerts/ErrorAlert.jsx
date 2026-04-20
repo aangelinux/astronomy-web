@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { Snackbar, Alert } from '@mui/material'
 
 function ErrorAlert() {
-  const { error } = useAppContext()
+  const { error, setError } = useAppContext()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -22,6 +22,7 @@ function ErrorAlert() {
       return
 
     setOpen(false)
+    setError(null)
   }
 
   return (

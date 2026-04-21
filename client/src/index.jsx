@@ -16,9 +16,9 @@ function App() {
       <AppProvider>
         <BrowserRouter>
           <Routes>
-            <Route path='/login' element={<Login />} />
+            <Route path='login' element={<Login />} />
             <Route index element={<Dashboard />} />
-            <Route path='/neos' element={<Neos />} />
+            <Route path='neos' element={<Neos />} />
           </Routes>
         </BrowserRouter>
       </AppProvider>

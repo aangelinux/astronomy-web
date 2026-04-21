@@ -3,6 +3,7 @@
  */
 
 import * as d3 from 'd3'
+import asteroidImg from '../../../../assets/asteroid.png'
 
 export const chart = (svgElement, data, hoverData) => {
   if (!data.length) return
@@ -87,7 +88,7 @@ function renderDataPoints({ svg, data, x, y, hoverData }) {
     .on("mouseleave", (event) => onLeave(event, hoverData))
   
   datapoints.append("image")
-    .attr("href", "/assets/asteroid.png")
+    .attr("href", asteroidImg)
     .attr("height", 18)
     .attr("width", 18)
     .attr("x", -9) // Center image

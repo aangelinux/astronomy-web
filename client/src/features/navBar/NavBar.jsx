@@ -3,10 +3,12 @@
  */
 
 import LogoutIcon from '@mui/icons-material/Logout'
+import { Link as RouterLink } from 'react-router-dom'
 import { AppBar, Toolbar, Link, Button } from '@mui/material'
 import { logout } from './api.js'
 import { useAppContext } from '../../context.jsx'
 import { useNavigate } from 'react-router-dom'
+import astronomyIcon from '../../../assets/astronomy.png'
 
 function NavBar() {
   const { setError } = useAppContext()
@@ -36,13 +38,13 @@ function NavBar() {
       <Toolbar sx={{ backgroundColor: '#0b0f1a', boxShadow: 20 }}>
 
         <img
-          src="/assets/astronomy.png"
+          src={astronomyIcon}
           alt="Astronomy Icon"
           style={{ margin: 5, height: 35 }}
         />
 
-        <Link href="/" sx={linkStyle}>Dashboard</Link>
-        <Link href="/neos" sx={linkStyle}>NEOs</Link>
+        <Link component={RouterLink} to='/' sx={linkStyle}>Dashboard</Link>
+        <Link component={RouterLink} to='neos' sx={linkStyle}>NEOs</Link>
 
         <Button onClick={handleClick}>
           <LogoutIcon />

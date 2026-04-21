@@ -5,7 +5,7 @@
   "type": "module",
   "main": "server/app.js",
   "scripts": {
-    "client": "start http://localhost:3002/auth && vite",
+    "client": "start http://localhost:3002/login && vite",
     "server": "nodemon server/app.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "vite build",

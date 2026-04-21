@@ -36,7 +36,7 @@ function NavBar() {
       <Toolbar sx={{ backgroundColor: '#0b0f1a', boxShadow: 20 }}>
 
         <img
-          src="/assets/astronomy.png"
+          src="/client/assets/astronomy.png"
           alt="Astronomy Icon"
           style={{ margin: 5, height: 35 }}
         />

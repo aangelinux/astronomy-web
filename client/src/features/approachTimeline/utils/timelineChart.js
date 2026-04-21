@@ -87,7 +87,7 @@ function renderDataPoints({ svg, data, x, y, hoverData }) {
     .on("mouseleave", (event) => onLeave(event, hoverData))
   
   datapoints.append("image")
-    .attr("href", "/assets/asteroid.png")
+    .attr("href", "/client/assets/asteroid.png")
     .attr("height", 18)
     .attr("width", 18)
     .attr("x", -9) // Center image

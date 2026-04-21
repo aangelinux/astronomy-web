@@ -22,7 +22,7 @@ export function authenticate(req, res) {
 export async function redirectToGithub(req, res) {
   const clientID = process.env.CLIENT_ID
   const scope = 'user:email'
-  const uri = 'http://localhost:3001/auth/callback'
+  const uri = `${process.env.BACKEND_URL}/auth/callback`
   const link = `https://github.com/login/oauth/authorize?client_id=${clientID}&response_type=code&scope=${scope}&redirect_uri=${uri}`
 
   res.redirect(link)
@@ -32,7 +32,7 @@ export async function fetchAccessToken(req, res) {
   const clientID = process.env.CLIENT_ID
   const clientSecret = process.env.CLIENT_SECRET
   const code = req.query.code
-  const uri = 'http://localhost:3001/auth/callback'
+  const uri = `${process.env.BACKEND_URL}/auth/callback`
   const link = `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${code}&redirect_uri=${uri}`
 
   const response = await fetch(link, {

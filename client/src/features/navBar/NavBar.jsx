@@ -36,12 +36,12 @@ function NavBar() {
       <Toolbar sx={{ backgroundColor: '#0b0f1a', boxShadow: 20 }}>
 
         <img
-          src="/client/assets/astronomy.png"
+          src="/assets/astronomy.png"
           alt="Astronomy Icon"
           style={{ margin: 5, height: 35 }}
         />
 
-        <Link href="/dashboard" sx={linkStyle}>Dashboard</Link>
+        <Link href="/" sx={linkStyle}>Dashboard</Link>
         <Link href="/neos" sx={linkStyle}>NEOs</Link>
 
         <Button onClick={handleClick}>

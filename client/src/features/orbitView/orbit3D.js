@@ -67,7 +67,7 @@ function createTimer() {
 function createScene() {
   const scene = new THREE.Scene()
   const texture = new THREE.TextureLoader()
-  const starsTexture = texture.load('/client/assets/stars.jpg')
+  const starsTexture = texture.load('/assets/stars.jpg')
 
   scene.background = starsTexture
   scene.backgroundIntensity = .55
@@ -77,7 +77,7 @@ function createScene() {
 
 function createNeo(scene) {
   const texture = new THREE.TextureLoader()
-  const neoTexture = texture.load('/client/assets/haumea.jpg')
+  const neoTexture = texture.load('/assets/haumea.jpg')
 
   const neoGeometry = new THREE.SphereGeometry(.1, 16, 16)
   const neoMaterial = new THREE.MeshBasicMaterial({ map: neoTexture })
@@ -90,7 +90,7 @@ function createNeo(scene) {
 
 function createEarth(scene) {
   const texture = new THREE.TextureLoader()
-  const earthTexture = texture.load('/client/assets/earth.jpg')
+  const earthTexture = texture.load('/assets/earth.jpg')
 
   const earthGeometry = new THREE.SphereGeometry(.2, 32, 32)
   const earthMaterial = new THREE.MeshBasicMaterial({ map: earthTexture })

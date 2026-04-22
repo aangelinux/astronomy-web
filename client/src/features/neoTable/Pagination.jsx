@@ -17,7 +17,7 @@ function Pagination(props) {
     <TableFooter>
       <TableRow>
         <TablePagination 
-          rowsPerPageOptions={[20, 50]}
+          rowsPerPageOptions={[20, 50, 1000]}
           rowsPerPage={rowsPerPage}
           count={totalRows}
           page={page}

@@ -30,6 +30,16 @@ function SearchBar({ setInput, options, setNeo, handleClick, alert }) {
       '&:hover fieldset': {
         borderColor: 'white',
       },
+    }
+  }
+
+  const autoCompleteStyle = {
+    width: 250,
+    '& .MuiAutocomplete-clearIndicator': {
+      color: 'white',
+    },
+    '& .MuiAutocomplete-popupIndicator': {
+      color: 'white',
     },
   }
   
@@ -41,8 +51,7 @@ function SearchBar({ setInput, options, setNeo, handleClick, alert }) {
         onInputChange={(event, value) => setInput(value)}
         options={options.filter(option => option.name)}
         getOptionLabel={(option) => option?.name ?? ''}
-        sx={{ width: 250 }}
-        
+        sx={autoCompleteStyle}
         renderInput={(params) =>
           <TextField {...params}
             label='Search NEOs ...'

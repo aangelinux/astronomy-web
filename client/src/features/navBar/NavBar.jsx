@@ -44,7 +44,7 @@ function NavBar() {
         />
 
         <Link component={RouterLink} to='/' sx={linkStyle}>Dashboard</Link>
-        <Link component={RouterLink} to='neos' sx={linkStyle}>NEOs</Link>
+        <Link component={RouterLink} to='/neos' sx={linkStyle}>NEOs</Link>
 
         <Button onClick={handleClick}>
           <LogoutIcon />

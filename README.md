@@ -19,7 +19,7 @@ The application uses Google's Gemini API to dynamically generate a description o
   
 ## Deployed Application
 
-> URL: ...
+> URL: [Astronomy Dashboard](https://astronomy-web-production.up.railway.app/)
 
 ## Requirements
 

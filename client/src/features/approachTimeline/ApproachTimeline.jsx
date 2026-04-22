@@ -22,7 +22,7 @@ function ApproachTimeline() {
   return (
     <div>
       <h2 style={{ textAlign: 'center' }}>
-        Close Approaches: Timeline
+        Close Approaches: Timeline 1900-2026
       </h2>
 
       <TimelineControls

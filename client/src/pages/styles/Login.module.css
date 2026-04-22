@@ -1,16 +1,20 @@
 @font-face {
-	font-family: GoogleSans;
-	src: url(/assets/GoogleSans-VariableFont_GRAD\,opsz\,wght.ttf);
+  font-family: GoogleSans;
+  src: url(/assets/GoogleSans-VariableFont_GRAD\,opsz\,wght.ttf);
 }
 
 .page {
-	font-family: GoogleSans;
+  font-family: GoogleSans;
 }
 
 .header {
-	font-size: 2.5rem;
-	font-weight: bold;
-	margin: 50px;
-	justify-self: center;
-	color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 50px;
+  justify-self: center;
+  color: white;
+}
+
+.button {
+  justify-self: center;
 }

@@ -15,19 +15,19 @@ function useDescription() {
     if (!(Object.keys(neoData)?.length)) 
       return
 
-    async function fetchDescription() {
-      setLoading(true)
-      try {
-        const response = await fetchAIResponse(neoData)
-        setDescription(response)
-      } catch (error) {
-        console.log(error)
-        setError('Failed to fetch AI response')
-      }
-      setLoading(false)
-    }
+    // async function fetchDescription() {
+    //   setLoading(true)
+    //   try {
+    //     const response = await fetchAIResponse(neoData)
+    //     setDescription(response)
+    //   } catch (error) {
+    //     console.log(error)
+    //     setError('Failed to fetch AI response')
+    //   }
+    //   setLoading(false)
+    // }
 
-    fetchDescription()
+    // fetchDescription()
   }, [neoData])
 
   return { description, loading }

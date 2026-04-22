@@ -24,7 +24,6 @@ function NeoTable() {
   }
 
   const tableBodyStyle = {
-    width: '80%',
     '& .MuiTableCell-root': {
       fontFamily: 'GoogleSans',
     },

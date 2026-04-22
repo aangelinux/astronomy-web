@@ -10,19 +10,19 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function Neos() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  useEffect(() => {
-    async function checkAuth() {
-      try {
-        await authenticate()
-      } catch (error) {
-        console.log(error)
-        navigate('/login')
-      }
-    }
-    checkAuth()
-  }, [])
+  // useEffect(() => {
+  //   async function checkAuth() {
+  //     try {
+  //       await authenticate()
+  //     } catch (error) {
+  //       console.log(error)
+  //       navigate('/login')
+  //     }
+  //   }
+  //   checkAuth()
+  // }, [])
   
   return (
     <div className={styles.page}>

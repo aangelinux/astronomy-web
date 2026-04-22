@@ -26,7 +26,8 @@ export const chart = (svgElement, data, hoverData) => {
 }
 
 export const toggleActive = (datapoints, spkid) => {
-  if (!datapoints || !spkid) return
+  if (!datapoints || !spkid) 
+    return
   
   datapoints.each(function(d) {
     if (d.spkid === spkid) {

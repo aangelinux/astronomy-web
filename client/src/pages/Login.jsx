@@ -25,8 +25,8 @@ function Login() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.header}>Sign In</h1>
-      <LoginButton />
+      <div className={styles.header}><h2>Sign In</h2></div>
+      <div className={styles.button}><LoginButton /></div>
     </div>
   )
 }

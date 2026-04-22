@@ -3,6 +3,7 @@
  */
 
 import Fade from '@mui/material/Fade'
+import HelpIcon from '@mui/icons-material/Help'
 import { List, ListItem, Button, Tooltip } from '@mui/material'
 
 function AttributeList({ attributes }) {
@@ -43,6 +44,7 @@ function AttributeList({ attributes }) {
             slotProps={tooltipSlotProps}
             sx={tooltipStyle}>
             <Button>
+              <HelpIcon sx={{ marginRight: .75 }} /> 
               {getName(attribute)}
             </Button>
           </Tooltip>}

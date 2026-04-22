@@ -25,7 +25,7 @@ function useAttributes() {
         explanation: 'The name of the Near-Earth object' 
       },
       { 
-        'Earth MOID': data['earth_moid_ld'], 
+        'Earth MOID (LD)': data['earth_moid_ld'], 
         explanation: `The closest possible distance between the NEO's orbit and Earth's orbit` 
       },
       { 
@@ -39,7 +39,8 @@ function useAttributes() {
       },
       { 
         'Potentially Hazardous Asteroid': data['pot_hazardous_asteroid'], 
-        explanation: `An asteroid with a MOID of less than 19.5 LD, roughly` 
+        explanation: `Asteroid that is capable of making threateningly close approaches
+        to Earth; determined by MOID (<19.5 LD) and Magnitude (<22)` 
       }
     ]
 

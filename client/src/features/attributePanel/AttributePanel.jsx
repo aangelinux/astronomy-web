@@ -10,6 +10,8 @@ function AttributePanel() {
   const attributes = useAttributes()
   
   const boxStyle = {
+    width: '100%',
+    height: 'fit-content',
     boxShadow: 1,
     fontFamily: 'GoogleSans',
     fontSize: '.95rem',
@@ -29,7 +31,7 @@ function AttributePanel() {
   return (
     <Box sx={boxStyle}>
       <Card variant='outlined'>
-        <CardContent sx={{ minHeight: 225, width: 500 }}>
+        <CardContent sx={{ padding: 2 }}>
 
           <Typography variant='h6' sx={headerStyle}>
             Attributes

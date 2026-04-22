@@ -20,7 +20,7 @@ function useTimeline() {
     if (!neoData?.close_approaches?.length) 
       return
     const date = new Date(neoData.close_approaches[0].date)
-    if (!date || isNaN(date)) 
+    if (!date) 
       return
 
     const year = date.getFullYear()

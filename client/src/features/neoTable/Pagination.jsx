@@ -17,12 +17,14 @@ function Pagination(props) {
     <TableFooter>
       <TableRow>
         <TablePagination 
-          rowsPerPageOptions={[20, 50, { label: 'All', value: -1 }]}
+          rowsPerPageOptions={[20, 50]}
           rowsPerPage={rowsPerPage}
           count={totalRows}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={(e) => handleChangeRowsPerPage(e)}
+          showLastButton={true}
+          showFirstButton={true}
         />
       </TableRow>
     </TableFooter>

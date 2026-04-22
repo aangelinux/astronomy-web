@@ -41,7 +41,7 @@ function SearchBar({ setInput, options, setNeo, handleClick, alert }) {
         onInputChange={(event, value) => setInput(value)}
         options={options.filter(option => option.name)}
         getOptionLabel={(option) => option?.name ?? ''}
-        sx={{ width: 300 }}
+        sx={{ width: 250 }}
         
         renderInput={(params) =>
           <TextField {...params}

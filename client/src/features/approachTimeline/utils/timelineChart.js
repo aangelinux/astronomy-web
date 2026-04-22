@@ -133,7 +133,7 @@ function renderXAxis(svg, height, x) {
   svg.append("g")
     .attr("transform", `translate(0, ${height / 2})`)
     .call(d3.axisBottom(x)
-      .ticks(d3.utcMonth.every(1))
+      .ticks(d3.utcMonth.every(2))
       .tickFormat(d => d.toLocaleString('en-US', 
         { month: 'long', year: 'numeric' })))
     .call(g => g.selectAll(".tick line")

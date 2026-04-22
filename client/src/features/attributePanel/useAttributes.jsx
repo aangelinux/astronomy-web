@@ -38,7 +38,7 @@ function useAttributes() {
         rotation around its own axis` 
       },
       { 
-        'Potentially Hazardous Asteroid (PHA)': data['pot_hazardous_asteroid'], 
+        'Potentially Hazardous Asteroid': data['pot_hazardous_asteroid'], 
         explanation: `An asteroid with a MOID of less than 19.5 LD, roughly` 
       }
     ]

@@ -24,6 +24,7 @@ body {
   min-height: 100vh;
   padding: 20px;
   color: white;
+  margin: auto;
 }
 
 .nav {
@@ -62,7 +63,7 @@ body {
 .error {
 }
 
-@media (max-width: 768px) {
+@media (max-width: 750px) {
   .page {
     grid-template-columns: 1fr;
     grid-template-areas:

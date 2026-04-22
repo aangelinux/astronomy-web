@@ -10,17 +10,13 @@ function DescriptionPanel() {
   const { description, loading } = useDescription()
 
   const boxStyle = {
+    width: '100%',
+    height: 'fit-content',
     boxShadow: 1,
     borderRadius: 2,
     fontFamily: 'GoogleSans',
     fontSize: '.95rem',
     textAlign: 'center'
-  }
-
-  const cardStyle = {
-    minHeight: 225, 
-    width: 500, 
-    justifySelf: 'center'
   }
 
   const geminiWrapperStyle = {
@@ -40,7 +36,7 @@ function DescriptionPanel() {
   return (
     <Box sx={boxStyle}>
       <Card variant='outlined'>
-        <CardContent sx={cardStyle}>
+        <CardContent sx={{ justifySelf: 'center', width: '90%' }}>
 
           <div style={geminiWrapperStyle}>
             <Typography variant='h8'>

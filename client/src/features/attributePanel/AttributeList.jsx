@@ -34,7 +34,7 @@ function AttributeList({ attributes }) {
   return (
     <List>
       {attributes.map((attribute, index) => ( 
-        <ListItem key={index} sx={{ gap: 1, fontWeight: 'bold' }}>
+        <ListItem key={index} sx={{ gap: 1, fontWeight: 'bold', padding: 1 }}>
 
           {<Tooltip 
             describeChild 

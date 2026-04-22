@@ -11,7 +11,7 @@ function OrbitView() {
   const boxStyle = {
     border: '2px solid white',
     height: 400,
-    width: 900,
+    width: '80%',
     margin: 4,
     justifySelf: 'center'
   }

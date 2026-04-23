@@ -70,7 +70,7 @@ When a NEO is selected, the Orbit View will display an interactive 3D view of th
   
 If the NEO has one or more close approaches recorded in their data, the Approach Timeline will display the year of the approach and highlight the event.  
   
-The timeline can also be interacted with on its own to navigate through years 1900-2026.  
+The timeline is a two-dimensional scatter plot where each point represents an approach event; the y-axis represents distance from Earth and the x-axis represents time. It can be interacted with on its own to navigate through years 1900-2026, without selecting a NEO. Hovering over an event will display a hoverbox with event data.  
   
 ### Screenshots
 

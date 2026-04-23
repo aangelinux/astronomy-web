@@ -1,5 +1,7 @@
 /**
  * Renders a set of controls for interacting with the timeline.
+ * 
+ * @typedef { import('react').ReactElement } ReactElement
  */
 
 import { Button, TextField, Typography } from '@mui/material'
@@ -7,7 +9,20 @@ import ArrowRight from '@mui/icons-material/ArrowRight'
 import ArrowLeft from '@mui/icons-material/ArrowLeft'
 import InputAlert from '../alerts/InputAlert.jsx'
 
-function TimelineControls({ onPrev, onNext, onSubmit, setInput, alert }) {
+/**
+ * React element rendering pagination buttons and a search bar for ApproachTimeline.
+ * 
+ * @param {{
+ *  handlePrev: function,
+ *  handleNext: function,
+ *  handleSubmit: function,
+ *  setInput: function,
+ *  alert: boolean
+ * }} props
+ * 
+ * @returns {ReactElement}
+ */
+function TimelineControls({ handlePrev, handleNext, handleSubmit, setInput, alert }) {
   const wrapperStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -37,12 +52,12 @@ function TimelineControls({ onPrev, onNext, onSubmit, setInput, alert }) {
   return (
     <div style={wrapperStyle}>
 
-      <Button variant='outlined' onClick={onPrev}>
+      <Button variant='outlined' onClick={handlePrev}>
         <ArrowLeft />
         Prev
       </Button>
 
-      <Button variant='outlined' onClick={onNext}>
+      <Button variant='outlined' onClick={handleNext}>
         Next
         <ArrowRight />
       </Button>
@@ -59,7 +74,7 @@ function TimelineControls({ onPrev, onNext, onSubmit, setInput, alert }) {
         alert={alert}
       />
 
-      <Button variant='outlined' onClick={onSubmit}>
+      <Button variant='outlined' onClick={handleSubmit}>
         Select Year
       </Button>
 

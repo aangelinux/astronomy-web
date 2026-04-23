@@ -1,7 +1,15 @@
 /**
- * Fetches approach data from the astronomy API.
+ * Fetches yearly NEO approach data from a third-party API.
+ * 
+ * @param {number} year - Year to filter approaches by.
+ * @returns {array[{ 
+ *  date: string, 
+ *  minimum_distance_km: number, 
+ *  nominal_distance_km: number, 
+ *  rarity: number, 
+ *  spkid: string 
+ * }]}
  */
-
 export async function filterApproachesBy(year) {
   const limit = 1200
   const url = 'https://astronomy-api-production.up.railway.app/'

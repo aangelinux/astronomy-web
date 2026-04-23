@@ -4,6 +4,13 @@
 
 const url = 'https://astronomy-api-production.up.railway.app/'
 
+/**
+ * Fetch a set amount of NEOs from the database.
+ * 
+ * @param {number} limit - Limit of NEOs to fetch.
+ * @param {number} offset - Offset for database entry.
+ * @returns {array[object]}
+ */
 export async function filterNeos(limit = 20, offset = 0) {
   const res = await fetch(url, {
     method: 'POST',
@@ -42,6 +49,11 @@ export async function filterNeos(limit = 20, offset = 0) {
   return neos
 }
 
+/**
+ * Fetches the total number of NEO entries in the database.
+ * 
+ * @returns {number}
+ */
 export async function getTotalNeoCount() {
   const res = await fetch(url, {
     method: 'POST',

@@ -1,7 +1,8 @@
 /**
- * Authenticates the user with GitHub.
+ * Verifies that the user is authorized to use the application.
+ * 
+ * @returns {JSON}
  */
-
 export async function authenticate() {
   const url = '/auth/me'
   const res = await fetch(url, { credentials: 'include' })

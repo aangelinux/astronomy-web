@@ -1,10 +1,25 @@
 /**
  * Renders a search bar for selecting NEOs.
+ * 
+ * @typedef { import('react').ReactElement } ReactElement
  */
 
 import { Autocomplete, TextField, Button } from '@mui/material'
 import InputAlert from '../alerts/InputAlert.jsx'
 
+/**
+ * React element rendering a search bar with autocomplete for NeoSelection.
+ * 
+ * @param {{
+ *  setInput: function,
+ *  options: array[{ name: string, spkid: string }],
+ *  setNeo: function,
+ *  handleClick: function,
+ *  alert: boolean
+ * }} props
+ * 
+ * @returns {ReactElement}
+ */
 function SearchBar({ setInput, options, setNeo, handleClick, alert }) {
   const wrapperStyle = {
     display: 'flex', 

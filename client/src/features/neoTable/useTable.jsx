@@ -6,6 +6,25 @@ import { useState, useEffect } from 'react'
 import { filterNeos, getTotalNeoCount } from './api.js'
 import { useAppContext } from '../../context.jsx'
 
+/**
+ * Custom hook that handles table data and interactivity.
+ * 
+ * @returns {{
+ *  neos: array[{ 
+ *    spkid: string, 
+ *    name: string, 
+ *    earth_moid_ld: number,
+ *    magnitude: number | null, 
+ *    rotation_hours: number | null, 
+ *    pot_hazardous_asteroid: boolean 
+ *  }],
+ *  page: number,
+ *  rowsPerPage: number,
+ *  totalRows: number | null,
+ *  handleChangePage: function,
+ *  handleChangeRowsPerPage: function
+ * }}
+ */
 function useTable() {
   const { setError } = useAppContext()
   const [neos, setNeos] = useState([])
@@ -20,6 +39,7 @@ function useTable() {
         setTotalRows(count)
       } catch (error) {
         console.log(error)
+        setError('Failed to fetch total NEO count')
       }
     }
     fetchCount()

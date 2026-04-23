@@ -4,6 +4,15 @@
 
 const url = 'https://astronomy-api-production.up.railway.app/'
 
+/**
+ * Fetches NEOs by name.
+ * 
+ * @param {string} name - Name to filter NEOs by.
+ * @returns {array[{ 
+ *  name: string,
+ *  spkid: string
+ * }]}
+ */
 export async function filterNeosBy(name) {
   const limit = 5
   const res = await fetch(url, {
@@ -36,6 +45,12 @@ export async function filterNeosBy(name) {
   return neos
 }
 
+/**
+ * Fetches NEO data by its spkid.
+ * 
+ * @param {string} spkid - Spkid of the selected NEO.
+ * @returns {object}
+ */
 export async function getNeoData(spkid) {
   const res = await fetch(url, {
     method: 'POST',

@@ -26,9 +26,9 @@ function ApproachTimeline() {
       </h2>
 
       <TimelineControls
-        onPrev={handlePrev}
-        onNext={handleNext}
-        onSubmit={handleSubmit}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        handleSubmit={handleSubmit}
         setInput={setInput}
         alert={alert}
       />

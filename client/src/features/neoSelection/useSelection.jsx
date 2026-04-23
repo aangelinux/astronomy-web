@@ -6,6 +6,17 @@ import { useState, useEffect } from 'react'
 import { useAppContext } from '../../context.jsx'
 import { filterNeosBy, getNeoData } from './api.js'
 
+/**
+ * Custom hook that handles NEO data and interactivity.
+ * 
+ * @returns {{
+ *  setInput: function, 
+ *  options: array[{ name: string, spkid: string }], 
+ *  setNeo: function, 
+ *  handleClick: function, 
+ *  alert: boolean
+ * }}
+ */
 function useSelection() {
   const { setNeoData, setError } = useAppContext()
   const [options, setOptions] = useState([])

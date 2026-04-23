@@ -8,7 +8,7 @@ import { fetchAIResponse } from './api.js'
 
 function useDescription() {
   const { neoData, setError } = useAppContext()
-  const [description, setDescription] = useState("")
+  const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {

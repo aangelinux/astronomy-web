@@ -17,7 +17,7 @@ export class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, info) {
     console.error('An error occurred: ', error)
-    console.error('Details: ', info)
+    console.error('Details: ', JSON.stringify(info))
   }
 
   handleClick() {

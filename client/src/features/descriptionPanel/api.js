@@ -1,7 +1,19 @@
 /**
- * Fetches dynamic responses from Google's Gemini API.
+ * Fetches a description of a NEO from Google's Gemini API.
+ * 
+ * @param {{
+ *  spkid: string,
+ *  name: string,
+ *  earth_moid_ld: number,
+ *  magnitude: number | null,
+ *  rotation_hours: number | null,
+ *  pot_hazardous_asteroid: boolean,
+ *  orbit: object,
+ *  close_approaches: array[object]
+ * }} input
+ * 
+ * @returns {string}
  */
-
 export async function fetchAIResponse(input) {
   const url = '/genai'
   const res = await fetch(url, {

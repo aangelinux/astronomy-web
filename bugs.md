@@ -6,6 +6,7 @@
   - ~~X-axis labels look crowded on narrow browser widths~~
 
 **Orbit View**
+  - SVG ref not re-rendering when browser window width changes
   - Orbit sometimes intersects Earth
 
 **Data**

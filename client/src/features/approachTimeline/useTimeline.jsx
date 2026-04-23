@@ -1,5 +1,7 @@
 /**
  * Contains hooks and logic for the ApproachTimeline component.
+ * 
+ * @typedef { import('react').RefObject } Ref
  */
 
 import { useState, useEffect, useRef } from 'react'
@@ -8,10 +10,24 @@ import { filterApproachesBy } from './utils/api.js'
 import { chart, toggleActive } from './utils/timelineChart.js'
 import useWindowSize from '../../useWindowSize.jsx'
 
+/**
+ * Custom hook that handles timeline data and interactivity.
+ * 
+ * @returns {{
+ *  year: number,
+ *  alert: boolean,
+ *  svgRef: Ref<SVGElement>,
+ *  hoverData: { data: object, x: number, y: number } | null,
+ *  handlePrev: function,
+ *  handleNext: function,
+ *  handleSubmit: function,
+ *  setInput: function
+ * }}
+ */
 function useTimeline() {
   const { neoData, setError } = useAppContext()
   const [year, setYear] = useState(1900)
-  const [input, setInput] = useState(null)
+  const [input, setInput] = useState('')
   const [datapoints, setDatapoints] = useState(null)
   const [hoverData, setHoverData] = useState(null)
   const [activeEvent, setActiveEvent] = useState(false)

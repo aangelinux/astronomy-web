@@ -1,5 +1,5 @@
 /**
- * Hook storing the browser's current window size.
+ * Custom hook storing the browser's window size.
  */
 
 import { useLayoutEffect, useState } from 'react'

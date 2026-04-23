@@ -62,4 +62,21 @@ The application uses Google's Gemini API to dynamically generate a description o
 
 ## How to Use
 
-_Explain how to interact with your visualization (controls, filters, etc.). Screenshots/gifs are encouraged._
+The NEOs page, which can be accessed from the navigation bar, displays a table of all NEOs in the database along with their main attributes.  
+  
+To visualize data on the Dashboard, users can select a Near-Earth Object with the search bar. The search bar has an autocomplete feature so it's not necessary to know the full names of the objects.  
+  
+When a NEO is selected, the Orbit View will display an interactive 3D view of the orbit.  
+  
+If the NEO has one or more close approaches recorded in their data, the Approach Timeline will display the year of the approach and highlight the event.  
+  
+The timeline can also be interacted with on its own to navigate through years 1900-2026.  
+  
+### Screenshots
+
+![App_1](/images/neoApp_1.png)  
+  
+![App_2](/images/neoApp_2.png)  
+  
+![App_3](/images/neoApp_3.png)  
+  

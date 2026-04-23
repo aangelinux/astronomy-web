@@ -1,5 +1,5 @@
 /**
- * Defines an ErrorBoundary class to show fallback UI on app-wide crashes.
+ * Defines a class that displays a fallback UI on app-wide crashes.
  */
 
 import { Button, Card } from '@mui/material'

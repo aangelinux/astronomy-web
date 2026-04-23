@@ -38,7 +38,7 @@ function Dashboard() {
       <div className={styles.description}><DescriptionPanel /></div>
       <div className={styles.orbit}><OrbitView /></div>
       <div className={styles.timeline}><ApproachTimeline /></div>
-      <div className={styles.error}><ErrorAlert></ErrorAlert></div>
+      <div className={styles.error}><ErrorAlert /></div>
     </div>
   )
 }

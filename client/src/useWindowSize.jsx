@@ -1,5 +1,5 @@
 /**
- * Listens to the window-resize event and updates the hook.
+ * Hook storing the browser's current window size.
  */
 
 import { useLayoutEffect, useState } from 'react'

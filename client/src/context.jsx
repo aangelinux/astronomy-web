@@ -1,5 +1,5 @@
 /**
- * Contains state that's used by multiple components.
+ * Stores hooks that are used by multiple components.
  */
 
 import { createContext, useContext, useState } from 'react'

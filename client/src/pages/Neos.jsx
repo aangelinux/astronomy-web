@@ -1,5 +1,5 @@
 /**
- * Page displaying all NEOs in the database.
+ * Page displaying a table of all NEOs in the database.
  */
 
 import styles from './styles/Neos.module.css'

@@ -1,13 +1,47 @@
 /**
- * Controller for generating content with Google's Gemini API.
+ * Handles requests to Google's Gemini API.
+ * 
+ * @typedef { import('express').Request } Request
+ * @typedef { import('express').Response } Response
  */
 
 import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
 import { GoogleGenAI } from '@google/genai'
 
 dotenv.config()
 
-export async function getResponse(req, res, next) {
+/**
+ * Verifies that the client has a valid JWT stored in cookies.
+ * 
+ * @param {Request} res - Express request; expected JWT in req.cookies.JWT.
+ * @param {Response} res - Express response.
+ * @param {function} next - Express next function.
+ * @returns {void}
+ */
+export function requireAuth(req, res, next) {
+  const token = req.cookies.JWT
+  if (!token)
+    return res.sendStatus(401)
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    req.user = decoded
+    next()
+  } catch (error) {
+    return res.sendStatus(401)
+  }  
+}
+
+/**
+ * Prompts Gemini to generate a text-based description of the
+ * selected Near-Earth Object based on its attributes.
+ * 
+ * @param {Request} res - Express request; expected object with attributes.
+ * @param {Response} res - Express response.
+ * @returns {Promise<void>}
+ */
+export async function getResponse(req, res) {
   const attributes = JSON.stringify(req.body)
   const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY

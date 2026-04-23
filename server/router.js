@@ -11,7 +11,7 @@ dotenv.config()
 
 export const router = express.Router()
 
-router.get('/auth/me', authController.authenticate)
+router.get('/auth/me', authController.getAuthenticatedUser)
 router.get('/auth/github', authController.redirectToGithub)
 router.get('/auth/callback', async (req, res) => {
   const token = await authController.fetchAccessToken(req, res)
@@ -23,4 +23,4 @@ router.get('/auth/callback', async (req, res) => {
 })
 
 router.post('/logout', authController.logout)
-router.post('/genai', aiController.getResponse)
+router.post('/genai', aiController.requireAuth, aiController.getResponse)

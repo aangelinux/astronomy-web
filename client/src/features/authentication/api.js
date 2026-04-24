@@ -8,7 +8,8 @@ export async function authenticate() {
   const res = await fetch(url, { credentials: 'include' })
 
   if (!res.ok) {
-    throw new Error('Unauthorized: ', res.statusText || res.status)
+    throw new Error('Unauthorized: ', { 
+      details: res.statusText || res.status })
   }
 
   return res.json()

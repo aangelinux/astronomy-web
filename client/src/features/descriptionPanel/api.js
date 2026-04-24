@@ -11,7 +11,6 @@
  *  orbit: object,
  *  close_approaches: array[object]
  * }} input
- * 
  * @returns {string}
  */
 export async function fetchAIResponse(input) {
@@ -32,8 +31,8 @@ export async function fetchAIResponse(input) {
     if (errors[res.status])
       return errors[res.status]
 
-    throw new Error('Error fetching AI response: ',
-      res.statusText || res.status)
+    throw new Error('Error fetching AI response: ', { 
+      details: res.statusText || res.status })
   }
 
   const result = await res.json()

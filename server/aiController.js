@@ -14,7 +14,7 @@ dotenv.config()
 /**
  * Verifies that the client has a valid JWT stored in cookies.
  * 
- * @param {Request} res - Express request; expected JWT in req.cookies.JWT.
+ * @param {Request} req - Express request; expected JWT in req.cookies.JWT.
  * @param {Response} res - Express response.
  * @param {function} next - Express next function.
  * @returns {void}
@@ -37,12 +37,15 @@ export function requireAuth(req, res, next) {
  * Prompts Gemini to generate a text-based description of the
  * selected Near-Earth Object based on its attributes.
  * 
- * @param {Request} res - Express request; expected object with attributes.
+ * @param {Request} req - Express request; expected object with attributes.
  * @param {Response} res - Express response.
  * @returns {Promise<void>}
  */
 export async function getResponse(req, res) {
   const attributes = JSON.stringify(req.body)
+  if (!attributes)
+    return
+  
   const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
   })

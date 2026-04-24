@@ -39,8 +39,8 @@ export async function filterNeos(limit = 20, offset = 0) {
   })
 
   if (!res.ok) {
-    throw new Error('Error fetching NEO data: ', 
-      res.statusText || res.status)
+    throw new Error('Error fetching NEO data: ', { 
+      details: res.statusText || res.status })
   }
 
   const result = await res.json()
@@ -70,8 +70,8 @@ export async function getTotalNeoCount() {
   })
 
   if (!res.ok) {
-    throw new Error('Error fetching NEO count: ', 
-      res.statusText || res.status)
+    throw new Error('Error fetching NEO count: ', { 
+      details: res.statusText || res.status })
   }
 
   const result = await res.json()

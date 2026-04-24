@@ -8,10 +8,7 @@ const url = 'https://astronomy-api-production.up.railway.app/'
  * Fetches NEOs by name.
  * 
  * @param {string} name - Name to filter NEOs by.
- * @returns {array[{ 
- *  name: string,
- *  spkid: string
- * }]}
+ * @returns {array[{ name: string, spkid: string }]}
  */
 export async function filterNeosBy(name) {
   const limit = 5
@@ -35,8 +32,8 @@ export async function filterNeosBy(name) {
   })
 
   if (!res.ok) {
-    throw new Error('Error fetching NEOs: ', 
-      res.statusText || res.status)
+    throw new Error('Error fetching NEOs: ', { 
+      details: res.statusText || res.status })
   }
 
   const result = await res.json()
@@ -88,8 +85,8 @@ export async function getNeoData(spkid) {
   })
 
   if (!res.ok) {
-    throw new Error('Error fetching NEO data: ', 
-      res.statusText || res.status)
+    throw new Error('Error fetching NEO data: ', { 
+      details: res.statusText || res.status })
   }
 
   const result = await res.json()

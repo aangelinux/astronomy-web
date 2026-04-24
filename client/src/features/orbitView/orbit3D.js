@@ -66,7 +66,6 @@ export function setup(container) {
  *  peri_deg: number,
  * }} data - Raw values that can be used to calculate an orbit.
  * @param {ThreeObjects} setup - Objects needed for rendering.
- * 
  * @returns {void}
  */
 export function renderOrbit(data, setup) {

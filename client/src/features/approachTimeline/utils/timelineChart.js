@@ -21,7 +21,6 @@ import asteroidImg from '../../../../assets/asteroid.png'
  *  rarity: number 
  * }]} data - Array of datapoint objects (events) to render.
  * @param {function} hoverData - Handler to set the data of an event.
- * 
  * @returns {currentData}
  */
 export const chart = (svgElement, data, hoverData) => {

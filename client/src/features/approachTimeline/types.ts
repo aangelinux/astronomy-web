@@ -1,12 +1,24 @@
 export type ApproachTimelineProps = {
   year: number
   alert: boolean
-  svgRef: React.RefObject<SVGElement|null>
+  svgRef: React.RefObject<SVGSVGElement|null>
   hoverData: HoverData | null
   handlePrev: () => void
   handleNext: () => void
   handleSubmit: () => void
   setInput: React.Dispatch<React.SetStateAction<string>>
+}
+
+export type TimelineControlsProps = {
+  handlePrev: () => void
+  handleNext: () => void
+  handleSubmit: () => void
+  setInput: React.Dispatch<React.SetStateAction<string>>
+  alert: boolean
+}
+
+export type TimelineTooltipProps = {
+  hoverData: HoverData | null
 }
 
 export type HoverData = {
@@ -23,15 +35,7 @@ export type ApproachData = {
   rarity: number
 }
 
-export type TimelineControlsProps = {
-  handlePrev: () => void
-  handleNext: () => void
-  handleSubmit: () => void
-  setInput: React.Dispatch<React.SetStateAction<string>>
-  alert: boolean
-}
-
-export type ChartActiveData = {
+export type ChartData = {
   groups_: SVGGElement[]
   parents_: SVGGElement[]
 }

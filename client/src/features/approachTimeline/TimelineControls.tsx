@@ -1,28 +1,17 @@
 /**
  * Renders a set of controls for interacting with the timeline.
- * 
- * @typedef { import('react').ReactElement } ReactElement
- * 
- * @typedef {Object} controlsProps
- * @property {function} handlePrev
- * @property {function} handleNext
- * @property {function} handleSubmit
- * @property {function} setInput
- * @property {boolean} alert
+ * Sub-component of ApproachTimeline.
  */
 
-import { Button, TextField, Typography } from '@mui/material'
+import { TimelineControlsProps } from './types'
+import { Button, TextField } from '@mui/material'
 import ArrowRight from '@mui/icons-material/ArrowRight'
 import ArrowLeft from '@mui/icons-material/ArrowLeft'
-import InputAlert from '../alerts/InputAlert.jsx'
+import InputAlert from '../alerts/InputAlert'
 
-/**
- * React element rendering pagination buttons and a search bar.
- * 
- * @param {controlsProps} props
- * @returns {ReactElement}
- */
-function TimelineControls({ handlePrev, handleNext, handleSubmit, setInput, alert }) {
+function TimelineControls(props: TimelineControlsProps) {
+  const { handlePrev, handleNext, handleSubmit, setInput, alert } = props
+  
   const wrapperStyle = {
     display: 'flex',
     alignItems: 'center',

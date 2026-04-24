@@ -2,14 +2,12 @@
  * Renders an interactive timeline of close approaches to earth.
  */
 
-import useTimeline from './useTimeline.jsx'
-import TimelineControls from './TimelineControls.jsx'
-import TimelineTooltip from './TimelineTooltip.jsx'
-import InputAlert from '../alerts/InputAlert.jsx'
+import useTimeline from './useTimeline'
+import TimelineControls from './TimelineControls'
+import TimelineTooltip from './TimelineTooltip'
 
 function ApproachTimeline() {
   const {
-    year,
     alert,
     svgRef,
     hoverData,

@@ -2,11 +2,11 @@
  * Custom hook containing logic for the ApproachTimeline component.
  */
 
-import { ApproachTimelineProps, ChartActiveData, HoverData } from './types'
-import { useState, useEffect, useRef } from 'react'
-import { useAppContext } from '../../context'
+import { ApproachTimelineProps, ChartData, HoverData } from './types'
 import { filterApproachesBy } from './utils/api'
 import { chart, toggleActive } from './utils/timelineChart'
+import { useState, useEffect, useRef } from 'react'
+import { useAppContext } from '../../context'
 import useWindowSize from '../../useWindowSize'
 
 function useTimeline (): ApproachTimelineProps {
@@ -14,12 +14,12 @@ function useTimeline (): ApproachTimelineProps {
 
   const [year, setYear] = useState<number>(1900)
   const [input, setInput] = useState<string>('')
-  const [datapoints, setDatapoints] = useState<ChartActiveData | null>(null)
+  const [chartData, setChartData] = useState<ChartData | null>(null)
   const [hoverData, setHoverData] = useState<HoverData | null>(null)
   const [activeEvent, setActiveEvent] = useState<boolean>(false)
   const [alert, setAlert] = useState<boolean>(false)
 
-  const svgRef = useRef<SVGElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
   const size = useWindowSize() as { width: number, height: number }
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function useTimeline (): ApproachTimelineProps {
         if (!data?.length || !svgRef.current) 
           return
         
-        setDatapoints(chart(svgRef.current, data, setHoverData))
+        setChartData(chart(svgRef.current, data, setHoverData))
       } catch (error) {
         console.log(error)
         setError('Failed to fetch approach data')
@@ -54,11 +54,11 @@ function useTimeline (): ApproachTimelineProps {
   }, [year, size['width']])
 
   useEffect(() => {
-    if (!datapoints || !neoData?.spkid || !activeEvent) 
+    if (!activeEvent || !chartData || !neoData?.spkid) 
       return
 
-    toggleActive(datapoints, neoData.spkid)
-  }, [activeEvent, datapoints])
+    toggleActive(chartData, neoData.spkid)
+  }, [activeEvent, chartData])
 
   const handlePrev = () => {
     setActiveEvent(false)

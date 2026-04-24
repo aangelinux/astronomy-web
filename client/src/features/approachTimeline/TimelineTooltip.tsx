@@ -1,14 +1,16 @@
 /**
  * Renders a tooltip displaying approach data.
+ * Sub-component of ApproachTimeline.
  */
 
-import useWindowSize from '../../useWindowSize.jsx'
+import { HoverData, TimelineTooltipProps } from './types'
+import useWindowSize from '../../useWindowSize'
 
-function TimelineTooltip({ hoverData }) {
+function TimelineTooltip({ hoverData }: TimelineTooltipProps) {
   if (!hoverData) 
     return null
 
-  const size = useWindowSize()
+  const size = useWindowSize() as { width: number, height: number }
 
   const yOffset = () => {
     let y
@@ -28,7 +30,7 @@ function TimelineTooltip({ hoverData }) {
     return x
   }
 
-  const tooltipStyle = {
+  const tooltipStyle: Object = {
     position: 'fixed',
     top: hoverData.y - yOffset(),
     left: hoverData.x - xOffset(),
@@ -41,16 +43,12 @@ function TimelineTooltip({ hoverData }) {
   }
 
   return (
-    <div>
-      {hoverData && (
-        <div style={tooltipStyle}>
-          <p>SPK-ID: {hoverData.data.spkid}</p>
-          <p>Date: {new Date(hoverData.data.date).toLocaleString('sv-SE')}</p>
-          <p>Distance: {hoverData.data.minimum_distance_km} km</p>
-          <p>Velocity: {hoverData.data.relative_velocity_km_s} km/s</p>
-          <p>Rarity: {hoverData.data.rarity}</p>
-        </div>
-      )}
+    <div style={tooltipStyle}>
+      <p>SPK-ID: {hoverData.data.spkid}</p>
+      <p>Date: {new Date(hoverData.data.date).toLocaleString('sv-SE')}</p>
+      <p>Distance: {hoverData.data.minimum_distance_km} km</p>
+      <p>Velocity: {hoverData.data.relative_velocity_km_s} km/s</p>
+      <p>Rarity: {hoverData.data.rarity}</p>
     </div>
   )
 }

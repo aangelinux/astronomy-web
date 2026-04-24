@@ -5,7 +5,7 @@
  * @returns {array[{ 
  *  date: string, 
  *  minimum_distance_km: number, 
- *  nominal_distance_km: number, 
+ *  relative_velocity_km_s: number, 
  *  rarity: number, 
  *  spkid: string 
  * }]}

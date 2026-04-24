@@ -1,40 +1,26 @@
 /**
- * Contains hooks and logic for the ApproachTimeline component.
- * 
- * @typedef { import('react').RefObject } Ref
- * 
- * @typedef {Object} timelineProps
- * @property {number} year
- * @property {boolean} alert
- * @property {Ref<SVGElement>} svgRef
- * @property {object | null} hoverData
- * @property {function} handlePrev
- * @property {function} handleNext
- * @property {function} handleSubmit
- * @property {function} setInput
+ * Custom hook containing logic for the ApproachTimeline component.
  */
 
+import { ApproachTimelineProps, ChartActiveData, HoverData } from './types'
 import { useState, useEffect, useRef } from 'react'
-import { useAppContext } from '../../context.jsx'
-import { filterApproachesBy } from './utils/api.js'
-import { chart, toggleActive } from './utils/timelineChart.js'
-import useWindowSize from '../../useWindowSize.jsx'
+import { useAppContext } from '../../context'
+import { filterApproachesBy } from './utils/api'
+import { chart, toggleActive } from './utils/timelineChart'
+import useWindowSize from '../../useWindowSize'
 
-/**
- * Custom hook that handles timeline data and interactivity.
- * 
- * @returns {timelineProps}
- */
-function useTimeline() {
+function useTimeline (): ApproachTimelineProps {
   const { neoData, setError } = useAppContext()
-  const [year, setYear] = useState(1900)
-  const [input, setInput] = useState('')
-  const [datapoints, setDatapoints] = useState(null)
-  const [hoverData, setHoverData] = useState(null)
-  const [activeEvent, setActiveEvent] = useState(false)
-  const [alert, setAlert] = useState(false)
-  const svgRef = useRef()
-  const size = useWindowSize()
+
+  const [year, setYear] = useState<number>(1900)
+  const [input, setInput] = useState<string>('')
+  const [datapoints, setDatapoints] = useState<ChartActiveData | null>(null)
+  const [hoverData, setHoverData] = useState<HoverData | null>(null)
+  const [activeEvent, setActiveEvent] = useState<boolean>(false)
+  const [alert, setAlert] = useState<boolean>(false)
+
+  const svgRef = useRef<SVGElement>(null)
+  const size = useWindowSize() as { width: number, height: number }
 
   useEffect(() => {
     setActiveEvent(false)
@@ -42,8 +28,6 @@ function useTimeline() {
     if (!neoData?.close_approaches?.length) 
       return
     const date = new Date(neoData.close_approaches[0].date)
-    if (!date) 
-      return
     const year = date.getFullYear()
 
     setYear(year)
@@ -56,7 +40,7 @@ function useTimeline() {
     async function fetchApproaches() {
       try {
         const data = await filterApproachesBy(yearString)
-        if (!data?.length) 
+        if (!data?.length || !svgRef.current) 
           return
         
         setDatapoints(chart(svgRef.current, data, setHoverData))
@@ -65,6 +49,7 @@ function useTimeline() {
         setError('Failed to fetch approach data')
       }
     }
+
     fetchApproaches()
   }, [year, size['width']])
 
@@ -90,12 +75,12 @@ function useTimeline() {
   }
 
   const handleSubmit = () => {
-    if (!input || input < 1900 || input > 2026) {
+    if (!input || Number(input) < 1900 || Number(input) > 2026) {
       setAlert(true)
       return
     }
     const inputYear = new Date(input).getFullYear()
-    
+
     if (!inputYear) {
       setAlert(true)
       return

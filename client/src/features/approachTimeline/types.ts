@@ -1,14 +1,12 @@
-import { RefObject } from 'react'
-
 export type ApproachTimelineProps = {
   year: number
   alert: boolean
-  svgRef: RefObject<SVGElement>
+  svgRef: React.RefObject<SVGElement|null>
   hoverData: HoverData | null
-  handlePrev: Function
-  handleNext: Function
-  handleSubmit: Function
-  setInput: Function
+  handlePrev: () => void
+  handleNext: () => void
+  handleSubmit: () => void
+  setInput: React.Dispatch<React.SetStateAction<string>>
 }
 
 export type HoverData = {
@@ -26,14 +24,14 @@ export type ApproachData = {
 }
 
 export type TimelineControlsProps = {
-  handlePrev: Function
-  handleNext: Function
-  handleSubmit: Function
-  setInput: Function
+  handlePrev: () => void
+  handleNext: () => void
+  handleSubmit: () => void
+  setInput: React.Dispatch<React.SetStateAction<string>>
   alert: boolean
 }
 
 export type ChartActiveData = {
-  groups_: Array<SVGGElement>
-  parents_: Array<SVGGElement>
+  groups_: SVGGElement[]
+  parents_: SVGGElement[]
 }

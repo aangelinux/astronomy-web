@@ -13,7 +13,7 @@ import { useAppContext } from '../../context.jsx'
  * Sets up the 3D environment on intial render and updates the orbit
  * every time the neoData hook changes.
  * 
- * @returns {Ref<SVGElement> | null}
+ * @returns {Ref<HTMLElement> | null}
  */
 function useOrbit() {
   const { neoData } = useAppContext()

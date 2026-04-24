@@ -1,5 +1,16 @@
 /**
- * Creates a 3D view of an orbit using three.js.
+ * Creates a 3D view of a NEO's orbit around Earth, using three.js.
+ * 
+ * @typedef {{ 
+ *  renderer: THREE.WebGLRenderer, 
+ *  camera: THREE.PerspectiveCamera, 
+ *  controls: OrbitControls, 
+ *  timer: THREE.Timer, 
+ *  scene: THREE.Scene, 
+ *  neo: THREE.Mesh, 
+ *  earth: THREE.Mesh, 
+ *  orbit: THREE.Line | null 
+ * }} ThreeObjects
  */
 
 import * as THREE from 'three'
@@ -8,6 +19,13 @@ import backgroundImg from '../../../assets/stars.jpg'
 import earthImg from '../../../assets/earth.jpg'
 import haumeaImg from '../../../assets/haumea.jpg'
 
+/**
+ * Creates instances of all needed THREE objects and stores them in
+ * a container for later use.
+ * 
+ * @param {HTMLElement} container - Element to render the 3D view on.
+ * @returns {ThreeObjects}
+ */
 export function setup(container) {
   const width = container.clientWidth
   const height = container.clientHeight
@@ -23,25 +41,58 @@ export function setup(container) {
   const neo = createNeo(scene)
   const earth = createEarth(scene)
 
-  return { renderer, camera, controls, timer, scene, 
-    neo, earth, orbit: null }
+  return { 
+    renderer, 
+    camera, 
+    controls, 
+    timer, 
+    scene, 
+    neo, 
+    earth, 
+    orbit: null 
+  }
 }
 
+/**
+ * Calculates the NEO's orbit around the Earth and renders it on 
+ * the viewport in 3D.
+ * 
+ * @param {{
+ *  axis_au: number,
+ *  eccentricity: number,
+ *  inclination_deg: number,
+ *  mean_anomaly_deg: number,
+ *  node_deg: number,
+ *  peri_deg: number,
+ * }} data - Raw values that can be used to calculate an orbit.
+ * @param {ThreeObjects} setup - Objects needed for rendering.
+ * 
+ * @returns {void}
+ */
 export function renderOrbit(data, setup) {
-  if (!data) return
-  if (setup.orbit) setup.orbit.removeFromParent()
+  if (!data) 
+    return
   
   const orbitData = calculate(data)
   const animation = animateNeo(orbitData, setup)
+  setup.orbit?.removeFromParent() // Clear previous orbit
   setup.orbit = createOrbit(orbitData, setup.scene)
 
-  return () => animation?.() // Stops animation, if running
+  return () => animation?.() // Stops animation if running
 }
 
+/**
+ * Disposes of all THREE objects in memory and empties the container
+ * where the 3D view is currently rendered.
+ * 
+ * @param {ThreeObjects} setup - Current instances of THREE objects.
+ * @param {HTMLElement} container - Element where 3D view is rendered.
+ * @returns {void}
+ */
 export function cleanup(setup, container) {
   const { orbit, renderer, controls, timer, neo, earth } = setup
 
-  if (orbit) orbit.removeFromParent()
+  orbit?.removeFromParent()
   renderer.dispose()
   controls.dispose()
   timer.dispose()
@@ -105,14 +156,14 @@ function createEarth(scene) {
 }
 
 function calculate(data) {
-  const { axis_au, eccentricity, inclination_deg,
+  const { axis_au, eccentricity, inclination_deg, 
     node_deg, peri_deg, mean_anomaly_deg } = data
 
   // Calculate minor axis from major axis & eccentricity
   const majorAxis = axis_au
   const minorAxis = majorAxis * Math.sqrt(1 - eccentricity * eccentricity)
 
-  // Convert other values from degrees to radians
+  // Convert all other values from degrees to radians
   const inclination = THREE.MathUtils.degToRad(inclination_deg)
   const node = THREE.MathUtils.degToRad(node_deg)
   const perihelon = THREE.MathUtils.degToRad(peri_deg)
@@ -125,8 +176,11 @@ function calculate(data) {
     .multiply(new THREE.Matrix4().makeRotationZ(perihelon))
 
   return {
-    majorAxis, minorAxis, eccentricity,
-    rotationMatrix, meanAnomaly
+    majorAxis, 
+    minorAxis, 
+    eccentricity,
+    rotationMatrix, 
+    meanAnomaly
   }
 }
 
@@ -176,9 +230,9 @@ function animateNeo(orbitData, setup) {
       .applyMatrix4(rotationMatrix)
 
     neo.position.copy(position)
-
     renderer.render(scene, camera)
   }
+
   animate()
 
   return () => cancelAnimationFrame(animationFrame)

@@ -2,13 +2,13 @@
  * Renders an alert if search-bar input is missing or malformed.
  */
 
+import { AlertProps } from './types'
 import { useEffect, useState } from 'react'
 import { Alert, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import useTimeline from '../approachTimeline/useTimeline.jsx'
 
-function InputAlert({ alert }) {
-  const [open, setOpen] = useState(false)
+function InputAlert({ alert }: AlertProps) {
+  const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
     if (!alert)

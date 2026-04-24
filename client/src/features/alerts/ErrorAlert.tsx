@@ -1,5 +1,5 @@
 /**
- * Renders an alert for server-side errors.
+ * Renders an alert inside a snackbar for server-side errors.
  */
 
 import { useAppContext } from '../../context'
@@ -8,7 +8,7 @@ import { Snackbar, Alert } from '@mui/material'
 
 function ErrorAlert() {
   const { error, setError } = useAppContext()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
     if (!error)
@@ -17,7 +17,7 @@ function ErrorAlert() {
     setOpen(true)
   }, [error])
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event: any, reason: string) => {
     if (reason === 'clickaway')
       return
 
@@ -28,7 +28,7 @@ function ErrorAlert() {
   return (
     <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
       <Alert
-        onClose={handleClose}
+        onClose={() => { setOpen(false), setError(null) }}
         severity='error'
         variant='filled'
         sx={{ width: '100%' }}

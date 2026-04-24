@@ -2,6 +2,16 @@
  * Contains hooks and logic for the ApproachTimeline component.
  * 
  * @typedef { import('react').RefObject } Ref
+ * 
+ * @typedef {Object} timelineProps
+ * @property {number} year
+ * @property {boolean} alert
+ * @property {Ref<SVGElement>} svgRef
+ * @property {object | null} hoverData
+ * @property {function} handlePrev
+ * @property {function} handleNext
+ * @property {function} handleSubmit
+ * @property {function} setInput
  */
 
 import { useState, useEffect, useRef } from 'react'
@@ -13,16 +23,7 @@ import useWindowSize from '../../useWindowSize.jsx'
 /**
  * Custom hook that handles timeline data and interactivity.
  * 
- * @returns {{
- *  year: number,
- *  alert: boolean,
- *  svgRef: Ref<SVGElement>,
- *  hoverData: { data: object, x: number, y: number } | null,
- *  handlePrev: function,
- *  handleNext: function,
- *  handleSubmit: function,
- *  setInput: function
- * }}
+ * @returns {timelineProps}
  */
 function useTimeline() {
   const { neoData, setError } = useAppContext()

@@ -1,16 +1,23 @@
 /**
  * Creates a 3D view of a NEO's orbit around Earth, using three.js.
  * 
- * @typedef {{ 
- *  renderer: THREE.WebGLRenderer, 
- *  camera: THREE.PerspectiveCamera, 
- *  controls: OrbitControls, 
- *  timer: THREE.Timer, 
- *  scene: THREE.Scene, 
- *  neo: THREE.Mesh, 
- *  earth: THREE.Mesh, 
- *  orbit: THREE.Line | null 
- * }} ThreeObjects
+ * @typedef {Object} ThreeObjects
+ * @property {THREE.WebGLRenderer} renderer
+ * @property {THREE.PerspectiveCamera} camera
+ * @property {OrbitControls} controls 
+ * @property {THREE.Timer} timer
+ * @property {THREE.Scene} scene
+ * @property {THREE.Mesh} neo
+ * @property {THREE.Mesh} earth
+ * @property {THREE.Line | null} orbit
+ * 
+ * @typedef {Object} OrbitData
+ * @property {number} axis_au
+ * @property {number} eccentricity
+ * @property {number} inclination_deg
+ * @property {number} mean_anomaly_deg
+ * @property {number} node_deg
+ * @property {number} peri_deg
  */
 
 import * as THREE from 'three'
@@ -57,14 +64,7 @@ export function setup(container) {
  * Calculates the NEO's orbit around the Earth and renders it on 
  * the viewport in 3D.
  * 
- * @param {{
- *  axis_au: number,
- *  eccentricity: number,
- *  inclination_deg: number,
- *  mean_anomaly_deg: number,
- *  node_deg: number,
- *  peri_deg: number,
- * }} data - Raw values that can be used to calculate an orbit.
+ * @param {OrbitData} data - Raw values used to calculate an orbit.
  * @param {ThreeObjects} setup - Objects needed for rendering.
  * @returns {void}
  */

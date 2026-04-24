@@ -1,7 +1,16 @@
 /**
  * Creates a chart displaying close approach events over time, using D3.js.
  * 
- * @typedef {{ groups_: array[SVGGElement], parents_: array[SVGGElement] }} currentData
+ * @typedef {Object} currentData
+ * @property {array[SVGGElement]} groups_
+ * @property {array[SVGGElement]} parents_
+ * 
+ * @typedef {Object} eventData
+ * @property {string} spkid
+ * @property {string} date
+ * @property {number} minimum_distance_km
+ * @property {number} relative_velocity_km_s
+ * @property {number} rarity
  */
 
 import * as d3 from 'd3'
@@ -13,13 +22,7 @@ import asteroidImg from '../../../../assets/asteroid.png'
  * and y-axis represents distance from the Earth during the event.
  * 
  * @param {SVGElement} svgElement - Container for the chart.
- * @param {array[{ 
- *  spkid: string, 
- *  date: string, 
- *  minimum_distance_km: number, 
- *  relative_velocity_km_s: number, 
- *  rarity: number 
- * }]} data - Array of datapoint objects (events) to render.
+ * @param {array[eventData]} data - Array of datapoints to render.
  * @param {function} hoverData - Handler to set the data of an event.
  * @returns {currentData}
  */

@@ -1,5 +1,12 @@
 /**
  * Contains hooks and logic for the NeoSelection component.
+ * 
+ * @typedef {Object} selectionProps
+ * @property {function} setInput
+ * @property {array[object]} options 
+ * @property {function} setNeo
+ * @property {function} handleClick
+ * @property {boolean} alert
  */
 
 import { useState, useEffect } from 'react'
@@ -9,13 +16,7 @@ import { filterNeosBy, getNeoData } from './api.js'
 /**
  * Custom hook that handles NEO data and interactivity.
  * 
- * @returns {{
- *  setInput: function, 
- *  options: array[{ name: string, spkid: string }], 
- *  setNeo: function, 
- *  handleClick: function, 
- *  alert: boolean
- * }}
+ * @returns {selectionProps}
  */
 function useSelection() {
   const { setNeoData, setError } = useAppContext()

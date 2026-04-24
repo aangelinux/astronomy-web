@@ -2,6 +2,13 @@
  * Renders a set of controls for interacting with the timeline.
  * 
  * @typedef { import('react').ReactElement } ReactElement
+ * 
+ * @typedef {Object} controlsProps
+ * @property {function} handlePrev
+ * @property {function} handleNext
+ * @property {function} handleSubmit
+ * @property {function} setInput
+ * @property {boolean} alert
  */
 
 import { Button, TextField, Typography } from '@mui/material'
@@ -10,16 +17,9 @@ import ArrowLeft from '@mui/icons-material/ArrowLeft'
 import InputAlert from '../alerts/InputAlert.jsx'
 
 /**
- * React element rendering pagination buttons and a search bar for ApproachTimeline.
+ * React element rendering pagination buttons and a search bar.
  * 
- * @param {{
- *  handlePrev: function,
- *  handleNext: function,
- *  handleSubmit: function,
- *  setInput: function,
- *  alert: boolean
- * }} props
- * 
+ * @param {controlsProps} props
  * @returns {ReactElement}
  */
 function TimelineControls({ handlePrev, handleNext, handleSubmit, setInput, alert }) {

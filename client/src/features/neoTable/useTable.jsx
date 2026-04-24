@@ -1,5 +1,21 @@
 /**
  * Contains hooks and logic for the NeoTable component.
+ * 
+ * @typedef {object} tableProps
+ * @property {array[neoData]} neos
+ * @property {number} newPage
+ * @property {number} rowsPerPage
+ * @property {number | null} totalRows
+ * @property {function} handleChangePage
+ * @property {function} handleChangeRowsPerPage
+ * 
+ * @typedef {object} neoData
+ * @property {string} spkid
+ * @property {string} name
+ * @property {number} earth_moid_ld
+ * @property {number | null} magnitude
+ * @property {number | null} rotation_hours
+ * @property {boolean} pot_hazardous_asteroid
  */
 
 import { useState, useEffect } from 'react'
@@ -9,21 +25,7 @@ import { useAppContext } from '../../context.jsx'
 /**
  * Custom hook that handles table data and interactivity.
  * 
- * @returns {{
- *  neos: array[{ 
- *    spkid: string, 
- *    name: string, 
- *    earth_moid_ld: number,
- *    magnitude: number | null, 
- *    rotation_hours: number | null, 
- *    pot_hazardous_asteroid: boolean 
- *  }],
- *  page: number,
- *  rowsPerPage: number,
- *  totalRows: number | null,
- *  handleChangePage: function,
- *  handleChangeRowsPerPage: function
- * }}
+ * @returns {tableProps}
  */
 function useTable() {
   const { setError } = useAppContext()

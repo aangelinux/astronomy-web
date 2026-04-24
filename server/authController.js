@@ -86,8 +86,7 @@ export async function fetchAccessToken(req, res) {
  * Fetches the user's personal data using an access token.
  * 
  * @param {string} token - GitHub access token.
- * @returns {Promise<{ username: string|number, provider: string, 
- * providerID: number }>}
+ * @returns {Promise<{ username: string|number, provider: string, providerID: number }>}
  */
 export async function fetchUserData(token) {
   const url = 'https://api.github.com/user'

@@ -2,9 +2,10 @@
  * Renders pagination controls for a table.
  */
 
+import { PaginationProps } from './types'
 import { TableFooter, TableRow, TablePagination } from '@mui/material'
 
-function Pagination(props) {
+function Pagination(props: PaginationProps) {
   const { 
     page,
     rowsPerPage,

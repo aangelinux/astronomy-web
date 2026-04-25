@@ -2,16 +2,14 @@
  * Fetches NEO data from the Astronomy API.
  */
 
+import { NeoMainData } from "./types"
+
 const url = 'https://astronomy-api-production.up.railway.app/'
 
 /**
- * Fetch a set amount of NEOs from the database.
- * 
- * @param {number} limit - Limit of NEOs to fetch.
- * @param {number} offset - Offset for database entry.
- * @returns {array[object]}
+ * Fetches multiple NEOs and their main attributes, by offset.
  */
-export async function filterNeos(limit = 20, offset = 0) {
+export async function filterNeos(limit = 20, offset = 0): Promise<NeoMainData[]> {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -21,10 +19,7 @@ export async function filterNeos(limit = 20, offset = 0) {
     body: JSON.stringify({
       query:
         `query Neos {
-          neos(input: {
-            limit: ${limit},
-            offset: ${offset}
-          }) {
+          neos(input: { limit: ${limit}, offset: ${offset} }) {
             neos {
               spkid
               name
@@ -40,7 +35,7 @@ export async function filterNeos(limit = 20, offset = 0) {
 
   if (!res.ok) {
     throw new Error('Error fetching NEO data: ', { 
-      details: res.statusText || res.status })
+      cause: res.statusText || res.status })
   }
 
   const result = await res.json()
@@ -50,11 +45,9 @@ export async function filterNeos(limit = 20, offset = 0) {
 }
 
 /**
- * Fetches the total number of NEO entries in the database.
- * 
- * @returns {number}
+ * Fetches the total number of entries in table Near-Earth Objects.
  */
-export async function getTotalNeoCount() {
+export async function getTotalNeoCount(): Promise<number> {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -71,7 +64,7 @@ export async function getTotalNeoCount() {
 
   if (!res.ok) {
     throw new Error('Error fetching NEO count: ', { 
-      details: res.statusText || res.status })
+      cause: res.statusText || res.status })
   }
 
   const result = await res.json()

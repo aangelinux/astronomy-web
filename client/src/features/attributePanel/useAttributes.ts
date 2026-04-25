@@ -1,20 +1,21 @@
 /**
- * Contains hooks and logic for the AttributePanel component.
+ * Custom hook containing logic for the AttributePanel component.
  */
 
-import { useAppContext } from '../../context.jsx'
+import { NeoAttributes } from './types'
+import { useAppContext } from '../../context'
 import { useState, useEffect } from 'react'
 
 function useAttributes() {
   const { neoData } = useAppContext()
-  const [attributes, setAttributes] = useState([])
+  const [attributes, setAttributes] = useState<NeoAttributes[]>([])
 
   useEffect(() => {
     const mappedAttributes = mapAttributes(neoData)
     setAttributes(mappedAttributes)
   }, [neoData])
 
-  const mapAttributes = (data) => {
+  const mapAttributes = (data: any) => {
     const map = [
       { 
         'SPK-ID': data['spkid'], 

@@ -2,13 +2,14 @@
  * Renders a panel displaying attributes of the selected NEO.
  */
 
+import { NeoAttributes } from './types.js'
 import { Box, Card, CardContent, Typography } from '@mui/material'
-import AttributeList from './AttributeList.jsx'
+import AttributeList from './AttributeList.js'
 import useAttributes from './useAttributes.jsx'
 
 function AttributePanel() {
-  const attributes = useAttributes()
-  
+  const attributes: NeoAttributes[] = useAttributes()
+
   const boxStyle = {
     width: '100%',
     height: 'fit-content',

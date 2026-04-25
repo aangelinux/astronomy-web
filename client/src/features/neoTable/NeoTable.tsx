@@ -2,9 +2,17 @@
  * Renders a table displaying all Near-Earth Objects.
  */
 
-import Pagination from './Pagination.jsx'
-import useTable from './useTable.jsx'
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material'
+import Pagination from './Pagination'
+import useTable from './useTable'
+import { 
+  TableContainer, 
+  Table, 
+  TableHead, 
+  TableRow, 
+  TableCell, 
+  TableBody, 
+  Paper 
+} from '@mui/material'
 
 function NeoTable() {
   const { 

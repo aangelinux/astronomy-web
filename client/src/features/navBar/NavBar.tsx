@@ -5,8 +5,8 @@
 import LogoutIcon from '@mui/icons-material/Logout'
 import { Link as RouterLink } from 'react-router-dom'
 import { AppBar, Toolbar, Link, Button } from '@mui/material'
-import { logout } from './api.js'
-import { useAppContext } from '../../context.jsx'
+import { logout } from './api'
+import { useAppContext } from '../../context'
 import { useNavigate } from 'react-router-dom'
 import astronomyIcon from '../../../assets/astronomy.png'
 

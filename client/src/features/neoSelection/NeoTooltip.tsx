@@ -25,7 +25,8 @@ function NeoTooltip() {
     fontFamily: 'GoogleSans',
   }
 
-  const explanation = `A Near-Earth Object (NEO) is a comet or asteroid 
+  const explanation = 
+    `A Near-Earth Object (NEO) is a comet or asteroid 
     that orbits the Sun, passing close enough 
     to Earth to pose a potential collision danger.\n
     See page NEOs in the navigation bar for a table 

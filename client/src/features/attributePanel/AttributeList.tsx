@@ -1,17 +1,18 @@
 /**
- * Renders a list of attributes.
+ * Renders a list of NEO attributes.
  */
 
+import { AttributePanelProps } from './types'
+import { List, ListItem, Button, Tooltip } from '@mui/material'
 import Fade from '@mui/material/Fade'
 import HelpIcon from '@mui/icons-material/Help'
-import { List, ListItem, Button, Tooltip } from '@mui/material'
 
-function AttributeList({ attributes }) {
-  const getName = (attribute) => {
+function AttributeList({ attributes }: AttributePanelProps) {
+  const getName = (attribute: string) => {
     return `${Object.keys(attribute)[0]}: `
   }
 
-  const getValue = (attribute) => {
+  const getValue = (attribute: any) => {
     return JSON.stringify(Object.values(attribute)[0])?.replaceAll('"', '')
   }
 
@@ -34,7 +35,7 @@ function AttributeList({ attributes }) {
 
   return (
     <List>
-      {attributes.map((attribute, index) => ( 
+      {attributes.map((attribute: any, index: number) => ( 
         <ListItem key={index} sx={{ gap: 1, fontWeight: 'bold', padding: 1 }}>
 
           {<Tooltip 

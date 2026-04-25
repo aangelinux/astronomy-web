@@ -3,8 +3,8 @@
  */
 
 import styles from './styles/Login.module.css'
-import LoginButton from '../features/authentication/LoginButton.jsx'
-import { authenticate } from '../features/authentication/api.js'
+import LoginButton from '../features/authentication/LoginButton'
+import { authenticate } from '../features/authentication/api'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 

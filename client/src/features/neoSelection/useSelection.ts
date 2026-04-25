@@ -1,29 +1,19 @@
 /**
- * Contains hooks and logic for the NeoSelection component.
- * 
- * @typedef {Object} selectionProps
- * @property {function} setInput
- * @property {array[object]} options 
- * @property {function} setNeo
- * @property {function} handleClick
- * @property {boolean} alert
+ * Custom hook containing logic for the NeoSelection component.
  */
 
 import { useState, useEffect } from 'react'
-import { useAppContext } from '../../context.jsx'
-import { filterNeosBy, getNeoData } from './api.js'
+import { useAppContext } from '../../context'
+import { filterNeosBy, fetchNeoDataBy } from './api'
+import { NeoIdentifiers, NeoSelectionProps } from './types'
 
-/**
- * Custom hook that handles NEO data and interactivity.
- * 
- * @returns {selectionProps}
- */
-function useSelection() {
+function useSelection(): NeoSelectionProps {
   const { setNeoData, setError } = useAppContext()
-  const [options, setOptions] = useState([])
-  const [input, setInput] = useState('')
-  const [neo, setNeo] = useState('')
-  const [alert, setAlert] = useState(false)
+
+  const [input, setInput] = useState<string>('')
+  const [options, setOptions] = useState<NeoIdentifiers[]>([])
+  const [neo, setNeo] = useState<NeoIdentifiers | null>(null)
+  const [alert, setAlert] = useState<boolean>(false)
 
   useEffect(() => {
     if (!input)
@@ -48,7 +38,7 @@ function useSelection() {
       return
     }
     try {
-      const data = await getNeoData(neo.spkid)
+      const data = await fetchNeoDataBy(neo.spkid)
       setNeoData(data)
       setAlert(false)
     } catch (error) {

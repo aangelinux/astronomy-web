@@ -1,9 +1,4 @@
-/**
- * Logs out an authorized user.
- * 
- * @returns {string}
- */
-export async function logout() {
+export async function logout(): Promise<Object> {
   const url = '/logout'
   const res = await fetch(url, {
     credentials: 'include',
@@ -12,7 +7,7 @@ export async function logout() {
 
   if (!res.ok) {
     throw new Error('Error logging out: ', { 
-      details: res.statusText || res.status })
+      cause: res.statusText || res.status })
   }
 
   return res

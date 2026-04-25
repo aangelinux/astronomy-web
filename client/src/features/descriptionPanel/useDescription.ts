@@ -1,15 +1,16 @@
 /**
- * Contains hooks and logic for the DescriptionPanel component.
+ * Custom hook containing logic for the DescriptionPanel component.
  */
 
+import { DescriptionPanelProps } from './types'
 import { useState, useEffect } from 'react'
-import { useAppContext } from '../../context.jsx'
-import { fetchAIResponse } from './api.js'
+import { useAppContext } from '../../context'
+import { fetchAIResponse } from './api'
 
-function useDescription() {
+function useDescription(): DescriptionPanelProps {
   const { neoData, setError } = useAppContext()
-  const [description, setDescription] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [description, setDescription] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if (!(Object.keys(neoData)?.length)) 

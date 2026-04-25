@@ -2,15 +2,15 @@
  * Fetches NEO data from the astronomy API.
  */
 
+import { NeoData } from "../descriptionPanel/types"
+import { NeoIdentifiers } from "./types"
+
 const url = 'https://astronomy-api-production.up.railway.app/'
 
 /**
- * Fetches NEOs by name.
- * 
- * @param {string} name - Name to filter NEOs by.
- * @returns {array[{ name: string, spkid: string }]}
+ * Filters by name and fetches the spkid and name of matching NEOs.
  */
-export async function filterNeosBy(name) {
+export async function filterNeosBy(input: string): Promise<NeoIdentifiers[]> {
   const limit = 5
   const res = await fetch(url, {
     method: 'POST',
@@ -21,7 +21,7 @@ export async function filterNeosBy(name) {
     body: JSON.stringify({
       query:
         `query Neos {
-          neos(input: { limit: ${limit}, name: "${name}" }) {
+          neos(input: { limit: ${limit}, name: "${input}" }) {
             neos {
               name
               spkid
@@ -33,7 +33,7 @@ export async function filterNeosBy(name) {
 
   if (!res.ok) {
     throw new Error('Error fetching NEOs: ', { 
-      details: res.statusText || res.status })
+      cause: res.statusText || res.status })
   }
 
   const result = await res.json()
@@ -43,12 +43,9 @@ export async function filterNeosBy(name) {
 }
 
 /**
- * Fetches NEO data by its spkid.
- * 
- * @param {string} spkid - Spkid of the selected NEO.
- * @returns {object}
+ * Fetches the data of an individual NEO by its spkid.
  */
-export async function getNeoData(spkid) {
+export async function fetchNeoDataBy(spkid: string): Promise<NeoData> {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -86,7 +83,7 @@ export async function getNeoData(spkid) {
 
   if (!res.ok) {
     throw new Error('Error fetching NEO data: ', { 
-      details: res.statusText || res.status })
+      cause: res.statusText || res.status })
   }
 
   const result = await res.json()

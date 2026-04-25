@@ -4,7 +4,7 @@
 
 import NeoTooltip from './NeoTooltip'
 import SearchBar from './SearchBar'
-import useSelection from './useSelection.jsx'
+import useSelection from './useSelection'
 
 function NeoSelection() {
   const { setInput, options, setNeo, handleClick, alert } = useSelection()

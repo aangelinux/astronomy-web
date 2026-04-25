@@ -1,6 +1,5 @@
 /**
  * Renders a tooltip displaying approach data.
- * Sub-component of ApproachTimeline.
  */
 
 import { HoverData, TimelineTooltipProps } from './types'

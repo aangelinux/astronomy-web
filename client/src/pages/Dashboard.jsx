@@ -3,14 +3,14 @@
  */
 
 import styles from './styles/Dashboard.module.css'
-import ApproachTimeline from '../features/approachTimeline/ApproachTimeline.jsx'
-import AttributePanel from '../features/attributePanel/AttributePanel.jsx'
-import DescriptionPanel from '../features/descriptionPanel/DescriptionPanel.jsx'
-import NavBar from '../features/navBar/NavBar.jsx'
-import NeoSelection from '../features/neoSelection/NeoSelection.jsx'
-import OrbitView from '../features/orbitView/OrbitView.jsx'
-import ErrorAlert from '../features/alerts/ErrorAlert.jsx'
-import { authenticate } from '../features/authentication/api.js'
+import ApproachTimeline from '../features/approachTimeline/ApproachTimeline'
+import AttributePanel from '../features/attributePanel/AttributePanel'
+import DescriptionPanel from '../features/descriptionPanel/DescriptionPanel'
+import NavBar from '../features/navBar/NavBar'
+import NeoSelection from '../features/neoSelection/NeoSelection'
+import OrbitView from '../features/orbitView/OrbitView'
+import ErrorAlert from '../features/alerts/ErrorAlert'
+import { authenticate } from '../features/authentication/api'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 

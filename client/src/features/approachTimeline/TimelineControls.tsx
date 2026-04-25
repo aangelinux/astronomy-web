@@ -1,6 +1,5 @@
 /**
  * Renders a set of controls for interacting with the timeline.
- * Sub-component of ApproachTimeline.
  */
 
 import { TimelineControlsProps } from './types'

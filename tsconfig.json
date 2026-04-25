@@ -7,7 +7,12 @@
     "moduleResolution": "bundler",
     "allowJs": true,
     "checkJs": false,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "three/addons/controls/*": ["node_modules/@types/three/examples/jsm/controls/*"]
+    },
+    "baseUrl": "./",
+    "ignoreDeprecations": "6.0"
   },
   "include": ["client/src"]
 }

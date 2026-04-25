@@ -1,7 +1,7 @@
 /**
  * Creates a 3D view of a NEO's orbit around Earth, using three.js.
  * 
- * @typedef {Object} ThreeObjects
+ * @typedef {Object} SceneObjects
  * @property {THREE.WebGLRenderer} renderer
  * @property {THREE.PerspectiveCamera} camera
  * @property {OrbitControls} controls 
@@ -31,7 +31,7 @@ import haumeaImg from '../../../assets/haumea.jpg'
  * a container for later use.
  * 
  * @param {HTMLElement} container - Element to render the 3D view on.
- * @returns {ThreeObjects}
+ * @returns {SceneObjects}
  */
 export function setup(container) {
   const width = container.clientWidth
@@ -65,8 +65,8 @@ export function setup(container) {
  * the viewport in 3D.
  * 
  * @param {OrbitData} data - Raw values used to calculate an orbit.
- * @param {ThreeObjects} setup - Objects needed for rendering.
- * @returns {void}
+ * @param {SceneObjects} setup - Objects needed for rendering.
+ * @returns {() => void | undefined}
  */
 export function renderOrbit(data, setup) {
   if (!data) 
@@ -84,7 +84,7 @@ export function renderOrbit(data, setup) {
  * Disposes of all THREE objects in memory and empties the container
  * where the 3D view is currently rendered.
  * 
- * @param {ThreeObjects} setup - Current instances of THREE objects.
+ * @param {SceneObjects} setup - Current instances of THREE objects.
  * @param {HTMLElement} container - Element where 3D view is rendered.
  * @returns {void}
  */

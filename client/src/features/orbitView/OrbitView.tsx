@@ -3,7 +3,7 @@
  */
 
 import { Box } from '@mui/material'
-import useOrbit from './useOrbit.jsx'
+import useOrbit from './useOrbit'
 
 function OrbitView() {
   const orbit = useOrbit()

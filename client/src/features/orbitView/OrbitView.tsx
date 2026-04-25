@@ -6,7 +6,7 @@ import { Box } from '@mui/material'
 import useOrbit from './useOrbit'
 
 function OrbitView() {
-  const orbit = useOrbit()
+  const orbitView = useOrbit()
 
   const boxStyle = {
     border: '2px solid white',
@@ -24,7 +24,7 @@ function OrbitView() {
 
       <Box
         sx={boxStyle}
-        ref={orbit}
+        ref={orbitView}
       />
     </div>
   )

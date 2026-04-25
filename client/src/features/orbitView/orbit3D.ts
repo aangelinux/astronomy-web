@@ -1,48 +1,28 @@
 /**
  * Creates a 3D view of a NEO's orbit around Earth, using three.js.
- * 
- * @typedef {Object} SceneObjects
- * @property {THREE.WebGLRenderer} renderer
- * @property {THREE.PerspectiveCamera} camera
- * @property {OrbitControls} controls 
- * @property {THREE.Timer} timer
- * @property {THREE.Scene} scene
- * @property {THREE.Mesh} neo
- * @property {THREE.Mesh} earth
- * @property {THREE.Line | null} orbit
- * 
- * @typedef {Object} OrbitData
- * @property {number} axis_au
- * @property {number} eccentricity
- * @property {number} inclination_deg
- * @property {number} mean_anomaly_deg
- * @property {number} node_deg
- * @property {number} peri_deg
  */
 
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
+import { RawOrbitData, OrbitData3D, SceneObjects } from './types'
 import backgroundImg from '../../../assets/stars.jpg'
 import earthImg from '../../../assets/earth.jpg'
 import haumeaImg from '../../../assets/haumea.jpg'
 
 /**
- * Creates instances of all needed THREE objects and stores them in
- * a container for later use.
- * 
- * @param {HTMLElement} container - Element to render the 3D view on.
- * @returns {SceneObjects}
+ * Creates instances of all scene objects and adds them to
+ * a div container for later orbit rendering.
  */
-export function setup(container) {
-  const width = container.clientWidth
-  const height = container.clientHeight
+export function setup(viewport: HTMLElement): SceneObjects {
+  const width = viewport.clientWidth
+  const height = viewport.clientHeight
 
   const renderer = new THREE.WebGLRenderer({ antialias: true })
   renderer.setSize(width, height)
-  container.appendChild(renderer.domElement)
+  viewport.appendChild(renderer.domElement)
 
   const camera = createCamera(width, height)
-  const controls = createOrbitControls(camera, renderer)
+  const controls = createControls(camera, renderer)
   const timer = createTimer()
   const scene = createScene()
   const neo = createNeo(scene)
@@ -63,12 +43,8 @@ export function setup(container) {
 /**
  * Calculates the NEO's orbit around the Earth and renders it on 
  * the viewport in 3D.
- * 
- * @param {OrbitData} data - Raw values used to calculate an orbit.
- * @param {SceneObjects} setup - Objects needed for rendering.
- * @returns {() => void | undefined}
  */
-export function renderOrbit(data, setup) {
+export function renderOrbit(data: RawOrbitData, setup: SceneObjects) {
   if (!data) 
     return
   
@@ -83,33 +59,29 @@ export function renderOrbit(data, setup) {
 /**
  * Disposes of all THREE objects in memory and empties the container
  * where the 3D view is currently rendered.
- * 
- * @param {SceneObjects} setup - Current instances of THREE objects.
- * @param {HTMLElement} container - Element where 3D view is rendered.
- * @returns {void}
  */
-export function cleanup(setup, container) {
+export function cleanup(setup: SceneObjects, viewport: HTMLElement) {
   const { orbit, renderer, controls, timer, neo, earth } = setup
 
   orbit?.removeFromParent()
   renderer.dispose()
   controls.dispose()
   timer.dispose()
-  neo.material.dispose()
-  earth.material.dispose()
+  neo.geometry.dispose()
+  earth.geometry.dispose()
 
-  container.removeChild(renderer.domElement)
+  viewport.removeChild(renderer.domElement)
 }
 
 
-function createCamera(width, height) {
+function createCamera(width: number, height: number) {
   const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
   camera.position.set(2, 2, 2)
 
   return camera
 }
 
-function createOrbitControls(camera, renderer) {
+function createControls(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
   return new OrbitControls(camera, renderer.domElement)
 }
 
@@ -128,7 +100,7 @@ function createScene() {
   return scene
 }
 
-function createNeo(scene) {
+function createNeo(scene: THREE.Scene) {
   const texture = new THREE.TextureLoader()
   const neoTexture = texture.load(haumeaImg)
 
@@ -141,7 +113,7 @@ function createNeo(scene) {
   return neo
 }
 
-function createEarth(scene) {
+function createEarth(scene: THREE.Scene) {
   const texture = new THREE.TextureLoader()
   const earthTexture = texture.load(earthImg)
 
@@ -154,9 +126,15 @@ function createEarth(scene) {
   return earth
 }
 
-function calculate(data) {
-  const { axis_au, eccentricity, inclination_deg, 
-    node_deg, peri_deg, mean_anomaly_deg } = data
+function calculate(data: RawOrbitData) {
+  const { 
+    axis_au, 
+    eccentricity, 
+    inclination_deg, 
+    node_deg, 
+    peri_deg, 
+    mean_anomaly_deg 
+  } = data
 
   // Calculate minor axis from major axis & eccentricity
   const majorAxis = axis_au
@@ -178,13 +156,13 @@ function calculate(data) {
     majorAxis, 
     minorAxis, 
     eccentricity,
-    rotationMatrix, 
-    meanAnomaly
+    meanAnomaly,
+    rotationMatrix
   }
 }
 
-function createOrbit(orbitData, scene) {
-  const { majorAxis, minorAxis, eccentricity, rotationMatrix } = orbitData
+function createOrbit(data: OrbitData3D, scene: THREE.Scene) {
+  const { majorAxis, minorAxis, eccentricity, rotationMatrix } = data
 
   const points = []
   const segments = 200
@@ -206,15 +184,14 @@ function createOrbit(orbitData, scene) {
   return orbit
 }
 
-function animateNeo(orbitData, setup) {
-  const { majorAxis, minorAxis, eccentricity, 
-    meanAnomaly, rotationMatrix } = orbitData
+function animateNeo(data: OrbitData3D, setup: SceneObjects) {
+  const { majorAxis, minorAxis, eccentricity, meanAnomaly, rotationMatrix } = data
   const { neo, renderer, scene, camera, timer } = setup
 
-  let animationFrame
+  let animationFrameID: number
   let animatedMeanAnomaly = meanAnomaly
   const animate = () => {
-    animationFrame = requestAnimationFrame(animate)
+    animationFrameID = requestAnimationFrame(animate)
 
     timer.update()
     const speed = .5
@@ -231,13 +208,12 @@ function animateNeo(orbitData, setup) {
     neo.position.copy(position)
     renderer.render(scene, camera)
   }
-
   animate()
 
-  return () => cancelAnimationFrame(animationFrame)
+  return () => cancelAnimationFrame(animationFrameID)
 }
 
-function solveKepler(meanAnomaly, eccentricity, iterations = 10) {
+function solveKepler(meanAnomaly: number, eccentricity: number, iterations = 10) {
   let kepler = eccentricity < 0.8
     ? meanAnomaly
     : Math.PI

@@ -5,17 +5,25 @@
 import { Button, Card } from '@mui/material'
 import * as React from 'react'
 
-export class ErrorBoundary extends React.Component {
-  constructor(props) {
+interface Props {
+  children?: React.ReactNode
+}
+
+interface State {
+  hasError: boolean
+}
+
+class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(_: Error): State {
     return { hasError: true }
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
     console.error('An error occurred: ', error)
     console.error('Details: ', JSON.stringify(info))
   }
@@ -48,3 +56,5 @@ export class ErrorBoundary extends React.Component {
     return this.props.children
   }
 }
+
+export default ErrorBoundary

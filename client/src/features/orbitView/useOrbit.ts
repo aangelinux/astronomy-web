@@ -14,34 +14,34 @@ import { useAppContext } from '../../context'
  */
 function useOrbit(): RefObject<HTMLElement | null> {
   const { neoData } = useAppContext()
-  const orbitRef = useRef<HTMLElement>(null)
-  const setupRef = useRef<SceneObjects | null>(null)
+  const orbitViewRef = useRef<HTMLElement>(null)
+  const sceneObjectsRef = useRef<SceneObjects | null>(null)
 
   useEffect(() => {
-    const orbit = orbitRef.current
-    if (!orbit) 
+    const viewport = orbitViewRef.current
+    if (!viewport) 
       return
 
-    setupRef.current = setup(orbit)
+    sceneObjectsRef.current = setup(viewport)
 
     return () => { 
-      if (setupRef.current) {
-        cleanup(setupRef.current, orbit)
+      if (sceneObjectsRef.current) {
+        cleanup(sceneObjectsRef.current, viewport)
       }
     }
   }, [])
 
   useEffect(() => {
-    if (!setupRef.current || !(Object.keys(neoData)?.length)) 
+    if (!sceneObjectsRef.current || !(Object.keys(neoData)?.length)) 
       return
 
     const orbitData = neoData.orbit
-    const animation = renderOrbit(orbitData, setupRef.current)
+    const animation = renderOrbit(orbitData, sceneObjectsRef.current)
 
     return () => animation?.() // Cancels current animation
   }, [neoData])
 
-  return orbitRef
+  return orbitViewRef
 }
 
 export default useOrbit

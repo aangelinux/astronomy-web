@@ -59,6 +59,8 @@ export async function getResponse(req, res) {
     })
     return res.status(200).json(response.text)
   } catch (error) {
+    // Error returns message as a stringified object;
+    // using JSON.parse() to make it easy to read
     console.log(JSON.parse(error.message))
     return res.sendStatus(error.status)
   }

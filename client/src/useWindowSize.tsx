@@ -1,11 +1,12 @@
 /**
- * Custom hook storing the browser's window size.
+ * Custom hook keeping track of the browser's window size.
  */
 
+import { WindowSize } from './types'
 import { useLayoutEffect, useState } from 'react'
 
-function useWindowSize() {
-  const [size, setSize] = useState({})
+function useWindowSize(): WindowSize | {} {
+  const [size, setSize] = useState<WindowSize | {}>({})
 
   useLayoutEffect(() => {
     function updateSize() {

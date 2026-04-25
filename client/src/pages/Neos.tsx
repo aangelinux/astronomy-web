@@ -13,7 +13,7 @@ function Neos() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    async function checkAuth() {
+    async function checkAuth(): Promise<void> {
       try {
         await authenticate()
       } catch (error) {

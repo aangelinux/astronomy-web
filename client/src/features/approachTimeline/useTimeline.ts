@@ -2,7 +2,7 @@
  * Custom hook containing logic for the ApproachTimeline component.
  */
 
-import { ApproachTimelineProps, ChartData, HoverData } from './types'
+import { ApproachTimelineProps, ChartElements, HoverData } from './types'
 import { filterApproachesBy } from './utils/api'
 import { chart, toggleActive } from './utils/timelineChart'
 import { useState, useEffect, useRef } from 'react'
@@ -14,7 +14,7 @@ function useTimeline (): ApproachTimelineProps {
 
   const [year, setYear] = useState<number>(1900)
   const [input, setInput] = useState<string>('')
-  const [chartData, setChartData] = useState<ChartData | null>(null)
+  const [chartElements, setChartElements] = useState<ChartElements | null>(null)
   const [hoverData, setHoverData] = useState<HoverData | null>(null)
   const [activeEvent, setActiveEvent] = useState<boolean>(false)
   const [alert, setAlert] = useState<boolean>(false)
@@ -43,7 +43,8 @@ function useTimeline (): ApproachTimelineProps {
         if (!data?.length || !svgRef.current) 
           return
         
-        setChartData(chart(svgRef.current, data, setHoverData))
+        const svgElement = svgRef.current
+        setChartElements(chart({ svgElement, data, setHoverData }))
       } catch (error) {
         console.log(error)
         setError('Failed to fetch approach data')
@@ -54,11 +55,11 @@ function useTimeline (): ApproachTimelineProps {
   }, [year, size['width']])
 
   useEffect(() => {
-    if (!activeEvent || !chartData || !neoData?.spkid) 
+    if (!activeEvent || !chartElements || !neoData?.spkid) 
       return
 
-    toggleActive(chartData, neoData.spkid)
-  }, [activeEvent, chartData])
+    toggleActive(chartElements, neoData.spkid)
+  }, [activeEvent, chartElements])
 
   const handlePrev = () => {
     setActiveEvent(false)

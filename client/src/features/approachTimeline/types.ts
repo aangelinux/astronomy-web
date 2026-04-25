@@ -35,7 +35,21 @@ export type ApproachData = {
   rarity: number
 }
 
-export type ChartData = {
+export type ChartElements = {
   groups_: SVGGElement[]
   parents_: SVGGElement[]
+}
+
+export type ChartParams = {
+  svgElement: SVGElement
+  data: ApproachData[]
+  setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>
+}
+
+export type ChartDataPoints = {
+  svg: SVGElement
+  mirroredData: ApproachData[]
+  x: number
+  y: number
+  setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>
 }

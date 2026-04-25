@@ -1,4 +1,4 @@
-import { NeoData } from "./features/descriptionPanel/types"
+import { NeoData } from './features/descriptionPanel/types'
 
 export type ContextObject = {
   neoData: NeoData

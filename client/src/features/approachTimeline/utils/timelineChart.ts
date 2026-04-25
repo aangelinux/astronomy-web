@@ -1,35 +1,22 @@
 /**
  * Creates a chart displaying close approach events over time, using D3.js.
- * 
- * @typedef {Object} currentData
- * @property {array[SVGGElement]} groups_
- * @property {array[SVGGElement]} parents_
- * 
- * @typedef {Object} eventData
- * @property {string} spkid
- * @property {string} date
- * @property {number} minimum_distance_km
- * @property {number} relative_velocity_km_s
- * @property {number} rarity
  */
 
 import * as d3 from 'd3'
+import { ApproachData, ChartDataPoints, ChartElements, ChartParams, HoverData } from '../types'
 import asteroidImg from '../../../../assets/asteroid.png'
 
 /**
  * Renders a D3.js scatter plot representing a timeline of events.
  * Each datapoint represents an event where the x-axis represents time 
  * and y-axis represents distance from the Earth during the event.
- * 
- * @param {SVGElement} svgElement - Container for the chart.
- * @param {array[eventData]} data - Array of datapoints to render.
- * @param {function} hoverData - Handler to set the data of an event.
- * @returns {currentData}
  */
-export const chart = (svgElement, data, hoverData) => {
-  if (!data.length) return
+export const chart = (params: ChartParams): ChartElements | null => {
+  const { svgElement, data, setHoverData } = params
+  if (!data.length) 
+    return null
 
-  const width = svgElement.parentElement.clientWidth
+  const width = svgElement.parentElement?.clientWidth || 500
   const height = 400
   const svg = d3.select(svgElement)
     .attr("width", width)
@@ -41,7 +28,7 @@ export const chart = (svgElement, data, hoverData) => {
   const x = createHorizontalScale(width, data)
   const y = createVerticalScale(height, data)
   const mirroredData = mirrorData(data)
-  const currentData = renderData({ svg, mirroredData, x, y, hoverData })
+  const currentData = renderData({ svg, mirroredData, x, y, setHoverData })
 
   // Rendered last so it's not obscured by datapoints
   renderXAxis(svg, height, x)
@@ -52,14 +39,12 @@ export const chart = (svgElement, data, hoverData) => {
 /**
  * When a NEO with a recorded approach event is selected, its event
  * is highlighted and all other events on display are greyed-out.
- * 
- * @param {currentData} currentData - Data currently on display.
- * @param {string} selectedSpkid - SPK-ID of the selected NEO.
- * @returns {void}
  */
-export const toggleActive = (currentData, selectedSpkid) => {
+export const toggleActive = (currentData: ChartElements, selectedSpkid: string) => {
   if (!currentData || !selectedSpkid) 
     return
+
+  console.log(currentData)
   
   currentData.each(function(d) {
     if (d.spkid === selectedSpkid) {
@@ -82,7 +67,7 @@ export const toggleActive = (currentData, selectedSpkid) => {
 }
 
 
-function createHorizontalScale(width, data) {
+function createHorizontalScale(width: number, data: ApproachData[]) {
   const x = d3.scaleUtc()
     .domain(d3.extent(data, d => new Date(d.date)))
     .range([40, width - 30])
@@ -90,7 +75,7 @@ function createHorizontalScale(width, data) {
   return x
 }
 
-function createVerticalScale(height, data) {
+function createVerticalScale(height: number, data: ApproachData[]) {
   const maxDistance = d3.max(data, d => d.minimum_distance_km)
   const y = d3.scaleLinear()
     .domain([-maxDistance, maxDistance])
@@ -99,7 +84,7 @@ function createVerticalScale(height, data) {
   return y
 }
 
-function mirrorData(data) {
+function mirrorData(data: ApproachData[]) {
   // Adds a negative sign to half of all datapoints; 
   // this renders half above the x-axis and half below.
   // Makes the chart look less crowded
@@ -113,7 +98,7 @@ function mirrorData(data) {
   return mirroredData
 }
 
-function renderData({ svg, mirroredData, x, y, hoverData }) {
+function renderData({ svg, mirroredData, x, y, setHoverData }: ChartDataPoints) {
   const datapoints = svg.append("g")
     .selectAll("g")
     .data(mirroredData)
@@ -123,8 +108,8 @@ function renderData({ svg, mirroredData, x, y, hoverData }) {
       const yPos = y(d.signedDistance)
       return `translate(${xPos}, ${yPos})`
     })
-    .on("mouseover", (event) => onHover(event, hoverData))
-    .on("mouseleave", (event) => onLeave(event, hoverData))
+    .on("mouseover", (event: Event) => onHover(event, setHoverData))
+    .on("mouseleave", (event: Event) => onLeave(event, setHoverData))
   
   datapoints.append("image")
     .attr("href", asteroidImg)
@@ -136,7 +121,7 @@ function renderData({ svg, mirroredData, x, y, hoverData }) {
   return datapoints
 }
 
-function onHover(event, hoverData) {
+function onHover(event: Event, setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>) {
   d3.select(event.target)
     .transition()
     .duration(150)
@@ -147,14 +132,14 @@ function onHover(event, hoverData) {
     .attr("y", -15)
     .style("filter", "brightness(1.5)")
 
-  hoverData({
+  setHoverData({
     data: event.target.__data__,
     x: event.clientX,
     y: event.clientY
   })
 }
 
-function onLeave(event, hoverData) {
+function onLeave(event, setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>) {
   d3.select(event.target)
     .select("image")
     .transition()
@@ -165,16 +150,16 @@ function onLeave(event, hoverData) {
     .attr("y", -9)
     .style("filter", "brightness(1)")
 
-  hoverData(null)
+  setHoverData(null)
 }
 
-function renderXAxis(svg, height, x) {
+function renderXAxis(svg: SVGElement, height: number, x: number) {
   svg.append("g")
     .attr("transform", `translate(0, ${height / 2})`)
 
     .call(d3.axisBottom(x)
       .ticks(d3.utcMonth.every(2))
-      .tickFormat(d => d.toLocaleString('en-US', 
+      .tickFormat(d => d.toLocaleString('en-US',
         { month: 'long', year: 'numeric' })))
 
     .call(g => g.selectAll(".tick line")

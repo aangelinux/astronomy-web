@@ -19,7 +19,7 @@ router.get('/auth/callback', async (req, res) => {
   const jwt = await authController.fetchJWT(user)
 
   authController.setCookie(req, res, jwt)
-  res.redirect(process.env.ROOT_URL)
+  res.redirect(process.env.ROOT_URL || '')
 })
 
 router.post('/logout', authController.logout)

@@ -3,7 +3,7 @@
  */
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { AppProvider } from './context'
+import { AppProvider } from './hooks/context'
 import ErrorBoundary from './errorBoundary'
 import LoginPage from './pages/Login'
 import DashboardPage from './pages/Dashboard'

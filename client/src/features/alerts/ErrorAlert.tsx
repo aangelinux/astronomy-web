@@ -2,7 +2,7 @@
  * Renders an alert inside a snackbar for server-side errors.
  */
 
-import { useAppContext } from '../../context'
+import { useAppContext } from '../../hooks/context'
 import { useEffect, useState } from 'react'
 import { Snackbar, Alert } from '@mui/material'
 

@@ -3,7 +3,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { useAppContext } from '../../context'
+import { useAppContext } from '../../hooks/context'
 import { filterNeosBy, fetchNeoDataBy } from './api'
 import { NeoIdentifiers, NeoSelectionProps } from './types'
 
@@ -46,7 +46,7 @@ function useSelection(): NeoSelectionProps {
       setError('Failed to fetch NEO data')
     }
   }
-  
+
   return { setInput, options, setNeo, handleClick, alert }
 }
 

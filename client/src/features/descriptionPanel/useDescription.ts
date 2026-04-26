@@ -4,7 +4,7 @@
 
 import { DescriptionPanelProps } from './types'
 import { useState, useEffect } from 'react'
-import { useAppContext } from '../../context'
+import { useAppContext } from '../../hooks/context'
 import { fetchAIResponse } from './api'
 
 function useDescription(): DescriptionPanelProps {
@@ -13,7 +13,7 @@ function useDescription(): DescriptionPanelProps {
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    if (!neoData) 
+    if (!neoData)
       return
 
     async function fetchDescription() {

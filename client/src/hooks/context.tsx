@@ -3,7 +3,7 @@
  */
 
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
-import { NeoData } from './features/descriptionPanel/types'
+import { NeoData } from '../features/descriptionPanel/types'
 
 interface Context {
   neoData: NeoData | null
@@ -12,11 +12,11 @@ interface Context {
   setError: (data: string | null) => void
 }
 
-const AppContext = createContext<Context>({ 
-  neoData: null, 
-  error: null, 
-  setNeoData: () => {},
-  setError: () => {}
+const AppContext = createContext<Context>({
+  neoData: null,
+  error: null,
+  setNeoData: () => { },
+  setError: () => { }
 })
 
 export function AppProvider({ children }: PropsWithChildren) {
@@ -24,7 +24,7 @@ export function AppProvider({ children }: PropsWithChildren) {
   const [error, setError] = useState<string | null>(null)
 
   return (
-    <AppContext.Provider value={{ 
+    <AppContext.Provider value={{
       neoData, setNeoData,
       error, setError
     }}>

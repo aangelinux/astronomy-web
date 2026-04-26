@@ -5,7 +5,7 @@
 import { SceneObjects } from './types'
 import { setup, renderOrbit, cleanup } from './orbit3D'
 import { RefObject, useEffect, useRef } from 'react'
-import { useAppContext } from '../../context'
+import { useAppContext } from '../../hooks/context'
 
 /**
  * Custom hook that handles display and cleanup of a Three.js viewport.
@@ -19,12 +19,12 @@ function useOrbit(): RefObject<HTMLElement | null> {
 
   useEffect(() => {
     const viewport = orbitViewRef.current
-    if (!viewport) 
+    if (!viewport)
       return
 
     sceneObjectsRef.current = setup(viewport)
 
-    return () => { 
+    return () => {
       if (sceneObjectsRef.current) {
         cleanup(sceneObjectsRef.current, viewport)
       }
@@ -32,7 +32,7 @@ function useOrbit(): RefObject<HTMLElement | null> {
   }, [])
 
   useEffect(() => {
-    if (!sceneObjectsRef.current || !neoData) 
+    if (!sceneObjectsRef.current || !neoData)
       return
 
     const orbitData = neoData.orbit

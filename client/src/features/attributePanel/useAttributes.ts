@@ -3,7 +3,7 @@
  */
 
 import { NeoAttributes } from './types'
-import { useAppContext } from '../../context'
+import { useAppContext } from '../../hooks/context'
 import { useState, useEffect } from 'react'
 
 function useAttributes() {
@@ -20,35 +20,35 @@ function useAttributes() {
 
   const mapAttributes = (data: any) => {
     const map = [
-      { 
-        'SPK-ID': data['spkid'], 
-        explanation: 'A unique identfier for Near-Earth Objects' 
+      {
+        'SPK-ID': data['spkid'],
+        explanation: 'A unique identfier for Near-Earth Objects'
       },
-      { 
-        Name: data['name'], 
-        explanation: 'The name of the Near-Earth object' 
+      {
+        Name: data['name'],
+        explanation: 'The name of the Near-Earth object'
       },
-      { 
-        'Earth MOID (LD)': data['earth_moid_ld'], 
-        explanation: `The closest possible distance between the NEO's orbit and Earth's orbit` 
+      {
+        'Earth MOID (LD)': data['earth_moid_ld'],
+        explanation: `The closest possible distance between the NEO's orbit and Earth's orbit`
       },
-      { 
-        Magnitude: data['magnitude'], 
-        explanation: 'Absolute magnitude; a smaller value indicates a larger object'  
+      {
+        Magnitude: data['magnitude'],
+        explanation: 'Absolute magnitude; a smaller value indicates a larger object'
       },
-      { 
-        'Rotation (hours)': data['rotation_hours'], 
+      {
+        'Rotation (hours)': data['rotation_hours'],
         explanation: `The number of hours it takes for the NEO to complete a full 
-        rotation around its own axis` 
+        rotation around its own axis`
       },
-      { 
-        'Potentially Hazardous Asteroid': data['pot_hazardous_asteroid'], 
+      {
+        'Potentially Hazardous Asteroid': data['pot_hazardous_asteroid'],
         explanation: `Asteroid that is capable of making threateningly close approaches
-        to Earth; determined by MOID (<19.5 LD) and Magnitude (<22)` 
+        to Earth; determined by MOID (<19.5 LD) and Magnitude (<22)`
       }
     ]
 
-    return map.filter((attribute) => 
+    return map.filter((attribute) =>
       (Object.values(attribute)[0] !== null))
   }
 

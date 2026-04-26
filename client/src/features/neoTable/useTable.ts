@@ -5,7 +5,7 @@
 import { NeoMainData, TableProps } from './types'
 import { useState, useEffect } from 'react'
 import { filterNeos, getTotalNeoCount } from './api'
-import { useAppContext } from '../../context'
+import { useAppContext } from '../../hooks/context'
 
 function useTable(): TableProps {
   const { setError } = useAppContext()
@@ -53,13 +53,13 @@ function useTable(): TableProps {
     setPage(0)
   }
 
-  return { 
-    neos, 
-    page, 
-    rowsPerPage, 
-    totalRows, 
-    handleChangePage, 
-    handleChangeRowsPerPage 
+  return {
+    neos,
+    page,
+    rowsPerPage,
+    totalRows,
+    handleChangePage,
+    handleChangeRowsPerPage
   }
 }
 

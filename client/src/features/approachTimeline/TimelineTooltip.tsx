@@ -3,20 +3,20 @@
  */
 
 import { HoverData, TimelineTooltipProps } from './types'
-import useWindowSize from '../../useWindowSize'
+import useWindowSize from '../../hooks/useWindowSize'
 
 function TimelineTooltip({ hoverData }: TimelineTooltipProps) {
-  if (!hoverData) 
+  if (!hoverData)
     return null
 
   const size = useWindowSize() as { width: number, height: number }
 
   const yOffset = () => {
     let y
-    hoverData.y > 400 
+    hoverData.y > 400
       ? y = 190
       : y = 0
-    
+
     return y
   }
 

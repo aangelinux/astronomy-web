@@ -1,4 +1,8 @@
-import { ScaleTime, ScaleLinear, Selection, BaseType } from 'd3'
+import { Selection, BaseType, ScaleTime, ScaleLinear } from 'd3'
+
+export type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>
+export type SVGSelection = Selection<SVGElement, unknown, null, undefined>
+export type TimeScale = ScaleTime<number, number, never>
 
 export type ApproachTimelineProps = {
   year: number
@@ -8,14 +12,14 @@ export type ApproachTimelineProps = {
   handlePrev: () => void
   handleNext: () => void
   handleSubmit: () => void
-  setInput: React.Dispatch<React.SetStateAction<string>>
+  setInput: StateSetter<string>
 }
 
 export type TimelineControlsProps = {
   handlePrev: () => void
   handleNext: () => void
   handleSubmit: () => void
-  setInput: React.Dispatch<React.SetStateAction<string>>
+  setInput: StateSetter<string>
   alert: boolean
 }
 
@@ -37,23 +41,18 @@ export type ApproachData = {
   rarity: number
 }
 
-export type ChartElements = {
-  groups_: SVGGElement[]
-  parents_: SVGGElement[]
-}
-
 export type Chart = Selection<SVGGElement | BaseType, ApproachData, SVGGElement, unknown>
 
 export type ChartParams = {
   svgElement: SVGElement
   data: ApproachData[]
-  setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>
+  setHoverData: StateSetter<HoverData | null>
 }
 
-export type ChartDataPoints = {
-  svg: Selection<SVGElement, unknown, null, undefined>
-  mirroredData: ApproachData[]
+export type ChartObjects = {
+  svg: SVGSelection
   x: ScaleTime<number, number, never>
   y: ScaleLinear<number, number, never>
-  setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>
+  approachData: ApproachData[]
+  setHoverData: StateSetter<HoverData | null>
 }

@@ -2,9 +2,9 @@
  * Custom hook containing logic for the ApproachTimeline component.
  */
 
-import { ApproachTimelineProps, ChartElements, HoverData } from './types'
+import { ApproachTimelineProps, Chart, HoverData } from './types'
 import { filterApproachesBy } from './utils/api'
-import { chart, toggleActive } from './utils/timelineChart'
+import { setup, toggleActive } from './utils/timelineChart'
 import { useState, useEffect, useRef } from 'react'
 import { useAppContext } from '../../context'
 import useWindowSize from '../../useWindowSize'
@@ -14,16 +14,16 @@ function useTimeline (): ApproachTimelineProps {
 
   const [year, setYear] = useState<number>(1900)
   const [input, setInput] = useState<string>('')
-  const [chartElements, setChartElements] = useState<ChartElements | null>(null)
+  const [chart, setChart] = useState<Chart | null>(null)
   const [hoverData, setHoverData] = useState<HoverData | null>(null)
-  const [activeEvent, setActiveEvent] = useState<boolean>(false)
+  const [hoverEvent, setHoverEvent] = useState<boolean>(false)
   const [alert, setAlert] = useState<boolean>(false)
 
   const svgRef = useRef<SVGSVGElement>(null)
   const size = useWindowSize() as { width: number, height: number }
 
   useEffect(() => {
-    setActiveEvent(false)
+    setHoverEvent(false)
 
     if (!neoData?.close_approaches?.length) 
       return
@@ -31,7 +31,7 @@ function useTimeline (): ApproachTimelineProps {
     const year = date.getFullYear()
 
     setYear(year)
-    setActiveEvent(true)
+    setHoverEvent(true)
   }, [neoData])
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function useTimeline (): ApproachTimelineProps {
           return
         
         const svgElement = svgRef.current
-        setChartElements(chart({ svgElement, data, setHoverData }))
+        setChart(setup({ svgElement, data, setHoverData }))
       } catch (error) {
         console.log(error)
         setError('Failed to fetch approach data')
@@ -55,21 +55,21 @@ function useTimeline (): ApproachTimelineProps {
   }, [year, size['width']])
 
   useEffect(() => {
-    if (!activeEvent || !chartElements || !neoData?.spkid) 
+    if (!hoverEvent || !chart || !neoData?.spkid) 
       return
 
-    toggleActive(chartElements, neoData.spkid)
-  }, [activeEvent, chartElements])
+    toggleActive(chart, neoData.spkid)
+  }, [hoverEvent, chart])
 
   const handlePrev = () => {
-    setActiveEvent(false)
+    setHoverEvent(false)
     if (year > 1900) {
       setYear(prevYear => prevYear - 1)
     }
   }
 
   const handleNext = () => {
-    setActiveEvent(false)
+    setHoverEvent(false)
     if (year < 2026) {
       setYear(prevYear => prevYear + 1)
     }
@@ -87,7 +87,7 @@ function useTimeline (): ApproachTimelineProps {
       return
     }
     setYear(inputYear)
-    setActiveEvent(false)
+    setHoverEvent(false)
     setAlert(false)
   }
 

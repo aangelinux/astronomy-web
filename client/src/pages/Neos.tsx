@@ -9,7 +9,7 @@ import { authenticate } from '../features/authentication/api'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function Neos() {
+function NeosPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -33,4 +33,4 @@ function Neos() {
   )
 }
 
-export default Neos
+export default NeosPage

@@ -5,9 +5,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AppProvider } from './context'
 import ErrorBoundary from './errorBoundary'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import Neos from './pages/Neos'
+import LoginPage from './pages/Login'
+import DashboardPage from './pages/Dashboard'
+import NeosPage from './pages/Neos'
 import ReactDOM from 'react-dom/client'
 
 function App() {
@@ -16,9 +16,9 @@ function App() {
       <AppProvider>
         <BrowserRouter>
           <Routes>
-            <Route path='/login' element={<Login />} />
-            <Route index element={<Dashboard />} />
-            <Route path='/neos' element={<Neos />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route index element={<DashboardPage />} />
+            <Route path='/neos' element={<NeosPage />} />
           </Routes>
         </BrowserRouter>
       </AppProvider>

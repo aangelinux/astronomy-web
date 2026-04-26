@@ -14,7 +14,7 @@ import { authenticate } from '../features/authentication/api'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
-function Dashboard() {
+function DashboardPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -43,4 +43,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default DashboardPage

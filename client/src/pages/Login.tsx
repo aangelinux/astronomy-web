@@ -8,7 +8,7 @@ import { authenticate } from '../features/authentication/api'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function Login() {
+function LoginPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -31,4 +31,4 @@ function Login() {
   )
 }
 
-export default Login
+export default LoginPage

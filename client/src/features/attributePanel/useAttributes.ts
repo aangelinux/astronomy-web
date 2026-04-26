@@ -11,6 +11,9 @@ function useAttributes() {
   const [attributes, setAttributes] = useState<NeoAttributes[]>([])
 
   useEffect(() => {
+    if (!neoData)
+      return
+
     const mappedAttributes = mapAttributes(neoData)
     setAttributes(mappedAttributes)
   }, [neoData])

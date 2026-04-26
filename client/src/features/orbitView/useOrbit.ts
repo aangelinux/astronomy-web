@@ -32,7 +32,7 @@ function useOrbit(): RefObject<HTMLElement | null> {
   }, [])
 
   useEffect(() => {
-    if (!sceneObjectsRef.current || !(Object.keys(neoData)?.length)) 
+    if (!sceneObjectsRef.current || !neoData) 
       return
 
     const orbitData = neoData.orbit

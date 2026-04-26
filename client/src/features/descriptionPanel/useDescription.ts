@@ -13,13 +13,13 @@ function useDescription(): DescriptionPanelProps {
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    if (!(Object.keys(neoData)?.length)) 
+    if (!neoData) 
       return
 
     async function fetchDescription() {
       setLoading(true)
       try {
-        const response = await fetchAIResponse(neoData)
+        const response = await fetchAIResponse(neoData!)
         setDescription(response)
       } catch (error) {
         console.log(error)

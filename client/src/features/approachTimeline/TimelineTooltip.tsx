@@ -44,7 +44,7 @@ function TimelineTooltip({ hoverData }: TimelineTooltipProps) {
   return (
     <div style={tooltipStyle}>
       <p>SPK-ID: {hoverData.data.spkid}</p>
-      <p>Date: {new Date(hoverData.data.date).toLocaleString('sv-SE')}</p>
+      <p>Date: {new Date(hoverData.data.date).toLocaleString('en-US')}</p>
       <p>Distance: {hoverData.data.minimum_distance_km} km</p>
       <p>Velocity: {hoverData.data.relative_velocity_km_s} km/s</p>
       <p>Rarity: {hoverData.data.rarity}</p>

@@ -37,6 +37,7 @@ export type ApproachData = {
   spkid: string
   date: string
   minimum_distance_km: number
+  signedDistance: number
   relative_velocity_km_s: number
   rarity: number
 }

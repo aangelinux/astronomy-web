@@ -11,7 +11,7 @@ import haumeaImg from '../../../assets/haumea.jpg'
 
 /**
  * Creates instances of all scene objects and adds them to
- * a div container for later orbit rendering.
+ * a div container for orbit rendering.
  */
 export function setup(viewport: HTMLElement): SceneObjects {
   const width = viewport.clientWidth
@@ -81,7 +81,10 @@ function createCamera(width: number, height: number) {
   return camera
 }
 
-function createControls(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
+function createControls(
+  camera: THREE.PerspectiveCamera, 
+  renderer: THREE.WebGLRenderer
+) {
   return new OrbitControls(camera, renderer.domElement)
 }
 

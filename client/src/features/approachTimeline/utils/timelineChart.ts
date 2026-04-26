@@ -108,7 +108,7 @@ function createVerticalScale(height: number, data: ApproachData[]) {
 function mirrorApproachData(data: ApproachData[]) {
   const mirroredData = data.map((d, index) => ({
     ...d,
-    minimum_distance_km: index % 2 === 0
+    signedDistance: index % 2 === 0
       ? d.minimum_distance_km
       : -d.minimum_distance_km
   }))
@@ -125,7 +125,7 @@ function renderApproaches(chartObjects: ChartObjects) {
     .join("g")
     .attr("transform", d => {
       const xPos = x(new Date(d.date))
-      const yPos = y(d.minimum_distance_km)
+      const yPos = y(d.signedDistance)
       return `translate(${xPos}, ${yPos})`
     })
     .on("mouseover", (event: any) => onHover(event, setHoverData))

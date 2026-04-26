@@ -1,5 +1,5 @@
 import { ApproachData } from '../approachTimeline/types'
-import { OrbitData } from '../orbitView/types'
+import { RawOrbitData } from '../orbitView/types'
 
 export type DescriptionPanelProps = {
   description: string
@@ -13,6 +13,6 @@ export type NeoData = {
   magnitude: number | null,
   rotation_hours: number | null,
   pot_hazardous_asteroid: boolean,
-  orbit: OrbitData,
+  orbit: RawOrbitData,
   close_approaches: ApproachData[] | null
 }

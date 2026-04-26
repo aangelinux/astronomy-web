@@ -2,7 +2,7 @@
  * Express server for the Astronomy Dashboard.
  */
 
-import express from 'express'
+import express, { Request, Response } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use('/', router)
 
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: Function) => {
   console.error(err)
   res.status(500).json({ message: 'Oops! Something went wrong.' })
 })

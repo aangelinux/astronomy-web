@@ -2,14 +2,15 @@
  * Express server for the Astronomy Dashboard.
  */
 
-import express, { Request, Response } from 'express'
+import type { Request, Response } from 'express'
+import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
-import { xss } from 'express-xss-sanitizer'
-import { router } from './router.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { xss } from 'express-xss-sanitizer'
+import { router } from './router.ts'
 
 dotenv.config()
 
@@ -23,6 +24,8 @@ const clientDist = path.join(__dirname, '..', 'client', 'dist')
 app.use(express.json())
 app.use(cookieParser())
 app.use(xss())
+
+console.log('hey', process.env.ROOT_URL)
 
 app.use(cors({
   origin: process.env.ROOT_URL,

@@ -5,7 +5,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import * as authController from './authController.js'
-import * as aiController from './aiController.js'
+import * as aiController from './aiController.ts'
 
 dotenv.config()
 

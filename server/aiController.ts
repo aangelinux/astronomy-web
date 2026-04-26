@@ -2,10 +2,10 @@
  * Handles requests to Google's Gemini API.
  */
 
+import type { Request, Response } from 'express'
+import { GoogleGenAI } from '@google/genai'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
-import { GoogleGenAI } from '@google/genai'
-import type { Request, Response } from 'express'
 
 dotenv.config()
 

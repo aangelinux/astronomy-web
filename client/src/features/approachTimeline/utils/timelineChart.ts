@@ -3,7 +3,7 @@
  */
 
 import * as d3 from 'd3'
-import { ApproachData, ChartDataPoints, ChartElements, ChartParams, HoverData } from '../types'
+import { ApproachData, Chart, ChartDataPoints, ChartParams, HoverData } from '../types'
 import asteroidImg from '../../../../assets/asteroid.png'
 
 /**
@@ -11,7 +11,7 @@ import asteroidImg from '../../../../assets/asteroid.png'
  * Each datapoint represents an event where the x-axis represents time 
  * and y-axis represents distance from the Earth during the event.
  */
-export const chart = (params: ChartParams): ChartElements | null => {
+export const chart = (params: ChartParams): Chart | null => {
   const { svgElement, data, setHoverData } = params
   if (!data.length) 
     return null
@@ -40,7 +40,7 @@ export const chart = (params: ChartParams): ChartElements | null => {
  * When a NEO with a recorded approach event is selected, its event
  * is highlighted and all other events on display are greyed-out.
  */
-export const toggleActive = (currentData: ChartElements, selectedSpkid: string) => {
+export const toggleActive = (currentData: Chart, selectedSpkid: string) => {
   if (!currentData || !selectedSpkid) 
     return
 
@@ -68,15 +68,19 @@ export const toggleActive = (currentData: ChartElements, selectedSpkid: string) 
 
 
 function createHorizontalScale(width: number, data: ApproachData[]) {
+  const timeSpan = d3.extent(data, d => new Date(d.date))
+  if (!timeSpan[0] || !timeSpan[1]) 
+    throw new Error('Error rendering horizontal scale; invalid domain')
+
   const x = d3.scaleUtc()
-    .domain(d3.extent(data, d => new Date(d.date)))
+    .domain(timeSpan)
     .range([40, width - 30])
 
   return x
 }
 
 function createVerticalScale(height: number, data: ApproachData[]) {
-  const maxDistance = d3.max(data, d => d.minimum_distance_km)
+  const maxDistance = d3.max(data, d => d.minimum_distance_km) ?? 0
   const y = d3.scaleLinear()
     .domain([-maxDistance, maxDistance])
     .range([height - 20, 20])
@@ -90,7 +94,7 @@ function mirrorData(data: ApproachData[]) {
   // Makes the chart look less crowded
   const mirroredData = data.map((d, index) => ({
     ...d,
-    signedDistance: index % 2 === 0
+    minimum_distance_km: index % 2 === 0
       ? d.minimum_distance_km
       : -d.minimum_distance_km
   }))
@@ -105,11 +109,11 @@ function renderData({ svg, mirroredData, x, y, setHoverData }: ChartDataPoints) 
     .join("g")
     .attr("transform", d => {
       const xPos = x(new Date(d.date))
-      const yPos = y(d.signedDistance)
+      const yPos = y(d.minimum_distance_km)
       return `translate(${xPos}, ${yPos})`
     })
-    .on("mouseover", (event: Event) => onHover(event, setHoverData))
-    .on("mouseleave", (event: Event) => onLeave(event, setHoverData))
+    .on("mouseover", (event: any) => onHover(event, setHoverData))
+    .on("mouseleave", (event: any) => onLeave(event, setHoverData))
   
   datapoints.append("image")
     .attr("href", asteroidImg)
@@ -121,7 +125,7 @@ function renderData({ svg, mirroredData, x, y, setHoverData }: ChartDataPoints) 
   return datapoints
 }
 
-function onHover(event: Event, setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>) {
+function onHover(event: any, setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>) {
   d3.select(event.target)
     .transition()
     .duration(150)
@@ -139,7 +143,7 @@ function onHover(event: Event, setHoverData: React.Dispatch<React.SetStateAction
   })
 }
 
-function onLeave(event, setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>) {
+function onLeave(event: any, setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>) {
   d3.select(event.target)
     .select("image")
     .transition()
@@ -153,13 +157,13 @@ function onLeave(event, setHoverData: React.Dispatch<React.SetStateAction<HoverD
   setHoverData(null)
 }
 
-function renderXAxis(svg: SVGElement, height: number, x: number) {
+function renderXAxis(svg: d3.Selection<SVGElement, unknown, null, undefined>, height: number, x: d3.ScaleTime<number, number, never>) {
   svg.append("g")
     .attr("transform", `translate(0, ${height / 2})`)
 
     .call(d3.axisBottom(x)
       .ticks(d3.utcMonth.every(2))
-      .tickFormat(d => d.toLocaleString('en-US',
+      .tickFormat(d => (d as Date).toLocaleDateString('en-US', 
         { month: 'long', year: 'numeric' })))
 
     .call(g => g.selectAll(".tick line")

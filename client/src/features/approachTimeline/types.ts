@@ -1,3 +1,5 @@
+import { ScaleTime, ScaleLinear, Selection, BaseType } from 'd3'
+
 export type ApproachTimelineProps = {
   year: number
   alert: boolean
@@ -40,6 +42,8 @@ export type ChartElements = {
   parents_: SVGGElement[]
 }
 
+export type Chart = Selection<SVGGElement | BaseType, ApproachData, SVGGElement, unknown>
+
 export type ChartParams = {
   svgElement: SVGElement
   data: ApproachData[]
@@ -47,9 +51,9 @@ export type ChartParams = {
 }
 
 export type ChartDataPoints = {
-  svg: SVGElement
+  svg: Selection<SVGElement, unknown, null, undefined>
   mirroredData: ApproachData[]
-  x: number
-  y: number
+  x: ScaleTime<number, number, never>
+  y: ScaleLinear<number, number, never>
   setHoverData: React.Dispatch<React.SetStateAction<HoverData | null>>
 }

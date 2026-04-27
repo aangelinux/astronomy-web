@@ -18,12 +18,12 @@ interface UserData {
  * Verifies that the client has a valid JWT stored in cookies.
  */
 export function getAuthenticatedUser(req: Request, res: Response) {
-  const token: string = req.cookies.JWT
-  if (!token) 
+  const token: string | undefined = req.cookies.JWT
+  if (!token || !process.env.JWT_SECRET) 
     return res.sendStatus(401)
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || '')
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
     return res.status(200).json({ user: decoded })
   } catch (error) {
     return res.sendStatus(401)
@@ -48,8 +48,7 @@ export function redirectToGithub(req: Request, res: Response) {
 /**
  * Exchanges an access code for an access token on GitHub.
  */
-export async function fetchAccessToken(req: Request, res: Response) {
-  const code = req.query.code
+export async function fetchAccessToken(code: string) {
   const clientID = process.env.CLIENT_ID
   const clientSecret = process.env.CLIENT_SECRET
   const uri = `${process.env.BACKEND_URL}/auth/callback`
@@ -75,7 +74,7 @@ export async function fetchAccessToken(req: Request, res: Response) {
 }
 
 /**
- * Fetches the user's profile data using an access token.
+ * Fetches a GitHub user's profile data using an access token.
  */
 export async function fetchUserData(token: string): Promise<UserData> {
   const url = 'https://api.github.com/user'
@@ -99,7 +98,7 @@ export async function fetchUserData(token: string): Promise<UserData> {
 }
 
 /**
- * Calls a third-party API to register/login the user and receive a JWT.
+ * Calls a third-party API to register/login a user and receive a JWT.
  */
 export async function fetchJWT({ username, provider, providerID }: UserData) {
   const url = 'https://astronomy-api-production.up.railway.app/'

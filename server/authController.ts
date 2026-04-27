@@ -18,7 +18,7 @@ interface UserData {
  * Verifies that the client has a valid JWT stored in cookies.
  */
 export function getAuthenticatedUser(req: Request, res: Response) {
-  const token = req.cookies.JWT
+  const token: string = req.cookies.JWT
   if (!token) 
     return res.sendStatus(401)
 
@@ -69,15 +69,15 @@ export async function fetchAccessToken(req: Request, res: Response) {
   }
 
   const result = await response.json()
-  const accessToken = result.access_token
+  const accessToken: string = result.access_token
 
   return accessToken
 }
 
 /**
- * Fetches the user's personal data using an access token.
+ * Fetches the user's profile data using an access token.
  */
-export async function fetchUserData(token: string) {
+export async function fetchUserData(token: string): Promise<UserData> {
   const url = 'https://api.github.com/user'
   const response = await fetch(url, {
     method: 'GET',
@@ -99,7 +99,7 @@ export async function fetchUserData(token: string) {
 }
 
 /**
- * Calls a third-party API to register/login the user and receives a JWT.
+ * Calls a third-party API to register/login the user and receive a JWT.
  */
 export async function fetchJWT({ username, provider, providerID }: UserData) {
   const url = 'https://astronomy-api-production.up.railway.app/'
@@ -128,13 +128,13 @@ export async function fetchJWT({ username, provider, providerID }: UserData) {
     throw new Error(`Error registering user: ${response.status}`)
   }
   const result = await response.json()
-  const jwt = result.data.loginOAuth.token
+  const jwt: string = result.data.loginOAuth.token
 
   return jwt
 }
 
 /**
- * Sets the JWT in the response's cookie header.
+ * Sets a JWT in the response's cookie header.
  */
 export function setCookie(req: Request, res: Response, jwt: string) {
   res.cookie('JWT', jwt, {
@@ -145,7 +145,7 @@ export function setCookie(req: Request, res: Response, jwt: string) {
 }
 
 /**
- * Removes the JWT from the cookie header.
+ * Removes a JWT from the client's cookies.
  */
 export function logout(req: Request, res: Response) {
   res.clearCookie('JWT')

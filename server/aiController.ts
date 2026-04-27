@@ -13,7 +13,7 @@ dotenv.config()
  * Verifies that the client has a valid JWT stored in their cookies.
  */
 export function requireAuth(req: Request, res: Response, next: Function) {
-  const token = req.cookies.JWT
+  const token: string = req.cookies.JWT
   if (!token)
     return res.sendStatus(401)
 

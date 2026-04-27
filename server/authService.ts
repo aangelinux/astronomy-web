@@ -1,5 +1,5 @@
 /**
- * OAuth service functions.
+ * Service functions for authentication.
  */
 
 import dotenv from 'dotenv'

@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "server/app.js",
+  "main": "server/app.ts",
   "scripts": {
     "client": "start http://localhost:3002/login && vite",
-    "server": "nodemon server/app.js",
+    "server": "nodemon && npx ts-node server/app.ts",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "vite build",
-    "start": "node server/app.js",
+    "start": "npx ts-node server/app.ts",
     "postinstall": "npm run build",
     "lint": "npx eslint .",
-    "prettier": "npx prettier --write **/*.js"
+    "prettier": "npx prettier --write **/*.ts"
   },
   "author": "Angelina Larsson",
   "license": "MIT",
@@ -39,11 +39,21 @@
     "three": "^0.183.2"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/d3": "^7.4.3",
+    "@types/express": "^5.0.6",
+    "@types/express-xss-sanitizer": "^2.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.184.0",
     "@vitejs/plugin-react": "^6.0.1",
     "concurrently": "^9.2.1",
     "eslint": "^10.0.3",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3",
     "vite": "^8.0.0"
   }
 }

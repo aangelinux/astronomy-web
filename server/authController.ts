@@ -3,11 +3,8 @@
  */
 
 import type { Request, Response } from 'express'
-import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import * as service from './authService.ts'
-
-dotenv.config()
 
 /**
  * Verifies that the client has a valid JWT stored in cookies.

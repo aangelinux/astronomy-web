@@ -2,10 +2,6 @@
  * OAuth service functions.
  */
 
-import dotenv from 'dotenv'
-
-dotenv.config()
-
 interface UserData {
   username: string
   provider: string

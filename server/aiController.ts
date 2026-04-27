@@ -4,10 +4,7 @@
 
 import type { Request, Response } from 'express'
 import { GoogleGenAI } from '@google/genai'
-import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
-
-dotenv.config()
 
 /**
  * Verifies that the client has a valid JWT stored in their cookies.

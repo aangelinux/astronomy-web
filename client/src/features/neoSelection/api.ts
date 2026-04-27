@@ -2,13 +2,12 @@
  * Fetches NEO data from the astronomy API.
  */
 
-import { NeoData } from "../descriptionPanel/types"
-import { NeoIdentifiers } from "./types"
+import { NeoIdentifiers, NeoData } from "./types"
 
 const url = 'https://astronomy-api-production.up.railway.app/'
 
 /**
- * Filters by name and fetches the spkid and name of matching NEOs.
+ * Filters by name and fetches the identifiers of the first 5 matching NEOs.
  */
 export async function filterNeosBy(input: string): Promise<NeoIdentifiers[]> {
   const limit = 5

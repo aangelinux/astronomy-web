@@ -2,7 +2,6 @@
  * Custom hook containing logic for the DescriptionPanel component.
  */
 
-import { DescriptionPanelProps } from './types'
 import { useState, useEffect } from 'react'
 import { useAppContext } from '../../hooks/context'
 import { fetchAIResponse } from './api'
@@ -10,7 +9,7 @@ import { fetchAIResponse } from './api'
 /**
  * Fetches an AI-generated description of the selected NEO.
  */
-function useDescription(): DescriptionPanelProps {
+function useDescription(): { description: string, loading: boolean } {
   const { neoData, setError } = useAppContext()
   const [description, setDescription] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)

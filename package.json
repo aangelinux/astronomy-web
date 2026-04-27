@@ -11,7 +11,6 @@
     "build": "vite build",
     "start": "npx ts-node server/app.ts",
     "postinstall": "npm run build",
-    "lint": "npx eslint .",
     "prettier": "npx prettier --write **/*.ts"
   },
   "author": "Angelina Larsson",
@@ -49,7 +48,6 @@
     "@types/three": "^0.184.0",
     "@vitejs/plugin-react": "^6.0.1",
     "concurrently": "^9.2.1",
-    "eslint": "^10.0.3",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
     "ts-node": "^10.9.2",

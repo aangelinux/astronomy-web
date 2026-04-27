@@ -5,7 +5,7 @@
 import { NeoAttributes } from './types'
 import { useAppContext } from '../../hooks/context'
 import { useState, useEffect } from 'react'
-import { NeoData } from '../descriptionPanel/types'
+import { NeoData } from '../neoSelection/types'
 
 /**
  * Formats attribute data, filters out null values, and adds

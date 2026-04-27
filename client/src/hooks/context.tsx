@@ -3,7 +3,7 @@
  */
 
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
-import { NeoData } from '../features/descriptionPanel/types'
+import { NeoData } from '../features/neoSelection/types'
 
 interface Context {
   neoData: NeoData | null

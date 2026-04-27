@@ -11,4 +11,3 @@
 
 **Data**
   - ~~Issue with Earth MOID values; some seem to be incorrect when checked against PHA flag~~
-  <!-- Could it be due to asteroid/comet differences? -->

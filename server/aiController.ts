@@ -18,8 +18,7 @@ export function requireAuth(req: Request, res: Response, next: Function) {
     return res.sendStatus(401)
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || '')
-    req.body = decoded
+    jwt.verify(token, process.env.JWT_SECRET || '')
     next()
   } catch (error) {
     return res.sendStatus(401)
@@ -34,7 +33,7 @@ export async function getResponse(req: Request, res: Response) {
   const attributes = JSON.stringify(req.body)
   if (!attributes)
     return
-  
+
   const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
   })

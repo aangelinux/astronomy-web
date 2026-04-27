@@ -14,11 +14,11 @@ dotenv.config()
  */
 export function requireAuth(req: Request, res: Response, next: Function) {
   const token: string = req.cookies.JWT
-  if (!token)
+  if (!token || !process.env.JWT_SECRET)
     return res.sendStatus(401)
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET || '')
+    jwt.verify(token, process.env.JWT_SECRET)
     next()
   } catch (error) {
     return res.sendStatus(401)
@@ -32,7 +32,7 @@ export function requireAuth(req: Request, res: Response, next: Function) {
 export async function getResponse(req: Request, res: Response) {
   const attributes = JSON.stringify(req.body)
   if (!attributes)
-    return
+    return res.sendStatus(422)
 
   const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY

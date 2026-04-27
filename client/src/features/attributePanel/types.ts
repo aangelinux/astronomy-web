@@ -1,8 +1,5 @@
-export type AttributePanelProps = {
-  attributes: NeoAttributes[]
-}
-
 export type NeoAttributes = {
-  [key: string]: any
+  label: string
+  value: string | number | boolean
   explanation: string
 }

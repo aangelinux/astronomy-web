@@ -4,11 +4,16 @@
 
 import { ApproachTimelineProps, Chart, HoverData } from './types'
 import { filterApproachesBy } from './utils/api'
-import { setup, toggleActive } from './utils/timelineChart'
+import { setup, highlightApproach } from './utils/timelineChart'
 import { useState, useEffect, useRef } from 'react'
 import { useAppContext } from '../../hooks/context'
 import useWindowSize from '../../hooks/useWindowSize'
 
+/**
+ * Adds the D3 timeline-chart to an SVG ref and handles input 
+ * from the search-bar and pagination. Calls D3 to update the chart 
+ * if a selected NEO has any recorded close approaches.
+ */
 function useTimeline(): ApproachTimelineProps {
   const { neoData, setError } = useAppContext()
 
@@ -16,14 +21,14 @@ function useTimeline(): ApproachTimelineProps {
   const [input, setInput] = useState<string>('')
   const [chart, setChart] = useState<Chart | null>(null)
   const [hoverData, setHoverData] = useState<HoverData | null>(null)
-  const [hoverEvent, setHoverEvent] = useState<boolean>(false)
+  const [hasApproach, setHasApproach] = useState<boolean>(false)
   const [alert, setAlert] = useState<boolean>(false)
 
   const svgRef = useRef<SVGSVGElement>(null)
   const size = useWindowSize() as { width: number, height: number }
 
   useEffect(() => {
-    setHoverEvent(false)
+    setHasApproach(false)
 
     if (!neoData?.close_approaches?.length)
       return
@@ -31,7 +36,7 @@ function useTimeline(): ApproachTimelineProps {
     const year = date.getFullYear()
 
     setYear(year)
-    setHoverEvent(true)
+    setHasApproach(true)
   }, [neoData])
 
   useEffect(() => {
@@ -55,21 +60,21 @@ function useTimeline(): ApproachTimelineProps {
   }, [year, size['width']])
 
   useEffect(() => {
-    if (!hoverEvent || !chart || !neoData?.spkid)
+    if (!hasApproach || !chart || !neoData?.spkid)
       return
 
-    toggleActive(chart, neoData.spkid)
-  }, [hoverEvent, chart])
+    highlightApproach(chart, neoData.spkid)
+  }, [hasApproach, chart])
 
   const handlePrev = () => {
-    setHoverEvent(false)
+    setHasApproach(false)
     if (year > 1900) {
       setYear(prevYear => prevYear - 1)
     }
   }
 
   const handleNext = () => {
-    setHoverEvent(false)
+    setHasApproach(false)
     if (year < 2026) {
       setYear(prevYear => prevYear + 1)
     }
@@ -87,7 +92,7 @@ function useTimeline(): ApproachTimelineProps {
       return
     }
     setYear(inputYear)
-    setHoverEvent(false)
+    setHasApproach(false)
     setAlert(false)
   }
 

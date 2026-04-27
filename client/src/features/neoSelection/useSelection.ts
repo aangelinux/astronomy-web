@@ -7,6 +7,10 @@ import { useAppContext } from '../../hooks/context'
 import { filterNeosBy, fetchNeoDataBy } from './api'
 import { NeoIdentifiers, NeoSelectionProps } from './types'
 
+/**
+ * Handles input from the search-bar and sets up an autocomplete
+ * feature with a debounce pattern.
+ */
 function useSelection(): NeoSelectionProps {
   const { setNeoData, setError } = useAppContext()
 

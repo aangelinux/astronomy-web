@@ -1,13 +1,12 @@
 /**
- * Renders an alert if search-bar input is missing or malformed.
+ * Renders an alert if search-bar input is missing or invalid.
  */
 
-import { AlertProps } from './types'
 import { useEffect, useState } from 'react'
 import { Alert, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-function InputAlert({ alert }: AlertProps) {
+function InputAlert({ alert }: { alert: boolean }) {
   const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {

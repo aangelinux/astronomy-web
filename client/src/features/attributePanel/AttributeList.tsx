@@ -2,18 +2,18 @@
  * Renders a list of NEO attributes.
  */
 
-import { AttributePanelProps } from './types'
+import { NeoAttributes } from './types'
 import { List, ListItem, Button, Tooltip } from '@mui/material'
 import Fade from '@mui/material/Fade'
 import HelpIcon from '@mui/icons-material/Help'
 
-function AttributeList({ attributes }: AttributePanelProps) {
+function AttributeList({ attributes }: { attributes: NeoAttributes[] }) {
   const getName = (attribute: string) => {
-    return `${Object.keys(attribute)[0]}: `
+    return `${attribute}: `
   }
 
-  const getValue = (attribute: any) => {
-    return JSON.stringify(Object.values(attribute)[0])?.replaceAll('"', '')
+  const getValue = (attribute: string | number | boolean) => {
+    return JSON.stringify(attribute).replaceAll('"', '')
   }
 
   const tooltipSlotProps = {
@@ -35,7 +35,7 @@ function AttributeList({ attributes }: AttributePanelProps) {
 
   return (
     <List>
-      {attributes.map((attribute: any, index: number) => ( 
+      {attributes.map((attribute: NeoAttributes, index: number) => ( 
         <ListItem key={index} sx={{ gap: 1, fontWeight: 'bold', padding: 1 }}>
 
           {<Tooltip 
@@ -46,11 +46,11 @@ function AttributeList({ attributes }: AttributePanelProps) {
             sx={tooltipStyle}>
             <Button>
               <HelpIcon sx={{ marginRight: .75 }} /> 
-              {getName(attribute)}
+              {getName(attribute['label'])}
             </Button>
           </Tooltip>}
 
-          {getValue(attribute)}
+          {getValue(attribute['value'])}
 
         </ListItem>
       ))}

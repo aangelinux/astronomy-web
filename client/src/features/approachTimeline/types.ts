@@ -27,12 +27,6 @@ export type TimelineTooltipProps = {
   hoverData: HoverData | null
 }
 
-export type HoverData = {
-  data: ApproachData
-  x: number
-  y: number
-}
-
 export type ApproachData = {
   spkid: string
   date: string
@@ -40,6 +34,12 @@ export type ApproachData = {
   signedDistance: number
   relative_velocity_km_s: number
   rarity: number
+}
+
+export type HoverData = {
+  data: ApproachData
+  x: number
+  y: number
 }
 
 export type Chart = Selection<SVGGElement | BaseType, ApproachData, SVGGElement, unknown>

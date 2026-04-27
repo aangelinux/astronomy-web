@@ -49,7 +49,7 @@ export const setup = (params: ChartParams): Chart | null => {
  * When a NEO with a recorded approach event is selected, its event
  * is highlighted and all other events on display are greyed-out.
  */
-export const toggleActive = (chart: Chart, selectedSpkid: string) => {
+export const highlightApproach = (chart: Chart, selectedSpkid: string) => {
   if (!chart || !selectedSpkid) 
     return
   
@@ -103,7 +103,6 @@ function createVerticalScale(height: number, data: ApproachData[]) {
 /**
  * Adds a negative sign to half of all approaches' distance;
  * this renders half above the x-axis and other half below.
- * Will make the chart look less crowded
  */
 function mirrorApproachData(data: ApproachData[]) {
   const mirroredData = data.map((d, index) => ({

@@ -2,7 +2,7 @@
  * Renders a tooltip displaying approach data.
  */
 
-import { HoverData, TimelineTooltipProps } from './types'
+import { TimelineTooltipProps } from './types'
 import useWindowSize from '../../hooks/useWindowSize'
 
 function TimelineTooltip({ hoverData }: TimelineTooltipProps) {

@@ -7,6 +7,9 @@ import { useState, useEffect } from 'react'
 import { useAppContext } from '../../hooks/context'
 import { fetchAIResponse } from './api'
 
+/**
+ * Fetches an AI-generated description of the selected NEO.
+ */
 function useDescription(): DescriptionPanelProps {
   const { neoData, setError } = useAppContext()
   const [description, setDescription] = useState<string>('')

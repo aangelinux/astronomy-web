@@ -7,6 +7,10 @@ import { useState, useEffect } from 'react'
 import { filterNeos, getTotalNeoCount } from './api'
 import { useAppContext } from '../../hooks/context'
 
+/**
+ * Fetches data to be displayed on the table and handles pagination.
+ * Lets the user select 20, 50, or 1000 rows per page.
+ */
 function useTable(): TableProps {
   const { setError } = useAppContext()
 

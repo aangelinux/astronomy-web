@@ -19,6 +19,10 @@ const AppContext = createContext<Context>({
   setError: () => { }
 })
 
+export function useAppContext() {
+  return useContext(AppContext)
+}
+
 export function AppProvider({ children }: PropsWithChildren) {
   const [neoData, setNeoData] = useState<NeoData | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -31,8 +35,4 @@ export function AppProvider({ children }: PropsWithChildren) {
       {children}
     </AppContext.Provider>
   )
-}
-
-export function useAppContext() {
-  return useContext(AppContext)
 }

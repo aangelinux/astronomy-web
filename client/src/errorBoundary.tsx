@@ -1,5 +1,5 @@
 /**
- * Implements a class that displays a fallback UI on app-wide crashes.
+ * Defines a class that displays a fallback UI on app-wide crashes.
  */
 
 import { Button, Card } from '@mui/material'

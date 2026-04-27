@@ -4,6 +4,7 @@ import { NeoData } from "./types"
  * Fetches a description of the NEO from Google's Gemini API.
  */
 export async function fetchAIResponse(input: NeoData): Promise<string> {
+  console.log(input)
   const url = '/genai'
   const res = await fetch(url, {
     method: 'POST',

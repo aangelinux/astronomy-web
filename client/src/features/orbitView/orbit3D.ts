@@ -7,6 +7,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls'
 import { RawOrbitData, OrbitData3D, SceneObjects } from './types'
 import backgroundImg from '../../../assets/stars.jpg'
 import sunImg from '../../../assets/sun.jpg'
+import earthImg from '../../../assets/earth.jpg'
 import haumeaImg from '../../../assets/haumea.jpg'
 
 /**
@@ -27,6 +28,7 @@ export function setup(viewport: HTMLElement): SceneObjects {
   const scene = createScene()
   const neo = createNeo(scene)
   const sun = createSun(scene)
+  const earth = createEarth(scene)
 
   return { 
     renderer, 
@@ -36,22 +38,29 @@ export function setup(viewport: HTMLElement): SceneObjects {
     scene, 
     neo, 
     sun, 
-    orbit: null 
+    earth, 
+    neoOrbit: null,
+    earthOrbit: null
   }
 }
 
 /**
- * Calculates the NEO's orbit around the Sun and renders it on 
- * the viewport in 3D.
+ * Calculates the Earth's and the NEO's orbits around the Sun and renders 
+ * them on the viewport in 3D.
  */
 export function renderOrbit(data: RawOrbitData, setup: SceneObjects) {
   if (!data) 
     return
   
   const orbitData = calculate(data)
-  const animation = animateNeo(orbitData, setup)
-  setup.orbit?.removeFromParent() // Clear previous orbit
-  setup.orbit = createOrbit(orbitData, setup.scene)
+
+  // Clear previous orbits and create new ones
+  setup.neoOrbit?.removeFromParent()
+  setup.earthOrbit?.removeFromParent()
+  setup.neoOrbit = createNeoOrbit(orbitData, setup.scene)
+  setup.earthOrbit = createEarthOrbit(1, setup.scene)
+
+  const animation = animateObjects(orbitData, setup)
 
   return () => animation?.() // Stops animation if running
 }
@@ -61,14 +70,16 @@ export function renderOrbit(data: RawOrbitData, setup: SceneObjects) {
  * where the 3D view is currently rendered.
  */
 export function cleanup(setup: SceneObjects, viewport: HTMLElement) {
-  const { orbit, renderer, controls, timer, neo, sun } = setup
+  const { earthOrbit, neoOrbit, renderer, controls, timer, neo, sun, earth } = setup
 
-  orbit?.removeFromParent()
+  neoOrbit?.removeFromParent()
+  earthOrbit?.removeFromParent()
   renderer.dispose()
   controls.dispose()
   timer.dispose()
   neo.geometry.dispose()
   sun.geometry.dispose()
+  earth.geometry.dispose()
 
   viewport.removeChild(renderer.domElement)
 }
@@ -120,13 +131,26 @@ function createSun(scene: THREE.Scene) {
   const texture = new THREE.TextureLoader()
   const sunTexture = texture.load(sunImg)
 
-  const sunGeometry = new THREE.SphereGeometry(.2, 32, 32)
+  const sunGeometry = new THREE.SphereGeometry(.3, 32, 32)
   const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture })
   const sun = new THREE.Mesh(sunGeometry, sunMaterial)
 
   scene.add(sun)
 
   return sun
+}
+
+function createEarth(scene: THREE.Scene) {
+  const texture = new THREE.TextureLoader()
+  const earthTexture = texture.load(earthImg)
+
+  const earthGeometry = new THREE.SphereGeometry(.15, 32, 32)
+  const earthMaterial = new THREE.MeshBasicMaterial({ map: earthTexture })
+  const earth = new THREE.Mesh(earthGeometry, earthMaterial)
+
+  scene.add(earth)
+
+  return earth
 }
 
 function calculate(data: RawOrbitData) {
@@ -164,15 +188,15 @@ function calculate(data: RawOrbitData) {
   }
 }
 
-function createOrbit(data: OrbitData3D, scene: THREE.Scene) {
+function createNeoOrbit(data: OrbitData3D, scene: THREE.Scene) {
   const { majorAxis, minorAxis, eccentricity, rotationMatrix } = data
 
   const points = []
   const segments = 200
   for (let i = 0; i <= segments; i++) {
-    const E = (i / segments) * Math.PI * 2
-    const x = majorAxis * Math.cos(E) - majorAxis * eccentricity
-    const z = minorAxis * Math.sin(E)
+    const angle = (i / segments) * Math.PI * 2
+    const x = majorAxis * Math.cos(angle) - majorAxis * eccentricity
+    const z = minorAxis * Math.sin(angle)
 
     points.push(new THREE.Vector3(x, 0, z))
   }
@@ -187,28 +211,64 @@ function createOrbit(data: OrbitData3D, scene: THREE.Scene) {
   return orbit
 }
 
-function animateNeo(data: OrbitData3D, setup: SceneObjects) {
+function createEarthOrbit(radius = 1, scene: THREE.Scene) {
+  const points = []
+  const segments = 200
+  for (let i = 0; i <= segments; i++) {
+    const angle = (i / segments) * Math.PI * 2
+    const x = Math.cos(angle) * radius
+    const z = Math.sin(angle) * radius
+
+    points.push(new THREE.Vector3(x, 0, z))
+  }
+
+  const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points)
+  const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff })
+  const orbit = new THREE.Line(orbitGeometry, orbitMaterial)
+
+  scene.add(orbit)
+
+  return orbit
+}
+
+function animateObjects(data: OrbitData3D, setup: SceneObjects) {
   const { majorAxis, minorAxis, eccentricity, meanAnomaly, rotationMatrix } = data
-  const { neo, renderer, scene, camera, timer } = setup
+  const { neo, earth, renderer, scene, camera, timer } = setup
 
   let animationFrameID: number
   let animatedMeanAnomaly = meanAnomaly
+  let earthAngle = 0
   const animate = () => {
     animationFrameID = requestAnimationFrame(animate)
 
     timer.update()
     const speed = .5
     const deltaTime = timer.getDelta()
+
+    // ---------- NEO ------------ //
     animatedMeanAnomaly += speed * deltaTime
-    animatedMeanAnomaly %= Math.PI * 2 // Clamp to avoid large values
+    animatedMeanAnomaly %= Math.PI * 2 // Clamp value
 
     const kepler = solveKepler(animatedMeanAnomaly, eccentricity)
     const x = majorAxis * Math.cos(kepler) - majorAxis * eccentricity
     const z = minorAxis * Math.sin(kepler)
-    const position = new THREE.Vector3(x, 0, z)
+    const neoPosition = new THREE.Vector3(x, 0, z)
       .applyMatrix4(rotationMatrix)
 
-    neo.position.copy(position)
+    neo.position.copy(neoPosition)
+
+    // -------- Earth ----------- //
+    earthAngle += speed * deltaTime
+
+    const earthOrbitRadius = 1 // AU
+    const earthPosition = new THREE.Vector3(
+      Math.cos(earthAngle) * earthOrbitRadius, 
+      0,
+      Math.sin(earthAngle) * earthOrbitRadius
+    )
+
+    earth.position.copy(earthPosition)
+
     renderer.render(scene, camera)
   }
   animate()

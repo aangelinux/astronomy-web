@@ -26,5 +26,7 @@ export type SceneObjects = {
   scene: THREE.Scene
   neo: THREE.Mesh
   sun: THREE.Mesh
-  orbit: THREE.Line | null
+  earth: THREE.Mesh
+  neoOrbit: THREE.Line | null
+  earthOrbit: THREE.Line | null
 }

@@ -3,9 +3,9 @@
   
 ## Dataset  
   
-This application visualizes a dataset containing information on 16 000+ Near-Earth Objects (NEOs); that is, asteroids or comets that have been designated by NASA to orbit close enough to Earth to pose a potential collision danger. Each Near-Earth Object contains a set of attributes describing its physical properties, as well as data describing its orbit around the Sun and records of close approach events-where it orbited particularly close to Earth's orbit.  
+This application visualizes a dataset containing information on 16 000+ Near-Earth Objects (NEOs), meaning asteroids or comets that have been designated by NASA to orbit close enough to Earth to pose a potential collision danger. Each Near-Earth Object contains a set of attributes describing its physical properties, as well as data describing its orbit around the Sun and records of close approach events-where it came especially close to Earth's orbit.  
   
-Additionally, the application has a separate page with a table contaning all NEOs from the database for convenient browsing.  
+Additionally, the application has a separate page with a table contaning all NEOs from the database for browsing.  
 
 ## Features
   
@@ -66,7 +66,7 @@ The NEOs page, which can be accessed from the navigation bar, displays a table o
   
 To visualize data on the Dashboard, users can select a Near-Earth Object with the search bar. The search bar has an autocomplete feature so it's not necessary to know the full names of the objects.  
   
-When a NEO is selected, the Orbit View will display an interactive 3D view of the orbit.  
+When a NEO is selected, the Orbit View will display an interactive 3D view of its orbit.  
   
 If the NEO has one or more close approaches recorded in their data, the Approach Timeline will display the year of the approach and highlight the event.  
   

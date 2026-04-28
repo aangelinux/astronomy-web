@@ -25,6 +25,6 @@ export type SceneObjects = {
   timer: THREE.Timer
   scene: THREE.Scene
   neo: THREE.Mesh
-  earth: THREE.Mesh
+  sun: THREE.Mesh
   orbit: THREE.Line | null
 }

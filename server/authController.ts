@@ -39,6 +39,7 @@ export function redirectToGithub(req: Request, res: Response) {
 
 /**
  * Handles GitHub authorization callback.
+ * access code -> access token -> user data -> JWT
  */
 export async function handleCallback(req: Request, res: Response) {
   if (!req.query.code)

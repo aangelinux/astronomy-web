@@ -1,12 +1,12 @@
 /**
- * Creates a 3D view of a NEO's orbit around Earth, using three.js.
+ * Creates a 3D view of a NEO's orbit around the Sun, using three.js.
  */
 
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
 import { RawOrbitData, OrbitData3D, SceneObjects } from './types'
 import backgroundImg from '../../../assets/stars.jpg'
-import earthImg from '../../../assets/earth.jpg'
+import sunImg from '../../../assets/sun.jpg'
 import haumeaImg from '../../../assets/haumea.jpg'
 
 /**
@@ -26,7 +26,7 @@ export function setup(viewport: HTMLElement): SceneObjects {
   const timer = createTimer()
   const scene = createScene()
   const neo = createNeo(scene)
-  const earth = createEarth(scene)
+  const sun = createSun(scene)
 
   return { 
     renderer, 
@@ -35,13 +35,13 @@ export function setup(viewport: HTMLElement): SceneObjects {
     timer, 
     scene, 
     neo, 
-    earth, 
+    sun, 
     orbit: null 
   }
 }
 
 /**
- * Calculates the NEO's orbit around the Earth and renders it on 
+ * Calculates the NEO's orbit around the Sun and renders it on 
  * the viewport in 3D.
  */
 export function renderOrbit(data: RawOrbitData, setup: SceneObjects) {
@@ -61,14 +61,14 @@ export function renderOrbit(data: RawOrbitData, setup: SceneObjects) {
  * where the 3D view is currently rendered.
  */
 export function cleanup(setup: SceneObjects, viewport: HTMLElement) {
-  const { orbit, renderer, controls, timer, neo, earth } = setup
+  const { orbit, renderer, controls, timer, neo, sun } = setup
 
   orbit?.removeFromParent()
   renderer.dispose()
   controls.dispose()
   timer.dispose()
   neo.geometry.dispose()
-  earth.geometry.dispose()
+  sun.geometry.dispose()
 
   viewport.removeChild(renderer.domElement)
 }
@@ -116,17 +116,17 @@ function createNeo(scene: THREE.Scene) {
   return neo
 }
 
-function createEarth(scene: THREE.Scene) {
+function createSun(scene: THREE.Scene) {
   const texture = new THREE.TextureLoader()
-  const earthTexture = texture.load(earthImg)
+  const sunTexture = texture.load(sunImg)
 
-  const earthGeometry = new THREE.SphereGeometry(.2, 32, 32)
-  const earthMaterial = new THREE.MeshBasicMaterial({ map: earthTexture })
-  const earth = new THREE.Mesh(earthGeometry, earthMaterial)
+  const sunGeometry = new THREE.SphereGeometry(.2, 32, 32)
+  const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture })
+  const sun = new THREE.Mesh(sunGeometry, sunMaterial)
 
-  scene.add(earth)
+  scene.add(sun)
 
-  return earth
+  return sun
 }
 
 function calculate(data: RawOrbitData) {

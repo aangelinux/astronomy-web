@@ -4,7 +4,7 @@
 
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
-import { RawOrbitData, OrbitData3D, SceneObjects } from './types'
+import { RawOrbitData, OrbitData3D, SceneObjects, NeoAnimationParams, EarthAnimationParams } from './types'
 import backgroundImg from '../../../assets/stars.jpg'
 import sunImg from '../../../assets/sun.jpg'
 import earthImg from '../../../assets/earth.jpg'
@@ -214,6 +214,7 @@ function createNeoOrbit(data: OrbitData3D, scene: THREE.Scene) {
 function createEarthOrbit(radius = 1, scene: THREE.Scene) {
   const points = []
   const segments = 200
+  // Rendering it as a circle for simplicity
   for (let i = 0; i <= segments; i++) {
     const angle = (i / segments) * Math.PI * 2
     const x = Math.cos(angle) * radius
@@ -223,7 +224,7 @@ function createEarthOrbit(radius = 1, scene: THREE.Scene) {
   }
 
   const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points)
-  const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff })
+  const orbitMaterial = new THREE.LineBasicMaterial({ color: 'lightblue' })
   const orbit = new THREE.Line(orbitGeometry, orbitMaterial)
 
   scene.add(orbit)
@@ -232,8 +233,8 @@ function createEarthOrbit(radius = 1, scene: THREE.Scene) {
 }
 
 function animateObjects(data: OrbitData3D, setup: SceneObjects) {
-  const { majorAxis, minorAxis, eccentricity, meanAnomaly, rotationMatrix } = data
   const { neo, earth, renderer, scene, camera, timer } = setup
+  const { meanAnomaly } = data
 
   let animationFrameID: number
   let animatedMeanAnomaly = meanAnomaly
@@ -245,35 +246,39 @@ function animateObjects(data: OrbitData3D, setup: SceneObjects) {
     const speed = .5
     const deltaTime = timer.getDelta()
 
-    // ---------- NEO ------------ //
     animatedMeanAnomaly += speed * deltaTime
     animatedMeanAnomaly %= Math.PI * 2 // Clamp value
-
-    const kepler = solveKepler(animatedMeanAnomaly, eccentricity)
-    const x = majorAxis * Math.cos(kepler) - majorAxis * eccentricity
-    const z = minorAxis * Math.sin(kepler)
-    const neoPosition = new THREE.Vector3(x, 0, z)
-      .applyMatrix4(rotationMatrix)
-
-    neo.position.copy(neoPosition)
-
-    // -------- Earth ----------- //
     earthAngle += speed * deltaTime
 
-    const earthOrbitRadius = 1 // AU
-    const earthPosition = new THREE.Vector3(
-      Math.cos(earthAngle) * earthOrbitRadius, 
-      0,
-      Math.sin(earthAngle) * earthOrbitRadius
-    )
-
-    earth.position.copy(earthPosition)
+    animateNeo({ neo, animatedMeanAnomaly, data })
+    animateEarth({ earth, earthAngle })
 
     renderer.render(scene, camera)
   }
   animate()
 
   return () => cancelAnimationFrame(animationFrameID)
+}
+
+function animateNeo({ neo, animatedMeanAnomaly, data }: NeoAnimationParams) {
+  const { eccentricity, majorAxis, minorAxis, rotationMatrix } = data
+
+  const kepler = solveKepler(animatedMeanAnomaly, eccentricity)
+  const x = majorAxis * Math.cos(kepler) - majorAxis * eccentricity
+  const z = minorAxis * Math.sin(kepler)
+  const position = new THREE.Vector3(x, 0, z)
+    .applyMatrix4(rotationMatrix)
+
+  neo.position.copy(position)
+}
+
+function animateEarth({ earth, earthAngle }: EarthAnimationParams) {
+  const orbitRadius = 1 // AU
+  const x = Math.cos(earthAngle) * orbitRadius
+  const z = Math.sin(earthAngle) * orbitRadius
+  const position = new THREE.Vector3(x, 0, z)
+
+  earth.position.copy(position)
 }
 
 function solveKepler(meanAnomaly: number, eccentricity: number, iterations = 10) {

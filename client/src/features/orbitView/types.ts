@@ -30,3 +30,14 @@ export type SceneObjects = {
   neoOrbit: THREE.Line | null
   earthOrbit: THREE.Line | null
 }
+
+export type NeoAnimationParams = {
+  neo: THREE.Mesh
+  animatedMeanAnomaly: number
+  data: OrbitData3D
+}
+
+export type EarthAnimationParams = {
+  earth: THREE.Mesh
+  earthAngle: number
+}

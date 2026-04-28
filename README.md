@@ -3,19 +3,21 @@
   
 ## Dataset  
   
-This application visualizes a dataset containing information on 16 000+ Near-Earth Objects (NEOs), meaning asteroids or comets that have been designated by NASA to orbit close enough to Earth to pose a potential collision danger. Each Near-Earth Object contains a set of attributes describing its physical properties, as well as data describing its orbit around the Sun and records of close approach events-where it came especially close to Earth's orbit.  
+This application visualizes a dataset of 16 000+ Near-Earth Objects (NEOs), meaning asteroids or comets that have been designated by NASA to orbit close enough to Earth to pose a potential collision danger. Each NEO has a set of attributes describing its physical properties, data describing its orbit around the Sun, and possibly records of close approach events (to Earth).  
   
-Additionally, the application has a separate page with a table contaning all NEOs from the database for browsing.  
+The application also has a separate page with a table containing all NEOs from the database for browsing.  
 
 ## Features
   
-The application allows users to select any NEO from the database using a search bar. A list of the NEO's attributes and a 3D view of its orbit will be displayed on the dashboard.  
+The application allows users to select any NEO from the database using a search bar. A list of the NEO's attributes and a 3D view of its orbit around the Sun will be displayed, with Earth's orbit alongside it for reference.  
   
-In addition, if the NEO has previously made any close approaches to Earth, the timeline will be updated to display these events. If no past approaches has been made by the selected NEO, the timeline will still be available for browsing; users can select any year to view all approaches made by other NEOs during that year.  
+A timeline of close approach events between 1900-2026 from NASA's database can be used to view all events during a chosen year. It's a scatterplot where the x-axis represents time and the y-axis represents distance from Earth. Hovering over an event renders a hoverbox with its data.
+  
+If a selected NEO has previously made any close approaches to Earth, the timeline will be updated to highlight this event.  
   
 ## AI/ML Feature
   
-The application uses Google's Gemini API to dynamically generate a description of the user's selected Near-Earth Object based on its attributes, orbit data, and potential close approach-events. 
+The application uses Google's Gemini API to dynamically generate a description of the user's selected NEO based on its data.  
   
 ## Deployed Application
 
@@ -62,15 +64,15 @@ The application uses Google's Gemini API to dynamically generate a description o
 
 ## How to Use
 
-The NEOs page, which can be accessed from the navigation bar, displays a table of all NEOs in the database along with their main attributes.  
+The NEOs page, which can be accessed from the navigation bar, displays a table of all NEOs in the database along with their physical properties.  
   
-To visualize data on the Dashboard, users can select a Near-Earth Object with the search bar. The search bar has an autocomplete feature so it's not necessary to know the full names of the objects.  
+To view the data on the Dashboard, users can select a Near-Earth Object in the search bar. It has an autocomplete feature so it's not necessary to know the full names of the objects.  
   
-When a NEO is selected, the Orbit View will display an interactive 3D view of its orbit.  
+When a NEO is selected, the Orbit View will render an interactive 3D view of its orbit around the Sun. The view can be dragged, tilted, and zoomed in/out.  
   
-If the NEO has one or more close approaches recorded in their data, the Approach Timeline will display the year of the approach and highlight the event.  
+If the NEO has one or more close approaches recorded in their data, the Timeline will display the year of the approach and highlight the event.  
   
-The timeline is a two-dimensional scatter plot where each point represents an approach event; the y-axis represents distance from Earth and the x-axis represents time. It can be interacted with on its own to navigate through years 1900-2026, without selecting a NEO. Hovering over an event will display a hoverbox with event data.  
+The timeline can be interacted with on its own without selecting a NEO, by using the pagination buttons or the search bar. Hovering over an event will display a hoverbox with event data.  
   
 ### Screenshots
 

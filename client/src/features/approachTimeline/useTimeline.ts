@@ -10,9 +10,9 @@ import { useAppContext } from '../../hooks/context'
 import useWindowSize from '../../hooks/useWindowSize'
 
 /**
- * Adds the D3 timeline-chart to an SVG ref and handles input 
- * from the search-bar and pagination. Calls D3 to update the chart 
- * if a selected NEO has any recorded close approaches.
+ * Adds the D3 chart to a ref and handles input from the search-bar 
+ * and navigation buttons. Re-renders the chart if a selected NEO 
+ * has any recorded close approaches.
  */
 function useTimeline(): ApproachTimelineProps {
   const { neoData, setError } = useAppContext()

@@ -1,5 +1,6 @@
 /**
  * Service functions for authentication.
+ * Not currently in use.
  */
 
 import dotenv from 'dotenv'

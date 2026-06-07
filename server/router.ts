@@ -9,21 +9,20 @@ import express from 'express'
 
 export const router = express.Router()
 
-const asyncHandler = (fn: RequestHandler) => 
-  (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch(next)
-  }
+router.post('/genai', aiController.getResponse)
 
-router.get('/auth/me', authController.getAuthenticatedUser)
-router.get('/auth/github', authController.redirectToGithub)
-router.get('/auth/callback', asyncHandler(async (req, res) => {
-  await authController.handleCallback(req, res)
+// const asyncHandler = (fn: RequestHandler) => 
+//   (req: Request, res: Response, next: NextFunction) => {
+//     Promise.resolve(fn(req, res, next)).catch(next)
+//   }
 
-  if (!process.env.ROOT_URL)
-    throw new Error('No root URL provided in env')
+// router.get('/auth/me', authController.getAuthenticatedUser)
+// router.get('/auth/github', authController.redirectToGithub)
+// router.get('/auth/callback', asyncHandler(async (req, res) => {
+//   await authController.handleCallback(req, res)
 
-  res.redirect(process.env.ROOT_URL)
-}))
+//   if (!process.env.ROOT_URL)
+//     throw new Error('No root URL provided in env')
 
-router.post('/logout', authController.logout)
-router.post('/genai', aiController.requireAuth, aiController.getResponse)
+//   res.redirect(process.env.ROOT_URL)
+// }))

@@ -7,9 +7,7 @@ export default defineConfig({
   server: {
     port: 3002,
     proxy: {
-      '/auth': 'http://localhost:3001',
       '/genai': 'http://localhost:3001',
-      '/logout': 'http://localhost:3001'
     },
   },
 })

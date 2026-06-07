@@ -1,5 +1,6 @@
 /**
  * Controller for handling authentication.
+ * Not currently in use.
  */
 
 import type { Request, Response } from 'express'

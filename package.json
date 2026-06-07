@@ -5,7 +5,7 @@
   "type": "module",
   "main": "server/app.ts",
   "scripts": {
-    "client": "start http://localhost:3002/login && vite",
+    "client": "start http://localhost:3002/ && vite",
     "server": "nodemon && npx ts-node server/app.ts",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "vite build",

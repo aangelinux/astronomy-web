@@ -10,25 +10,8 @@ import NavBar from '../features/navBar/NavBar'
 import NeoSelection from '../features/neoSelection/NeoSelection'
 import OrbitView from '../features/orbitView/OrbitView'
 import ErrorAlert from '../features/alerts/ErrorAlert'
-import { authenticate } from '../features/authentication/api'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 
 function DashboardPage() {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    async function checkAuth(): Promise<void> {
-      try {
-        await authenticate()
-      } catch (error) {
-        console.log(error)
-        navigate('/login')
-      }
-    }
-    checkAuth()
-  }, [])
-
   return (
     <div className={styles.page}>
       <div className={styles.nav}><NavBar /></div>

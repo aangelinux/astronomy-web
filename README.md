@@ -1,4 +1,3 @@
-# Assignment WT - Web for Data Science
 # Astronomy Dashboard
   
 ## Dataset  
@@ -21,47 +20,8 @@ The application uses Google's Gemini API to dynamically generate a description o
   
 ## Deployed Application
 
-> URL: [Astronomy Dashboard](https://astronomy-web-production.up.railway.app/)
-
-## Requirements
-
-### Functional Requirements
-
-| Requirement                                                                        | Issue                  | Status               |
-| ---------------------------------------------------------------------------------- | ---------------------- | -------------------- |
-| API Integration — the app consumes your WT1 API                                    | [#14](../../issues/14) | :white_check_mark: |
-| OAuth Authentication — users log in via OAuth 2.0                                  | [#15](../../issues/15) | :white_check_mark: |
-| Interactive data visualization with aggregation/adaptation for 10 000+ data points | [#11](../../issues/11) | :white_check_mark: |
-| Efficient loading — pagination, lazy loading, loading indicators                   | [#13](../../issues/13) | :white_check_mark: |
-
-### Non-Functional Requirements
-
-| Requirement                                   | Issue                | Status               |
-| --------------------------------------------- | -------------------- | -------------------- |
-| Clear and well-structured code                | [#1](../../issues/1) | :white_check_mark: |
-| Code reuse                                    | [#2](../../issues/2) | :white_check_mark: |
-| Dependency management and scripts             | [#3](../../issues/3) | :white_check_mark: |
-| Source code documentation                     | [#4](../../issues/4) | :white_check_mark: |
-| Coding standard                               | [#5](../../issues/5) | :white_check_mark: |
-| Examiner can follow the creation process      | [#6](../../issues/6) | :white_check_mark: |
-| Publicly accessible over the internet         | [#7](../../issues/7) | :white_check_mark: |
-| Keys and tokens handled correctly             | [#8](../../issues/8) | :white_check_mark: |
-| Complete assignment report with correct links | [#9](../../issues/9) | :white_check_mark: |
-
-### VG — AI/ML Feature
-
-| Option                                                        | Status               |
-| ------------------------------------------------------------- | -------------------- |
-| Text Summarization / Generation — LLM-powered summaries       | :white_check_mark:   |
-
-## Core Technologies Used
-
-| Layer             | Technologies                                                             |
-| ----------------- | -----------------------------------------------------------------------  |
-| **Visualization** | D3.js & Three.js                                                         |
-| **Front-end**     | React & MUI Materials                                                    |
-| **Styling**       | Vanilla CSS & MUI Materials                                                      |
-
+> URL: [Astronomy Dashboard](https://astronomy-web-production.up.railway.app/)  
+  
 ## How to Use
 
 The NEOs page, which can be accessed from the navigation bar, displays a table of all NEOs in the database along with their physical properties.  
